@@ -1,0 +1,6 @@
+{
+  "_nota": "Responsable: Camilo. Copiar cada número SOLO desde el sitio web oficial de la entidad y pegar la URL en 'fuente'. La app ignora las entradas sin teléfono o sin fuente.",
+  "entidades": [
+    { "nombre": "EJEMPLO - reemplazar por la entidad", "telefono": "", "fuente": "" }
+  ]
+}

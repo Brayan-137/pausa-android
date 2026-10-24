@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pausa</string>
+
+    <!-- Servicio -->
+    <string name="canal_servicio_nombre">Protección activa</string>
+    <string name="canal_servicio_descripcion">Notificación fija mientras Pausa vigila las llamadas</string>
+    <string name="servicio_titulo">Pausa está activa</string>
+    <string name="servicio_texto">Te avisaremos si abres una app sensible después de una llamada desconocida</string>
+
+    <!-- Pantalla principal temporal (Julian la reemplaza con la bienvenida) -->
+    <string name="main_titulo">Pausa · versión de desarrollo</string>
+    <string name="main_estado_permisos">Estado de permisos</string>
+    <string name="main_pedir_permisos">Pedir permisos de llamadas y contactos</string>
+    <string name="main_permiso_overlay">Permitir mostrar sobre otras apps</string>
+    <string name="main_permiso_uso">Permitir acceso a uso</string>
+    <string name="main_iniciar_servicio">Iniciar protección</string>
+    <string name="main_probar_popup">Probar pop-up (modo demo)</string>
+    <string name="permiso_ok">✅</string>
+    <string name="permiso_falta">❌</string>
+
+    <!-- Pop-up (textos provisionales; los definitivos vienen de assets/content) -->
+    <string name="overlay_titulo">Antes de mover dinero</string>
+    <string name="overlay_mensaje">Acabas de colgar con un número que no está en tus contactos. Responde 3 preguntas.</string>
+    <string name="overlay_cerrar">Cerrar</string>
+</resources>

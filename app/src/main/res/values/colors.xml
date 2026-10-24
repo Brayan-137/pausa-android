@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Paleta provisional: Camilo define la final en Figma -->
+    <color name="pausa_primario">#1F3A93</color>
+    <color name="pausa_alerta">#B3261E</color>
+    <color name="pausa_fondo">#FFFFFF</color>
+    <color name="pausa_texto">#1B1B1F</color>
+    <color name="pausa_velo">#CC000000</color>
+</resources>

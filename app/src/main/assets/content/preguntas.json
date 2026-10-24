@@ -1,0 +1,27 @@
+{
+  "_nota": "Textos provisionales. Responsable: Camilo. Cambiar solo los valores, no las claves.",
+  "preguntas": [
+    { "id": "pidieron_dinero", "texto": "¿Te pidieron transferir, pagar o dar un código?" },
+    { "id": "presion", "texto": "¿Te presionaron con urgencia o miedo (accidente, multa, bloqueo de cuenta)?" },
+    { "id": "dijeron_ser", "texto": "¿Dijeron ser de un banco, una entidad o un familiar?" }
+  ],
+  "subpregunta_quien": {
+    "texto": "¿Quién dijo ser?",
+    "opciones": [
+      { "id": "familiar", "texto": "Un familiar o conocido" },
+      { "id": "entidad", "texto": "Un banco o una entidad" }
+    ]
+  },
+  "consejos": {
+    "todo_normal": "Todo parece normal. Puedes continuar.",
+    "familiar": "Cuelga y llámale tú al número que tienes guardado. Si es una emergencia real, te lo confirmará.",
+    "entidad": "Llama tú al número oficial. Ninguna entidad pide códigos ni transferencias por teléfono.",
+    "general": "Antes de mover dinero, verifica por otro canal. Los estafadores usan la prisa para que no lo hagas."
+  },
+  "pasos_estafa": [
+    "No transfieras ni compartas códigos.",
+    "Cuelga y bloquea el número.",
+    "Si ya diste datos o dinero, llama a la línea oficial de tu banco.",
+    "Denuncia el intento ante las autoridades."
+  ]
+}

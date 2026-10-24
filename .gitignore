@@ -1,0 +1,25 @@
+# Gradle y builds
+.gradle/
+build/
+/app/build/
+captures/
+.externalNativeBuild/
+.cxx/
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+local.properties
+
+# Llaves de firma: NUNCA al repositorio
+*.jks
+*.keystore
+keystore.properties
+
+# APK y bundles generados (se comparten por el grupo, no por Git)
+*.apk
+*.aab
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
