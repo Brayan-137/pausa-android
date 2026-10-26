@@ -54,7 +54,7 @@ Ningún dato sale del celular: no hay servidor. Es un punto a favor frente a la 
 
 | Integrante | Rol | Responde por | Paquetes |
 | --- | --- | --- | --- |
-| **Brayan** | Líder técnico e integración | Pop-up y su flujo, modo demo, integración, APK final, revisión de PR | `overlay/`, `content/ContentRepository.kt` |
+| **Brayan** | Líder técnico e integración | Pop-up y su flujo, modo demo, integración, APK final, integración | `overlay/`, `content/ContentRepository.kt` |
 | **Juan David** | Servicio en segundo plano | Detección de llamada, número desconocido y app sensible; pruebas en varias marcas | `service/`, `detection/` |
 | **Julian** | App y calidad | Bienvenida y permisos, configuración, registro e historial, control de calidad | `ui/`, `settings/`, `log/` |
 | **Camilo** | Contenido, diseño y usuarios | Preguntas y consejos, números oficiales, Figma (incluida la hoja de ruta), prueba con usuarios, video | `assets/content/`, Figma |
@@ -78,7 +78,7 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
 
 ### Pendiente de confirmar
 
-- [ ] **Fecha de la presentación:** ¿6 o 7 de noviembre? El plan congela el código el 3, así que alcanza en ambos casos.
+- [x] **Fecha de la presentación:** 6 de noviembre (confirmada). El plan congela el código el 3.
 - [ ] **Celular de la demo:** marca y versión de Android (cada uno reporta el suyo hoy).
 - [ ] **Apps sensibles por defecto** (Julian) y **entidades de la lista de números oficiales** (Camilo): los bancos y billeteras que más usan ustedes y sus familias.
 - [ ] **Nombre definitivo:** "Pausa" es provisional.
@@ -199,23 +199,22 @@ ForegroundAppWatcher (solo con la ventana abierta): se abrió el paquete X
 
 ## 9. Forma de trabajo
 
-### Ramas y commits
+### Cómo subimos cambios (sin pull requests)
 
-- `main` siempre debe compilar y correr. **Nadie sube directo a `main`.**
-- Una rama por tarea: `feat/<nombre>-<tema>`, por ejemplo `feat/juandavid-fin-llamada`, `fix/julian-permiso-uso`.
+Para ir rápido, trabajamos directo sobre `main`, sin PR ni revisión formal.
+
+- **`main` siempre debe compilar y correr.** Es la única regla que no se negocia: si alguien rompe `main`, lo arregla ese mismo día.
+- Cada uno toca **solo sus paquetes** (sección 3). Así casi nunca hay conflictos.
 - Commits pequeños y en español: `Detecta el fin de la llamada con TelephonyCallback`.
-- Antes de abrir el PR: `git pull origin main` y resolver conflictos en tu rama.
-
-### Pull requests
-
-- Abre el PR con la plantilla y llena "Cómo lo probé".
-- Brayan revisa todos; si Brayan es el autor, revisa Juan David.
-- Meta: revisar en menos de 12 horas. Si tu PR bloquea a alguien, avisa en el grupo.
+- Antes de empezar a trabajar: `git pull --rebase origin main`.
+- Antes de subir: `git pull --rebase origin main`, compila y prueba en el celular, y luego `git push origin main`.
+- Si tu cambio toca algo que otro usa (contrato de integración, permisos, Manifest, textos, versiones en `libs.versions.toml`), **avisa en el grupo antes de subirlo**.
+- Si el cambio es grande o riesgoso, puedes usar una rama `feat/<nombre>-<tema>` y fusionarla tú mismo cuando funcione; no hace falta revisión.
 
 ### Definición de "terminado" para cualquier tarea
 
 - [ ] Compila y corre en un celular real (no solo en el emulador).
-- [ ] Está en `main` mediante un PR revisado.
+- [ ] Está en `main` y `main` sigue compilando.
 - [ ] No rompe el flujo principal: llamada (o modo demo) → app sensible → pop-up.
 - [ ] Si cambia algo que otro usa (contrato, permisos, Manifest, textos), se avisó en el grupo.
 
