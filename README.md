@@ -89,7 +89,7 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
 
 **Requisitos:** Android Studio Koala o más reciente (trae el JDK 17) y un celular Android 12+ con cable USB.
 
-1. Clonar: `git clone <URL del repo>` y abrir la carpeta en Android Studio (**File → Open**).
+1. Clonar: `git clone <URL del repo>`, cambiar a la rama `develop` (`git checkout develop`) y abrir la carpeta en Android Studio (**File → Open**).
 2. Esperar a que termine **Gradle Sync**. La primera vez descarga dependencias y puede tardar varios minutos.
    - Si Android Studio dice que la versión del plugin de Android no es compatible, acepta el asistente de actualización y **avisa en el grupo** antes de subir el cambio.
 3. En el celular: activar **Opciones de desarrollador** (tocar 7 veces "Número de compilación") y **Depuración por USB**.
@@ -199,22 +199,28 @@ ForegroundAppWatcher (solo con la ventana abierta): se abrió el paquete X
 
 ## 9. Forma de trabajo
 
-### Cómo subimos cambios (sin pull requests)
+### Cómo subimos cambios (rama `develop`, sin pull requests)
 
-Para ir rápido, trabajamos directo sobre `main`, sin PR ni revisión formal.
+Hay dos ramas fijas y no usamos PR ni revisión formal:
 
-- **`main` siempre debe compilar y correr.** Es la única regla que no se negocia: si alguien rompe `main`, lo arregla ese mismo día.
+- **`develop`:** donde trabajamos todos. Es la rama por defecto.
+- **`main`:** solo versiones probadas. Solo Brayan fusiona `develop` en `main`, en los puntos de control (27 oct, 30 oct y 3 nov), después de compilar y probar en un celular real. El APK y la etiqueta `v1.0` salen de `main`.
+
+Reglas para todos:
+
+- **`develop` siempre debe compilar y correr.** Si alguien lo rompe, lo arregla ese mismo día.
 - Cada uno toca **solo sus paquetes** (sección 3). Así casi nunca hay conflictos.
 - Commits pequeños y en español: `Detecta el fin de la llamada con TelephonyCallback`.
-- Antes de empezar a trabajar: `git pull --rebase origin main`.
-- Antes de subir: `git pull --rebase origin main`, compila y prueba en el celular, y luego `git push origin main`.
+- Antes de empezar a trabajar: `git checkout develop` y `git pull --rebase origin develop`.
+- Antes de subir: `git pull --rebase origin develop`, compila, prueba en el celular y `git push origin develop`.
+- **Nadie sube directo a `main`.**
 - Si tu cambio toca algo que otro usa (contrato de integración, permisos, Manifest, textos, versiones en `libs.versions.toml`), **avisa en el grupo antes de subirlo**.
-- Si el cambio es grande o riesgoso, puedes usar una rama `feat/<nombre>-<tema>` y fusionarla tú mismo cuando funcione; no hace falta revisión.
+- Si el cambio es grande o riesgoso, puedes usar una rama `feat/<nombre>-<tema>` y fusionarla tú mismo en `develop` cuando funcione; no hace falta revisión.
 
 ### Definición de "terminado" para cualquier tarea
 
 - [ ] Compila y corre en un celular real (no solo en el emulador).
-- [ ] Está en `main` y `main` sigue compilando.
+- [ ] Está en `develop` y `develop` sigue compilando.
 - [ ] No rompe el flujo principal: llamada (o modo demo) → app sensible → pop-up.
 - [ ] Si cambia algo que otro usa (contrato, permisos, Manifest, textos), se avisó en el grupo.
 
