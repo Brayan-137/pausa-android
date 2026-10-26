@@ -1,25 +1,91 @@
 package co.edu.unisabana.pausa.detection
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.provider.CallLog
+import android.provider.ContactsContract
+import androidx.core.content.ContextCompat
 
 /**
- * Dice si la última llamada fue de un número que NO está en los contactos.
- * Responsable: Juan David (25 oct).
- *
- * Pista: leer el último registro de CallLog.Calls.CONTENT_URI (orden DATE DESC) y buscar el
- * número con ContactsContract.PhoneLookup.CONTENT_FILTER_URI. Requiere READ_CALL_LOG y READ_CONTACTS.
+ * Consulta el registro reciente y comprueba si el número está guardado.
  */
 class UnknownNumberChecker(private val context: Context) {
 
-    /** Número de la última llamada, o null si no se puede leer. */
+    /**
+     * Devuelve el número de la última llamada o null si no se puede consultar.
+     */
     fun ultimoNumero(): String? {
-        // TODO(Juan David, 25 oct)
-        return null
+        if (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CALL_LOG
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return null
+        }
+
+        return try {
+            val projection = arrayOf(CallLog.Calls.NUMBER)
+
+            context.contentResolver.query(
+                CallLog.Calls.CONTENT_URI,
+                projection,
+                null,
+                null,
+                "${CallLog.Calls.DATE} DESC"
+            )?.use { cursor ->
+                if (cursor.moveToFirst()) {
+                    cursor.getString(
+                        cursor.getColumnIndexOrThrow(CallLog.Calls.NUMBER)
+                    )?.takeIf { it.isNotBlank() }
+                } else {
+                    null
+                }
+            }
+        } catch (_: SecurityException) {
+            null
+        } catch (_: IllegalArgumentException) {
+            null
+        }
     }
 
-    /** true si el número no está guardado. Un número oculto o ilegible cuenta como desconocido. */
+    /**
+     * Devuelve true si no se encuentra el número en los contactos.
+     * Un número nulo o no consultable se considera desconocido.
+     */
     fun esDesconocido(numero: String?): Boolean {
-        // TODO(Juan David, 25 oct)
-        return true
+        if (numero.isNullOrBlank()) return true
+
+        if (
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+
+        return try {
+            val uri = Uri.withAppendedPath(
+                ContactsContract.PhoneLookup.CONTENT_FILTER_URI,
+                Uri.encode(numero)
+            )
+
+            context.contentResolver.query(
+                uri,
+                arrayOf(ContactsContract.PhoneLookup._ID),
+                null,
+                null,
+                null
+            )?.use { cursor ->
+                !cursor.moveToFirst()
+            } ?: true
+        } catch (_: SecurityException) {
+            true
+        } catch (_: IllegalArgumentException) {
+            true
+        }
     }
 }
