@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Vista base del pop-up (Brayan). Se muestra encima de otras apps con WindowManager.
-     El 26 de octubre se agregan los estados: intro, preguntas, resultado. -->
+<!-- Pop-up de Pausa (Brayan). Se muestra encima de otras apps con WindowManager.
+     Un solo layout con tres grupos; OverlayController muestra uno a la vez:
+       intro -> pregunta (se repite 3 o 4 veces) -> resultado. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/overlayRaiz"
     android:layout_width="match_parent"
@@ -9,48 +10,144 @@
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-    <LinearLayout
-        android:id="@+id/overlayTarjeta"
+    <!-- ScrollView: con letra grande del sistema la tarjeta puede no caber en pantallas pequeñas. -->
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="24dp"
-        android:background="@color/pausa_fondo"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/overlayTitulo"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/overlay_titulo"
-            android:textColor="@color/pausa_alerta"
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:gravity="center"
+            android:minHeight="0dp"
+            android:orientation="vertical"
+            android:padding="24dp">
 
-        <TextView
-            android:id="@+id/overlayMensaje"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:text="@string/overlay_mensaje"
-            android:textColor="@color/pausa_texto"
-            android:textSize="18sp" />
+            <LinearLayout
+                android:id="@+id/overlayTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/pausa_fondo"
+                android:orientation="vertical"
+                android:padding="24dp">
 
-        <!-- Aquí van las preguntas y el consejo (26 y 28 de octubre) -->
-        <FrameLayout
-            android:id="@+id/overlayContenido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+                <TextView
+                    android:id="@+id/overlayTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overlay_titulo"
+                    android:textColor="@color/pausa_alerta"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/overlayBtnCerrar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:minHeight="56dp"
-            android:text="@string/overlay_cerrar"
-            android:textSize="18sp" />
-    </LinearLayout>
+                <!-- INTRO -->
+                <LinearLayout
+                    android:id="@+id/overlayGrupoIntro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/overlayMensaje"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/overlay_mensaje"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/overlayBtnEmpezar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:minHeight="64dp"
+                        android:text="@string/overlay_empezar"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <!-- PREGUNTA (también sirve para "¿Quién dijo ser?": los botones cambian de texto) -->
+                <LinearLayout
+                    android:id="@+id/overlayGrupoPregunta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/overlayProgreso"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/overlayPregunta"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/overlayBtnOpcionA"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:minHeight="64dp"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/overlayBtnOpcionB"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:minHeight="64dp"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/overlayBtnVolver"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:minHeight="48dp"
+                        android:text="@string/overlay_volver"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- RESULTADO -->
+                <LinearLayout
+                    android:id="@+id/overlayGrupoResultado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/overlayConsejo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="20sp" />
+
+                    <!-- TODO(Brayan, 28 oct): reemplazar por Verificar ahora / Es una estafa /
+                         Continuar de todos modos (10 s). Por ahora un solo botón para no dejar
+                         a la persona atrapada. -->
+                    <Button
+                        android:id="@+id/overlayBtnCerrar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:minHeight="64dp"
+                        android:text="@string/overlay_cerrar"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </FrameLayout>

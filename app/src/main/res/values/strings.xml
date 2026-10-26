@@ -23,4 +23,11 @@
     <string name="overlay_titulo">Antes de mover dinero</string>
     <string name="overlay_mensaje">Acabas de colgar con un número que no está en tus contactos. Responde 3 preguntas.</string>
     <string name="overlay_cerrar">Cerrar</string>
+    <string name="overlay_empezar">Empezar</string>
+    <string name="overlay_volver">← Volver</string>
+    <string name="overlay_si">Sí</string>
+    <string name="overlay_no">No</string>
+    <string name="overlay_progreso">Pregunta %1$d de %2$d</string>
+    <string name="overlay_titulo_alerta">Detente un momento</string>
+    <string name="overlay_titulo_normal">Todo parece normal</string>
 </resources>

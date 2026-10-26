@@ -18,6 +18,23 @@ class ContentRepository(private val context: Context) {
         }
     }
 
+    fun subpreguntaQuien(): SubpreguntaQuien {
+        val sub = JSONObject(leer("content/preguntas.json")).getJSONObject("subpregunta_quien")
+        val opciones = sub.getJSONArray("opciones")
+        return SubpreguntaQuien(
+            texto = sub.getString("texto"),
+            opciones = List(opciones.length()) { i ->
+                val o = opciones.getJSONObject(i)
+                OpcionQuien(id = o.getString("id"), texto = o.getString("texto"))
+            }
+        )
+    }
+
+    fun pasosEstafa(): List<String> {
+        val pasos = JSONObject(leer("content/preguntas.json")).getJSONArray("pasos_estafa")
+        return List(pasos.length()) { pasos.getString(it) }
+    }
+
     fun consejo(clave: String): String =
         JSONObject(leer("content/preguntas.json")).getJSONObject("consejos").optString(clave, "")
 
@@ -39,5 +56,9 @@ class ContentRepository(private val context: Context) {
 }
 
 data class Pregunta(val id: String, val texto: String)
+
+data class OpcionQuien(val id: String, val texto: String)
+
+data class SubpreguntaQuien(val texto: String, val opciones: List<OpcionQuien>)
 
 data class EntidadOficial(val nombre: String, val telefono: String, val fuente: String)
