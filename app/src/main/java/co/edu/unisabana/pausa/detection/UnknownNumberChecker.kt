@@ -14,9 +14,10 @@ import androidx.core.content.ContextCompat
 class UnknownNumberChecker(private val context: Context) {
 
     /**
-     * Devuelve el número de la última llamada o null si no se puede consultar.
+     * Devuelve el número de la última llamada ocurrida desde [desde] (milisegundos)
+     * o null si no hay una reciente o no se puede consultar.
      */
-    fun ultimoNumero(): String? {
+    fun ultimoNumero(desde: Long = 0L): String? {
         if (
             ContextCompat.checkSelfPermission(
                 context,
@@ -32,8 +33,8 @@ class UnknownNumberChecker(private val context: Context) {
             context.contentResolver.query(
                 CallLog.Calls.CONTENT_URI,
                 projection,
-                null,
-                null,
+                "${CallLog.Calls.DATE} >= ?",
+                arrayOf(desde.toString()),
                 "${CallLog.Calls.DATE} DESC"
             )?.use { cursor ->
                 if (cursor.moveToFirst()) {

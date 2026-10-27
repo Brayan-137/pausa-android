@@ -65,7 +65,12 @@ class GuardService : LifecycleService() {
     }
 
     private fun iniciarDetectores() {
-        if (detectoresIniciados) return
+        if (detectoresIniciados) {
+            // Si el permiso de llamadas se concedió después de arrancar el servicio,
+            // CallMonitor no se había registrado: reintenta (es idempotente).
+            callMonitor.iniciar()
+            return
+        }
 
         numberChecker = UnknownNumberChecker(this)
 
@@ -79,28 +84,41 @@ class GuardService : LifecycleService() {
             }
         }
 
-        callMonitor = CallMonitor(this) {
-            handler.postDelayed({
-                if (!VentanaDeRiesgo.estaAbierta()) {
-                    val numero = numberChecker.ultimoNumero()
-
-                    if (numberChecker.esDesconocido(numero)) {
-                        popUpMostrado = false
-
-                        VentanaDeRiesgo.abrir(
-                            numero = numero,
-                            minutos = MINUTOS_VENTANA,
-                            esDemo = false
-                        )
-
-                        iniciarVigilancia()
-                    }
-                }
-            }, 1_000L)
+        callMonitor = CallMonitor(this) { finEnMillis ->
+            evaluarLlamada(finEnMillis, intento = 0)
         }
 
         callMonitor.iniciar()
         detectoresIniciados = true
+    }
+
+    /**
+     * El registro de llamadas de Android puede tardar en reflejar la llamada que acaba de
+     * terminar: se reintenta unas veces antes de decidir si el número es desconocido.
+     */
+    private fun evaluarLlamada(finEnMillis: Long, intento: Int) {
+        handler.postDelayed({
+            if (VentanaDeRiesgo.estaAbierta()) return@postDelayed
+
+            val numero = numberChecker.ultimoNumero(desde = finEnMillis - 120_000L)
+
+            if (numero == null && intento < MAX_REINTENTOS_REGISTRO) {
+                evaluarLlamada(finEnMillis, intento + 1)
+                return@postDelayed
+            }
+
+            if (numberChecker.esDesconocido(numero)) {
+                popUpMostrado = false
+
+                VentanaDeRiesgo.abrir(
+                    numero = numero,
+                    minutos = MINUTOS_VENTANA,
+                    esDemo = false
+                )
+
+                iniciarVigilancia()
+            }
+        }, 1_500L)
     }
 
     private fun esAppSensibleTemporal(paquete: String): Boolean {
@@ -185,6 +203,7 @@ class GuardService : LifecycleService() {
     companion object {
         private const val ID_NOTIFICACION = 1001
         private const val MINUTOS_VENTANA = 15
+        private const val MAX_REINTENTOS_REGISTRO = 3
         private const val MINUTOS_VENTANA_DEMO = 15
 
         // Temporal: completar únicamente con paquetes verificados.
