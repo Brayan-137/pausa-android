@@ -16,6 +16,7 @@
     <string name="main_permiso_uso">Permitir acceso a uso</string>
     <string name="main_iniciar_servicio">Iniciar protección</string>
     <string name="main_probar_popup">Probar pop-up (modo demo)</string>
+    <string name="main_simular_llamada">Simular llamada terminada (abre la ventana de riesgo)</string>
     <string name="permiso_ok">✅</string>
     <string name="permiso_falta">❌</string>
 

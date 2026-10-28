@@ -40,6 +40,10 @@ class MainActivity : AppCompatActivity() {
         binding.btnIniciar.setOnClickListener {
             GuardService.iniciar(this)
         }
+        binding.btnSimular.setOnClickListener {
+            // Abre la ventana de riesgo sin llamada real: ahora abre Nequi y debe salir el pop-up.
+            GuardService.simularLlamadaTerminada(this)
+        }
         binding.btnProbar.setOnClickListener {
             OverlayController.show(
                 this,
