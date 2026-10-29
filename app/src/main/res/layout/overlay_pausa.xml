@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Pop-up de Pausa (Brayan). Se muestra encima de otras apps con WindowManager.
      Un solo layout con tres grupos; OverlayController muestra uno a la vez:
-       intro -> pregunta (se repite 3 o 4 veces) -> resultado. -->
+       intro -> pregunta (se repite 3 o 4 veces) -> resultado -> (verificar | estafa). -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/overlayRaiz"
     android:layout_width="match_parent"
@@ -119,6 +119,78 @@
                         android:textSize="16sp" />
                 </LinearLayout>
 
+                <!-- VERIFICAR: elegir a qué entidad llamar (solo si numeros_oficiales.json tiene
+                     entidades con teléfono y fuente; si no, se abre el marcador directamente). -->
+                <LinearLayout
+                    android:id="@+id/overlayGrupoVerificar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/overlayTextoVerificar"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/overlay_verificar_elegir"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="20sp" />
+
+                    <!-- Un botón por entidad, creado desde OverlayController. -->
+                    <LinearLayout
+                        android:id="@+id/overlayListaEntidades"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <Button
+                        android:id="@+id/overlayBtnMarcador"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:minHeight="64dp"
+                        android:text="@string/overlay_abrir_marcador"
+                        android:textSize="18sp" />
+
+                    <Button
+                        android:id="@+id/overlayBtnVolverResultado"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:minHeight="48dp"
+                        android:text="@string/overlay_volver"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+                <!-- ES UNA ESTAFA: qué hacer (pasos_estafa de preguntas.json) -->
+                <LinearLayout
+                    android:id="@+id/overlayGrupoEstafa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/overlayPasosEstafa"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/overlayBtnEntendido"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:minHeight="64dp"
+                        android:text="@string/overlay_entendido"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
                 <!-- RESULTADO -->
                 <LinearLayout
                     android:id="@+id/overlayGrupoResultado"
@@ -135,17 +207,37 @@
                         android:textColor="@color/pausa_texto"
                         android:textSize="20sp" />
 
-                    <!-- TODO(Brayan, 28 oct): reemplazar por Verificar ahora / Es una estafa /
-                         Continuar de todos modos (10 s). Por ahora un solo botón para no dejar
-                         a la persona atrapada. -->
+                    <!-- Con algún Sí: los tres botones. Con todo No: solo "Continuar"
+                         (OverlayController oculta los otros dos). -->
                     <Button
-                        android:id="@+id/overlayBtnCerrar"
+                        android:id="@+id/overlayBtnVerificar"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="20dp"
                         android:minHeight="64dp"
-                        android:text="@string/overlay_cerrar"
+                        android:text="@string/overlay_verificar"
                         android:textSize="20sp" />
+
+                    <Button
+                        android:id="@+id/overlayBtnEstafa"
+                        style="@style/Widget.Material3.Button.OutlinedButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:minHeight="64dp"
+                        android:text="@string/overlay_estafa"
+                        android:textSize="20sp" />
+
+                    <!-- Se habilita tras 10 s (cuenta regresiva en el texto del botón). -->
+                    <Button
+                        android:id="@+id/overlayBtnContinuar"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:minHeight="56dp"
+                        android:text="@string/overlay_continuar_todos_modos"
+                        android:textSize="18sp" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

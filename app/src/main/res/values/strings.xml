@@ -23,7 +23,18 @@
     <!-- Pop-up (textos provisionales; los definitivos vienen de assets/content) -->
     <string name="overlay_titulo">Antes de mover dinero</string>
     <string name="overlay_mensaje">Acabas de colgar con un número que no está en tus contactos. Responde 3 preguntas.</string>
-    <string name="overlay_cerrar">Cerrar</string>
+    <string name="overlay_verificar">Verificar ahora</string>
+    <string name="overlay_estafa">Es una estafa</string>
+    <string name="overlay_continuar">Continuar</string>
+    <string name="overlay_continuar_todos_modos">Continuar de todos modos</string>
+    <string name="overlay_continuar_espera">Continuar de todos modos (%1$d)</string>
+    <string name="overlay_titulo_verificar">Verifica por otro canal</string>
+    <string name="overlay_verificar_elegir">¿A qué entidad vas a llamar? Solo mostramos números tomados de su sitio oficial.</string>
+    <string name="overlay_llamar_a">Llamar a %1$s</string>
+    <string name="overlay_abrir_marcador">Abrir el marcador</string>
+    <string name="overlay_sin_marcador">No se pudo abrir el marcador. Abre tu app de teléfono y llama tú.</string>
+    <string name="overlay_titulo_estafa">Qué hacer ahora</string>
+    <string name="overlay_entendido">Entendido</string>
     <string name="overlay_empezar">Empezar</string>
     <string name="overlay_volver">← Volver</string>
     <string name="overlay_si">Sí</string>
