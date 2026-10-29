@@ -178,9 +178,17 @@ data class Trigger(
 
 enum class Decision { VERIFICAR, ESTAFA, CONTINUAR }
 
+// Lo que devuelve el pop-up (28 oct: se agregaron las respuestas para el registro)
+data class ResultadoPausa(
+    val decision: Decision,
+    val respuestas: String,   // "SI,NO,SI"
+    val quien: String?        // "familiar", "entidad" o null
+)
+
 // Lo implementa Brayan
-OverlayController.show(context, trigger) { decision ->
-    // el servicio guarda el EventoPausa (Julian) con la decisión
+OverlayController.show(context, trigger) { resultado ->
+    // el servicio guarda el EventoPausa (Julian):
+    // decision = resultado.decision.name, respuestas = resultado.respuestas
 }
 ```
 

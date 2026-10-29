@@ -28,8 +28,8 @@ import com.google.android.material.button.MaterialButton
 /**
  * Muestra y oculta el pop-up encima de cualquier app.
  *
- * CONTRATO DE INTEGRACIÓN: el servicio llama a [show] con un [Trigger] y recibe la [Decision]
- * por [onDecision]. Responsable: Brayan.
+ * CONTRATO DE INTEGRACIÓN: el servicio llama a [show] con un [Trigger] y recibe un
+ * [ResultadoPausa] (decisión + respuestas) por [onDecision]. Responsable: Brayan.
  *
  * Estado al 28 oct: pop-up encima de otras apps con intro, 3 preguntas (+ "¿quién dijo ser?"),
  * consejo por caso y tres botones. La lógica de las preguntas vive en [FlujoPreguntas].
@@ -63,7 +63,7 @@ object OverlayController {
     val estaVisible: Boolean
         get() = overlayView != null
 
-    fun show(context: Context, trigger: Trigger, onDecision: (Decision) -> Unit = {}) {
+    fun show(context: Context, trigger: Trigger, onDecision: (ResultadoPausa) -> Unit = {}) {
         val app = context.applicationContext
         enHiloPrincipal { mostrar(app, trigger, onDecision) }
     }
@@ -77,7 +77,7 @@ object OverlayController {
         if (Looper.myLooper() == Looper.getMainLooper()) bloque() else principal.post(bloque)
     }
 
-    private fun mostrar(app: Context, trigger: Trigger, onDecision: (Decision) -> Unit) {
+    private fun mostrar(app: Context, trigger: Trigger, onDecision: (ResultadoPausa) -> Unit) {
         if (overlayView != null) {
             Log.d(TAG, "show() ignorado: ya hay un pop-up visible")
             return
@@ -102,11 +102,19 @@ object OverlayController {
         cuentaTerminada = false
         var decidido = false
 
-        /** Avisa la decisión una sola vez, sin cerrar el pop-up. */
+        /** Avisa la decisión (con las respuestas) una sola vez, sin cerrar el pop-up. */
         fun decidir(decision: Decision) {
             if (decidido) return
             decidido = true
-            onDecision(decision)
+            // Todas las decisiones se toman desde el paso Resultado, que trae las respuestas.
+            val resultado = flujo.paso as? Paso.Resultado
+            onDecision(
+                ResultadoPausa(
+                    decision = decision,
+                    respuestas = resultado?.respuestas.orEmpty(),
+                    quien = resultado?.quien
+                )
+            )
         }
 
         fun terminar(decision: Decision) {
