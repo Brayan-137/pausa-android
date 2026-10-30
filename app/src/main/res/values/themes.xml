@@ -2,6 +2,14 @@
 <resources>
     <style name="Theme.Pausa" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/pausa_primario</item>
+        <item name="colorOnPrimary">@color/pausa_sobre_primario</item>
+        <item name="colorPrimaryContainer">@color/pausa_primario_suave</item>
+        <item name="colorOnPrimaryContainer">@color/pausa_primario_oscuro</item>
+        <item name="android:colorBackground">@color/pausa_fondo</item>
+        <item name="colorSurface">@color/pausa_superficie</item>
+        <item name="colorOnSurface">@color/pausa_texto</item>
+        <item name="colorOnSurfaceVariant">@color/pausa_texto_secundario</item>
+        <item name="colorOutline">@color/pausa_borde</item>
         <item name="colorError">@color/pausa_alerta</item>
     </style>
 </resources>

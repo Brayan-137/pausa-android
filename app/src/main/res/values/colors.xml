@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Paleta provisional: Camilo define la final en Figma -->
-    <color name="pausa_primario">#1F3A93</color>
-    <color name="pausa_alerta">#B3261E</color>
-    <color name="pausa_fondo">#FFFFFF</color>
-    <color name="pausa_texto">#1B1B1F</color>
+    <!-- Paleta definitiva tomada del Figma de Camilo (archivo SEMILLERO, 30 oct). -->
+
+    <!-- Marca -->
+    <color name="pausa_primario">#2688F9</color>          <!-- botones principales, enlaces -->
+    <color name="pausa_primario_oscuro">#1B5FA8</color>    <!-- iconos y etiquetas sobre fondo claro -->
+    <color name="pausa_primario_claro">#6FB2FF</color>     <!-- interruptor activo -->
+    <color name="pausa_primario_suave">#E4EFFF</color>     <!-- fondos de icono y etiquetas -->
+    <color name="pausa_sobre_primario">#FFFFFF</color>     <!-- texto sobre el primario -->
+
+    <!-- Fondos y bordes -->
+    <color name="pausa_fondo">#F6F9FF</color>              <!-- fondo de pantalla -->
+    <color name="pausa_superficie">#FFFFFF</color>         <!-- tarjetas -->
+    <color name="pausa_borde">#DBE6F5</color>
+
+    <!-- Texto -->
+    <color name="pausa_texto">#14243D</color>              <!-- principal -->
+    <color name="pausa_texto_secundario">#51627A</color>
+    <color name="pausa_texto_tenue">#8FA3BC</color>        <!-- solo detalles secundarios (contraste bajo) -->
+
+    <!-- Estados -->
+    <color name="pausa_alerta">#B4232B</color>
+    <color name="pausa_alerta_borde">#F2C5C5</color>
+    <color name="pausa_exito">#1A8F47</color>
+    <color name="pausa_exito_fondo">#E6F9EE</color>
+    <color name="pausa_aviso">#B07D00</color>
+    <color name="pausa_aviso_fondo">#FDF5E0</color>
+
+    <!-- Velo detrás del pop-up (no está en el Figma) -->
     <color name="pausa_velo">#CC000000</color>
 </resources>
