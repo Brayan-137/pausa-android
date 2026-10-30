@@ -9,6 +9,7 @@ import android.os.Looper
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleService
+import androidx.lifecycle.lifecycleScope
 import co.edu.unisabana.pausa.PausaApp
 import co.edu.unisabana.pausa.R
 import co.edu.unisabana.pausa.detection.CallMonitor
@@ -16,7 +17,12 @@ import co.edu.unisabana.pausa.detection.ForegroundAppWatcher
 import co.edu.unisabana.pausa.detection.UnknownNumberChecker
 import co.edu.unisabana.pausa.detection.VentanaDeRiesgo
 import co.edu.unisabana.pausa.overlay.OverlayController
+import co.edu.unisabana.pausa.overlay.ResultadoPausa
 import co.edu.unisabana.pausa.overlay.Trigger
+import co.edu.unisabana.pausa.log.EventoPausa
+import co.edu.unisabana.pausa.log.PausaDatabase
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class GuardService : LifecycleService() {
 
@@ -155,15 +161,30 @@ class GuardService : LifecycleService() {
             isDemo = VentanaDeRiesgo.esDemo
         )
 
-        OverlayController.show(this, trigger) {
-            // El overlay ya recibió la advertencia.
-            // No se necesita volver a cerrar la ventana.
+        OverlayController.show(this, trigger) { resultado ->
+            guardarEvento(trigger, resultado)
         }
 
         // Si no se pudo mostrar, no dejar el servicio bloqueado
         // en el estado "pop-up mostrado".
         if (!OverlayController.estaVisible) {
             popUpMostrado = false
+        }
+    }
+
+    /** Guarda en el celular lo que decidió la persona (historial y métricas de la demo). */
+    private fun guardarEvento(trigger: Trigger, resultado: ResultadoPausa) {
+        val evento = EventoPausa(
+            fecha = System.currentTimeMillis(),
+            appPackage = trigger.appPackage,
+            numero = trigger.callNumber,
+            respuestas = resultado.respuestas,
+            decision = resultado.decision.name,
+            esDemo = trigger.isDemo
+        )
+        val db = PausaDatabase.get(applicationContext)
+        lifecycleScope.launch(Dispatchers.IO) {
+            db.eventos().insertar(evento)
         }
     }
 
