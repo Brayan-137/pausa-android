@@ -1,6 +1,50 @@
 {
   "_nota": "Responsable: Camilo. Copiar cada número SOLO desde el sitio web oficial de la entidad y pegar la URL en 'fuente'. La app ignora las entradas sin teléfono o sin fuente.",
   "entidades": [
-    { "nombre": "EJEMPLO - reemplazar por la entidad", "telefono": "", "fuente": "" }
+    {
+      "nombre": "Bancolombia",
+      "telefono": "+576013430000",
+      "fuente": "https://www.bancolombia.com/personas/contactanos/lineas-atencion"
+    },
+    {
+      "nombre": "Nequi",
+      "telefono": "+573006000100",
+      "fuente": "https://www.nequi.com.co/personas/ayuda/status"
+    },
+    {
+      "nombre": "Davivienda",
+      "telefono": "+576013383838",
+      "fuente": "https://www.davivienda.com/personas/telefono-rojo"
+    },
+    {
+      "nombre": "DaviPlata",
+      "telefono": "+573209989039",
+      "fuente": "https://necesitasayuda.daviplata.com/"
+    },
+    {
+      "nombre": "Banco de Bogotá",
+      "telefono": "+576013820000",
+      "fuente": "https://www.bancodebogota.com/atencion-al-cliente/seguridad-bancaria"
+    },
+    {
+      "nombre": "BBVA Colombia",
+      "telefono": "+576014010000",
+      "fuente": "https://www.bbva.com.co/personas/ayuda-urgente.html"
+    },
+    {
+      "nombre": "Banco de Occidente",
+      "telefono": "+576013902058",
+      "fuente": "https://www.bancodeoccidente.com.co/ayuda/linea-servicio-cliente"
+    },
+    {
+      "nombre": "Policía Nacional (Línea de Emergencias)",
+      "telefono": "123",
+      "fuente": "https://www.policia.gov.co/"
+    },
+    {
+      "nombre": "Denuncia Delitos Policía Nacional",
+      "telefono": "+576015159111",
+      "fuente": "https://www.policia.gov.co/sistema-nacional-denuncia-virtual-adenunciar"
+    }
   ]
 }
