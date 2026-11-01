@@ -28,6 +28,13 @@
     <color name="pausa_aviso">#B07D00</color>
     <color name="pausa_aviso_fondo">#FDF5E0</color>
 
-    <!-- Velo detrás del pop-up (no está en el Figma) -->
-    <color name="pausa_velo">#CC000000</color>
+    <!-- Tonos propios del pop-up, medidos en los PNG exportados del Figma (1 nov) -->
+    <color name="pausa_circulo_aviso_exterior">#E8F1FF</color> <!-- aviso: círculo exterior -->
+    <color name="pausa_circulo_aviso_anillo">#C8DCFF</color>   <!-- aviso: anillo intermedio -->
+    <color name="pausa_circulo_consejo">#D0E8FF</color>        <!-- consejo: círculo del teléfono -->
+    <color name="pausa_circulo_acciones">#EAF1FB</color>       <!-- acciones: círculo del "?" -->
+    <color name="pausa_interrogacion">#3B82C4</color>          <!-- acciones: el "?" -->
+    <color name="pausa_alerta_fondo">#FFF0F0</color>           <!-- botón "Es una estafa" -->
+    <color name="pausa_borde_neutro">#B9D6FB</color>           <!-- botón "Continuar de todos modos" -->
+    <color name="pausa_exito_brillante">#34C759</color>        <!-- todo normal: círculo del check -->
 </resources>

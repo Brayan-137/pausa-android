@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta de entidad elegida (solo cuando hay más de una entidad para escoger). -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/pausa_superficie" />
+    <stroke android:width="2dp" android:color="@color/pausa_primario" />
+    <corners android:radius="16dp" />
+</shape>

@@ -13,17 +13,19 @@ import android.view.ContextThemeWrapper
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import co.edu.unisabana.pausa.R
 import co.edu.unisabana.pausa.content.ContentRepository
 import co.edu.unisabana.pausa.content.EntidadOficial
+import co.edu.unisabana.pausa.databinding.OverlayItemEntidadBinding
+import co.edu.unisabana.pausa.databinding.OverlayItemPasoBinding
 import co.edu.unisabana.pausa.databinding.OverlayPausaBinding
 import co.edu.unisabana.pausa.overlay.FlujoPreguntas.Paso
-import com.google.android.material.button.MaterialButton
 
 /**
  * Muestra y oculta el pop-up encima de cualquier app.
@@ -31,17 +33,17 @@ import com.google.android.material.button.MaterialButton
  * CONTRATO DE INTEGRACIÓN: el servicio llama a [show] con un [Trigger] y recibe un
  * [ResultadoPausa] (decisión + respuestas) por [onDecision]. Responsable: Brayan.
  *
- * Estado al 28 oct: pop-up encima de otras apps con intro, 3 preguntas (+ "¿quién dijo ser?"),
- * consejo por caso y tres botones. La lógica de las preguntas vive en [FlujoPreguntas].
+ * Pantallas (Figma "Pop-up: ...", 1 nov), una por grupo de overlay_pausa.xml:
+ *   aviso -> preguntas (+ "¿quién dijo ser?") -> consejo -> "Ver opciones" -> acciones
+ *   aviso -> preguntas (todo No) -> todo normal ("Continuar")
+ * La lógica de las preguntas vive en [FlujoPreguntas].
  *
- * Botones del resultado (con todo No solo sale "Continuar"):
+ * Botones de acciones:
  *  - Verificar ahora: abre el marcador (ACTION_DIAL, la persona pulsa llamar) y devuelve VERIFICAR.
  *    Si dijeron ser una entidad y numeros_oficiales.json tiene entidades, primero elige a cuál.
  *  - Es una estafa: devuelve ESTAFA al tocarlo y muestra los pasos_estafa; "Entendido" cierra.
  *  - Continuar de todos modos: se habilita a los [SEGUNDOS_ESPERA] s y devuelve CONTINUAR.
  * [onDecision] se llama a lo sumo una vez por pop-up.
- *
- * Pendiente: modo demo y cuenta regresiva (29 oct).
  *
  * Se puede llamar desde cualquier hilo: el controlador pasa al hilo principal.
  */
@@ -149,6 +151,7 @@ object OverlayController {
             flujo.volver()
             dibujar(binding, flujo, contenido)
         }
+        binding.overlayBtnVerOpciones.setOnClickListener { mostrarAcciones(binding) }
 
         binding.overlayBtnVerificar.setOnClickListener {
             val quien = (flujo.paso as? Paso.Resultado)?.quien
@@ -161,8 +164,7 @@ object OverlayController {
                 dibujarEntidades(binding, entidades) { telefono -> verificarCon(telefono) }
             }
         }
-        binding.overlayBtnMarcador.setOnClickListener { verificarCon(null) }
-        binding.overlayBtnVolverResultado.setOnClickListener { dibujar(binding, flujo, contenido) }
+        binding.overlayBtnVolverResultado.setOnClickListener { mostrarAcciones(binding) }
 
         binding.overlayBtnEstafa.setOnClickListener {
             decidir(Decision.ESTAFA)
@@ -172,8 +174,19 @@ object OverlayController {
         binding.overlayBtnEntendido.setOnClickListener { ocultar(app) }
 
         binding.overlayBtnContinuar.setOnClickListener { terminar(Decision.CONTINUAR) }
+        binding.overlayBtnContinuarNormal.setOnClickListener { terminar(Decision.CONTINUAR) }
         // El botón atrás NO cierra el pop-up: la persona debe decidir.
         binding.root.setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
+
+        // Pantalla completa: el contenido no debe quedar debajo de la barra de estado, el
+        // recorte de la cámara ni la barra de gestos.
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { vista, insets ->
+            val barras = insets.getInsets(
+                WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.displayCutout()
+            )
+            vista.setPadding(barras.left, barras.top, barras.right, barras.bottom)
+            WindowInsetsCompat.CONSUMED
+        }
 
         val params = WindowManager.LayoutParams(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -212,30 +225,32 @@ object OverlayController {
         }
     }
 
-    /** Muestra el grupo que corresponde al paso actual del flujo. */
+    /** Deja visible solo [grupo] (una pantalla del Figma). */
+    private fun mostrarGrupo(b: OverlayPausaBinding, grupo: View) {
+        listOf(
+            b.overlayGrupoIntro, b.overlayGrupoPregunta, b.overlayGrupoConsejo,
+            b.overlayGrupoResultado, b.overlayGrupoNormal, b.overlayGrupoVerificar,
+            b.overlayGrupoEstafa
+        ).forEach { it.visibility = if (it === grupo) View.VISIBLE else View.GONE }
+    }
+
+    /** Muestra la pantalla que corresponde al paso actual del flujo. */
     private fun dibujar(
         b: OverlayPausaBinding,
         flujo: FlujoPreguntas,
         contenido: ContentRepository,
         intro: Boolean = false
     ) {
-        b.overlayGrupoVerificar.visibility = View.GONE
-        b.overlayGrupoEstafa.visibility = View.GONE
-        b.overlayGrupoIntro.visibility = if (intro) View.VISIBLE else View.GONE
         if (intro) {
-            b.overlayGrupoPregunta.visibility = View.GONE
-            b.overlayGrupoResultado.visibility = View.GONE
+            mostrarGrupo(b, b.overlayGrupoIntro)
             return
         }
 
         val ctx = b.root.context
         when (val paso = flujo.paso) {
             is Paso.Pregunta -> {
-                b.overlayTitulo.setText(R.string.overlay_titulo)
-                b.overlayGrupoPregunta.visibility = View.VISIBLE
-                b.overlayGrupoResultado.visibility = View.GONE
-                b.overlayProgreso.visibility = View.VISIBLE
-                b.overlayProgreso.text = ctx.getString(R.string.overlay_progreso, paso.numero, paso.total)
+                mostrarGrupo(b, b.overlayGrupoPregunta)
+                ponerProgreso(b, paso.numero, paso.total)
                 b.overlayPregunta.text = paso.texto
                 b.overlayBtnOpcionA.setText(R.string.overlay_si)
                 b.overlayBtnOpcionB.setText(R.string.overlay_no)
@@ -245,10 +260,10 @@ object OverlayController {
             }
 
             is Paso.Quien -> {
-                b.overlayTitulo.setText(R.string.overlay_titulo)
-                b.overlayGrupoPregunta.visibility = View.VISIBLE
-                b.overlayGrupoResultado.visibility = View.GONE
-                b.overlayProgreso.visibility = View.GONE
+                mostrarGrupo(b, b.overlayGrupoPregunta)
+                // En el Figma "¿Quién dijo ser?" se ve como la última pregunta, con la barra llena.
+                val total = contenido.preguntas().size
+                ponerProgreso(b, total, total)
                 b.overlayPregunta.text = paso.texto
                 // Dos opciones fijas en el JSON (familiar / entidad); los botones toman su texto.
                 val (a, c) = paso.opciones
@@ -260,26 +275,42 @@ object OverlayController {
             }
 
             is Paso.Resultado -> {
-                b.overlayTitulo.setText(
-                    if (paso.todoNormal) R.string.overlay_titulo_normal else R.string.overlay_titulo_alerta
-                )
-                b.overlayGrupoPregunta.visibility = View.GONE
-                b.overlayGrupoResultado.visibility = View.VISIBLE
-                b.overlayConsejo.text = contenido.consejo(paso.claveConsejo)
-
+                val (titulo, detalle) = dividirConsejo(contenido.consejo(paso.claveConsejo))
                 if (paso.todoNormal) {
                     // Nada que verificar: un solo botón, disponible de inmediato.
                     cancelarCuentaRegresiva()
-                    b.overlayBtnVerificar.visibility = View.GONE
-                    b.overlayBtnEstafa.visibility = View.GONE
-                    ponerContinuar(b, R.string.overlay_continuar)
+                    mostrarGrupo(b, b.overlayGrupoNormal)
+                    b.overlayNormalTitulo.text = titulo
+                    b.overlayNormalDetalle.text = detalle
+                    b.overlayNormalDetalle.visibility = if (detalle.isEmpty()) View.GONE else View.VISIBLE
                 } else {
-                    b.overlayBtnVerificar.visibility = View.VISIBLE
-                    b.overlayBtnEstafa.visibility = View.VISIBLE
-                    iniciarCuentaRegresiva(b)
+                    mostrarGrupo(b, b.overlayGrupoConsejo)
+                    val chip = when (paso.quien) {
+                        "familiar" -> ctx.getString(R.string.overlay_chip_familiar)
+                        "entidad" -> ctx.getString(R.string.overlay_chip_entidad)
+                        else -> null
+                    }
+                    b.overlayChipQuien.text = chip
+                    b.overlayChipQuien.visibility = if (chip == null) View.GONE else View.VISIBLE
+                    b.overlayConsejoTitulo.text = titulo
+                    b.overlayConsejoDetalle.text = detalle
+                    val conDetalle = if (detalle.isEmpty()) View.GONE else View.VISIBLE
+                    b.overlayConsejoDetalle.visibility = conDetalle
+                    b.overlayConsejoDivisor.visibility = conDetalle
                 }
             }
         }
+    }
+
+    private fun ponerProgreso(b: OverlayPausaBinding, numero: Int, total: Int) {
+        b.overlayProgreso.text = b.root.context.getString(R.string.overlay_progreso, numero, total)
+        b.overlayBarraProgreso.progress = if (total > 0) numero * 100 / total else 0
+    }
+
+    /** Pantalla "¿Qué quieres hacer?" (tras "Ver opciones" o al volver de Verificar). */
+    private fun mostrarAcciones(b: OverlayPausaBinding) {
+        mostrarGrupo(b, b.overlayGrupoResultado)
+        iniciarCuentaRegresiva(b)
     }
 
     /** Entidades con teléfono y fuente. Un JSON mal editado no debe tumbar el pop-up. */
@@ -291,37 +322,55 @@ object OverlayController {
             emptyList()
         }
 
-    /** Un botón por entidad; al tocarlo se llama a [alElegir] con su teléfono. */
+    /**
+     * Una tarjeta por entidad. Con una sola, "Llamar" la usa; con varias, la persona toca
+     * la tarjeta que quiere (queda con borde azul) y luego "Llamar".
+     */
     private fun dibujarEntidades(
         b: OverlayPausaBinding,
         entidades: List<EntidadOficial>,
         alElegir: (telefono: String) -> Unit
     ) {
         val ctx = b.root.context
-        val densidad = ctx.resources.displayMetrics.density
+        val inflador = LayoutInflater.from(ctx)
+        val margen = (16 * ctx.resources.displayMetrics.density).toInt()
 
-        b.overlayTitulo.setText(R.string.overlay_titulo_verificar)
-        b.overlayGrupoResultado.visibility = View.GONE
-        b.overlayGrupoVerificar.visibility = View.VISIBLE
-
+        mostrarGrupo(b, b.overlayGrupoVerificar)
         b.overlayListaEntidades.removeAllViews()
-        entidades.forEach { entidad ->
-            val boton = MaterialButton(ctx).apply {
-                text = ctx.getString(R.string.overlay_llamar_a, entidad.nombre)
-                textSize = 20f
-                minHeight = (64 * densidad).toInt()
-                minimumHeight = (64 * densidad).toInt()
-                setOnClickListener { alElegir(entidad.telefono) }
-            }
-            val medidas = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { topMargin = (12 * densidad).toInt() }
-            b.overlayListaEntidades.addView(boton, medidas)
+
+        var elegida = entidades.first()
+        val tarjetas = entidades.map { entidad ->
+            val item = OverlayItemEntidadBinding.inflate(inflador, b.overlayListaEntidades, false)
+            item.itemEntidadNombre.text = entidad.nombre
+            item.itemEntidadTelefono.text = entidad.telefono
+            item.itemEntidadFuente.text = ctx.getString(R.string.overlay_fuente, entidad.fuente)
+            item.root to entidad
         }
+
+        fun marcarElegida() {
+            if (tarjetas.size < 2) return
+            tarjetas.forEach { (vista, entidad) ->
+                vista.setBackgroundResource(
+                    if (entidad == elegida) R.drawable.bg_pausa_tarjeta_elegida else R.drawable.bg_pausa_tarjeta
+                )
+            }
+        }
+
+        tarjetas.forEachIndexed { i, (vista, entidad) ->
+            if (tarjetas.size > 1) {
+                vista.isClickable = true
+                vista.setOnClickListener { elegida = entidad; marcarElegida() }
+            }
+            val medidas = vista.layoutParams as LinearLayout.LayoutParams
+            if (i > 0) medidas.topMargin = margen
+            b.overlayListaEntidades.addView(vista, medidas)
+        }
+        marcarElegida()
+
+        b.overlayBtnLlamar.setOnClickListener { alElegir(elegida.telefono) }
     }
 
-    /** Muestra qué hacer (pasos_estafa de preguntas.json). */
+    /** Pantalla "No transfieras": una tarjeta numerada por cada paso de pasos_estafa. */
     private fun dibujarEstafa(b: OverlayPausaBinding, contenido: ContentRepository) {
         cancelarCuentaRegresiva()
         val pasos = try {
@@ -330,12 +379,20 @@ object OverlayController {
             Log.e(TAG, "No se pudo leer pasos_estafa de preguntas.json", e)
             emptyList()
         }
-        b.overlayTitulo.setText(R.string.overlay_titulo_estafa)
-        b.overlayGrupoResultado.visibility = View.GONE
-        b.overlayGrupoVerificar.visibility = View.GONE
-        b.overlayGrupoEstafa.visibility = View.VISIBLE
-        b.overlayPasosEstafa.text =
-            pasos.mapIndexed { i, paso -> "${i + 1}. $paso" }.joinToString("\n\n")
+        mostrarGrupo(b, b.overlayGrupoEstafa)
+
+        val ctx = b.root.context
+        val inflador = LayoutInflater.from(ctx)
+        val margen = (18 * ctx.resources.displayMetrics.density).toInt()
+        b.overlayListaPasos.removeAllViews()
+        pasos.forEachIndexed { i, paso ->
+            val item = OverlayItemPasoBinding.inflate(inflador, b.overlayListaPasos, false)
+            item.itemPasoNumero.text = (i + 1).toString()
+            item.itemPasoTexto.text = paso.trim().removeSuffix(".")
+            val medidas = item.root.layoutParams as LinearLayout.LayoutParams
+            if (i > 0) medidas.topMargin = margen
+            b.overlayListaPasos.addView(item.root, medidas)
+        }
     }
 
     private fun ponerContinuar(b: OverlayPausaBinding, @StringRes texto: Int) {
@@ -345,7 +402,7 @@ object OverlayController {
 
     /**
      * Deshabilita "Continuar de todos modos" [SEGUNDOS_ESPERA] s mostrando los segundos que faltan.
-     * No se reinicia si la persona vuelve desde la lista de entidades.
+     * Arranca la primera vez que se ve la pantalla de acciones y no se reinicia al volver de Verificar.
      */
     private fun iniciarCuentaRegresiva(b: OverlayPausaBinding) {
         if (cuentaTerminada) {

@@ -99,3 +99,17 @@ class FlujoPreguntas(
         const val ID_DIJERON_SER = "dijeron_ser"
     }
 }
+
+/**
+ * Parte un consejo de preguntas.json en título (primera frase, sin punto) y detalle (el resto),
+ * como lo muestra el Figma. Ej.: "Cuelga y llámale tú. Los estafadores..." -> ("Cuelga y llámale tú", "Los estafadores...").
+ */
+internal fun dividirConsejo(texto: String): Pair<String, String> {
+    val limpio = texto.trim()
+    val corte = limpio.indexOf(". ")
+    return if (corte < 0) {
+        limpio.removeSuffix(".") to ""
+    } else {
+        limpio.substring(0, corte) to limpio.substring(corte + 2).trim()
+    }
+}

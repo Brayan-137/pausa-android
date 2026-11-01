@@ -100,4 +100,17 @@ class FlujoPreguntasTest {
         f.responder(true)
         assertEquals("NO,NO,NO", f.resultado().respuestas)
     }
+
+    @Test
+    fun dividirConsejoSeparaTituloYDetalle() {
+        assertEquals(
+            "Cuelga y llama tú" to "Ninguna entidad pide códigos.",
+            dividirConsejo("Cuelga y llama tú. Ninguna entidad pide códigos.")
+        )
+    }
+
+    @Test
+    fun dividirConsejoSinSegundaFraseDejaDetalleVacio() {
+        assertEquals("Todo parece normal" to "", dividirConsejo("Todo parece normal."))
+    }
 }

@@ -1,245 +1,509 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pop-up de Pausa (Brayan). Se muestra encima de otras apps con WindowManager.
-     Un solo layout con tres grupos; OverlayController muestra uno a la vez:
-       intro -> pregunta (se repite 3 o 4 veces) -> resultado -> (verificar | estafa). -->
+<!-- Pop-up de Pausa (Brayan). Se muestra encima de otras apps con WindowManager, a pantalla
+     completa, siguiendo las pantallas "Pop-up: ..." del Figma de Camilo.
+     Un grupo por pantalla; OverlayController muestra uno a la vez:
+       aviso -> pregunta (3 o 4 veces) -> consejo -> acciones -> (verificar | estafa)
+       aviso -> pregunta (3 veces, todo No) -> todo normal
+     Cada grupo: contenido con scroll arriba (letra grande del sistema) y botones abajo. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/overlayRaiz"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pausa_velo"
+    android:background="@color/pausa_fondo"
     android:focusable="true"
     android:focusableInTouchMode="true">
 
-    <!-- ScrollView: con letra grande del sistema la tarjeta puede no caber en pantallas pequeñas. -->
-    <ScrollView
+    <!-- ========== AVISO (Figma "Pop-up: aviso") ========== -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoIntro"
+        style="@style/GrupoPausa"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:minHeight="0dp"
-            android:orientation="vertical"
-            android:padding="24dp">
+        <ScrollView style="@style/ContenidoPausa">
 
             <LinearLayout
-                android:id="@+id/overlayTarjeta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/pausa_fondo"
+                android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:padding="24dp">
+                android:paddingHorizontal="8dp"
+                android:paddingTop="20dp">
+
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/bg_pausa_circulo_aviso">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_pausa_telefono_colgado" />
+                </FrameLayout>
 
                 <TextView
-                    android:id="@+id/overlayTitulo"
+                    style="@style/TextoPausa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/overlay_titulo"
-                    android:textColor="@color/pausa_alerta"
-                    android:textSize="24sp"
+                    android:layout_marginTop="20dp"
+                    android:letterSpacing="0.08"
+                    android:text="@string/overlay_marca"
+                    android:textColor="@color/pausa_primario_oscuro"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
 
-                <!-- INTRO -->
-                <LinearLayout
-                    android:id="@+id/overlayGrupoIntro"
+                <TextView
+                    style="@style/TextoPausa.Titulo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="18dp"
+                    android:text="@string/overlay_aviso_titulo"
+                    android:textSize="24sp" />
 
-                    <TextView
-                        android:id="@+id/overlayMensaje"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/overlay_mensaje"
-                        android:textColor="@color/pausa_texto"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/overlayBtnEmpezar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:minHeight="64dp"
-                        android:text="@string/overlay_empezar"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <!-- PREGUNTA (también sirve para "¿Quién dijo ser?": los botones cambian de texto) -->
-                <LinearLayout
-                    android:id="@+id/overlayGrupoPregunta"
+                <TextView
+                    android:id="@+id/overlayMensaje"
+                    style="@style/TextoPausa.Cuerpo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/overlayProgreso"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:textColor="@color/pausa_texto"
-                        android:textSize="16sp" />
-
-                    <TextView
-                        android:id="@+id/overlayPregunta"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:textColor="@color/pausa_texto"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
-
-                    <Button
-                        android:id="@+id/overlayBtnOpcionA"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:minHeight="64dp"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/overlayBtnOpcionB"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:minHeight="64dp"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/overlayBtnVolver"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:minHeight="48dp"
-                        android:text="@string/overlay_volver"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <!-- VERIFICAR: elegir a qué entidad llamar (solo si numeros_oficiales.json tiene
-                     entidades con teléfono y fuente; si no, se abre el marcador directamente). -->
-                <LinearLayout
-                    android:id="@+id/overlayGrupoVerificar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/overlayTextoVerificar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/overlay_verificar_elegir"
-                        android:textColor="@color/pausa_texto"
-                        android:textSize="20sp" />
-
-                    <!-- Un botón por entidad, creado desde OverlayController. -->
-                    <LinearLayout
-                        android:id="@+id/overlayListaEntidades"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical" />
-
-                    <Button
-                        android:id="@+id/overlayBtnMarcador"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:minHeight="64dp"
-                        android:text="@string/overlay_abrir_marcador"
-                        android:textSize="18sp" />
-
-                    <Button
-                        android:id="@+id/overlayBtnVolverResultado"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:minHeight="48dp"
-                        android:text="@string/overlay_volver"
-                        android:textSize="16sp" />
-                </LinearLayout>
-
-                <!-- ES UNA ESTAFA: qué hacer (pasos_estafa de preguntas.json) -->
-                <LinearLayout
-                    android:id="@+id/overlayGrupoEstafa"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/overlayPasosEstafa"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:textColor="@color/pausa_texto"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/overlayBtnEntendido"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:minHeight="64dp"
-                        android:text="@string/overlay_entendido"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <!-- RESULTADO -->
-                <LinearLayout
-                    android:id="@+id/overlayGrupoResultado"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="gone">
-
-                    <TextView
-                        android:id="@+id/overlayConsejo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:textColor="@color/pausa_texto"
-                        android:textSize="20sp" />
-
-                    <!-- Con algún Sí: los tres botones. Con todo No: solo "Continuar"
-                         (OverlayController oculta los otros dos). -->
-                    <Button
-                        android:id="@+id/overlayBtnVerificar"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:minHeight="64dp"
-                        android:text="@string/overlay_verificar"
-                        android:textSize="20sp" />
-
-                    <Button
-                        android:id="@+id/overlayBtnEstafa"
-                        style="@style/Widget.Material3.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:minHeight="64dp"
-                        android:text="@string/overlay_estafa"
-                        android:textSize="20sp" />
-
-                    <!-- Se habilita tras 10 s (cuenta regresiva en el texto del botón). -->
-                    <Button
-                        android:id="@+id/overlayBtnContinuar"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:minHeight="56dp"
-                        android:text="@string/overlay_continuar_todos_modos"
-                        android:textSize="18sp" />
-                </LinearLayout>
+                    android:layout_marginTop="64dp"
+                    android:paddingHorizontal="6dp"
+                    android:text="@string/overlay_mensaje" />
             </LinearLayout>
-        </LinearLayout>
-    </ScrollView>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnEmpezar"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_empezar" />
+    </LinearLayout>
+
+    <!-- ========== PREGUNTA (Figma "Pop-up: pregunta" y "Pop-up: ¿quién dijo ser?") ==========
+         En "¿Quién dijo ser?" los botones toman el texto de las opciones del JSON. -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoPregunta"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/overlayBtnVolver"
+                style="@style/Widget.Pausa.Boton.Volver"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="start|center_vertical"
+                android:text="@string/overlay_volver" />
+
+            <TextView
+                android:id="@+id/overlayProgreso"
+                style="@style/TextoPausa.Progreso"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                tools:text="Pregunta 1 de 3" />
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/overlayBarraProgreso"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="6dp"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginTop="2dp"
+            android:importantForAccessibility="no"
+            android:max="100"
+            android:progressDrawable="@drawable/bg_pausa_progreso"
+            tools:progress="33" />
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="24dp">
+
+                <TextView
+                    android:id="@+id/overlayPregunta"
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="¿Te pidieron transferir, pagar o dar un código?" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnOpcionA"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            tools:text="Sí" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnOpcionB"
+            style="@style/Widget.Pausa.Boton.Secundario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="22dp"
+            tools:text="No" />
+    </LinearLayout>
+
+    <!-- ========== CONSEJO (Figma "Pop-up: consejo familiar" y "Pop-up: consejo entidad") ==========
+         Título = primera frase del consejo del JSON; detalle = el resto. -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoConsejo"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="28dp">
+
+                <!-- Solo para familiar y entidad; en el caso general se oculta. -->
+                <TextView
+                    android:id="@+id/overlayChipQuien"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:background="@drawable/bg_pausa_chip"
+                    android:gravity="center"
+                    android:letterSpacing="0.06"
+                    android:paddingHorizontal="20dp"
+                    android:textColor="@color/pausa_primario_oscuro"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    tools:text="@string/overlay_chip_familiar" />
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_pausa_circulo"
+                    android:backgroundTint="@color/pausa_circulo_consejo">
+
+                    <ImageView
+                        android:layout_width="44dp"
+                        android:layout_height="44dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_pausa_telefono"
+                        android:tint="@color/pausa_primario_oscuro" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/overlayConsejoTitulo"
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="26dp"
+                    tools:text="Cuelga y llámale tú al número que tienes guardado" />
+
+                <View
+                    android:id="@+id/overlayConsejoDivisor"
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:layout_marginTop="40dp"
+                    android:background="@color/pausa_borde" />
+
+                <TextView
+                    android:id="@+id/overlayConsejoDetalle"
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:textSize="14sp"
+                    tools:text="Los estafadores usan el miedo y la urgencia para que no verifiques." />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnVerOpciones"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_ver_opciones" />
+    </LinearLayout>
+
+    <!-- ========== ACCIONES (Figma "Pop-up: acciones") ========== -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoResultado"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="28dp">
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/overlay_acciones_titulo"
+                    android:textSize="24sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/overlay_acciones_subtitulo"
+                    android:textSize="14sp" />
+
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@drawable/bg_pausa_circulo"
+                    android:backgroundTint="@color/pausa_circulo_acciones">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:text="\?"
+                        android:textColor="@color/pausa_interrogacion"
+                        android:textSize="80sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnVerificar"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_verificar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnEstafa"
+            style="@style/Widget.Pausa.Boton.Alerta"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/overlay_estafa" />
+
+        <!-- Se habilita tras 10 s (cuenta regresiva en el texto del botón). -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnContinuar"
+            style="@style/Widget.Pausa.Boton.Neutro"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="22dp"
+            android:text="@string/overlay_continuar_todos_modos" />
+    </LinearLayout>
+
+    <!-- ========== TODO NORMAL (Figma "Pop-up: todo normal") ========== -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoNormal"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="24dp">
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_pausa_circulo"
+                    android:backgroundTint="@color/pausa_exito_brillante">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_pausa_check" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/overlayNormalTitulo"
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:textSize="30sp"
+                    tools:text="Todo parece normal" />
+
+                <TextView
+                    android:id="@+id/overlayNormalDetalle"
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:paddingHorizontal="20dp"
+                    tools:text="Puedes continuar con lo que ibas a hacer." />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnContinuarNormal"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_continuar" />
+    </LinearLayout>
+
+    <!-- ========== VERIFICAR (Figma "Pop-up: verificar") ==========
+         Solo si numeros_oficiales.json tiene entidades con teléfono y fuente; si no, "Verificar
+         ahora" abre el marcador directamente. Una tarjeta por entidad (overlay_item_entidad.xml);
+         con varias, la persona toca la que quiere y luego "Llamar". -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoVerificar"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnVolverResultado"
+            style="@style/Widget.Pausa.Boton.Volver"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/overlay_volver" />
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="12dp">
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/overlay_titulo_verificar" />
+
+                <LinearLayout
+                    android:id="@+id/overlayListaEntidades"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:orientation="vertical" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:paddingHorizontal="40dp"
+                    android:text="@string/overlay_verificar_nota" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnLlamar"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_llamar" />
+    </LinearLayout>
+
+    <!-- ========== ES UNA ESTAFA (Figma "Pop-up: es una estafa") ==========
+         Una tarjeta numerada por cada paso de pasos_estafa (overlay_item_paso.xml). -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoEstafa"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="68dp">
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_pausa_circulo"
+                    android:backgroundTint="@color/pausa_primario_suave">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:text="!"
+                        android:textColor="@color/pausa_alerta"
+                        android:textSize="44sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40dp"
+                    android:paddingHorizontal="8dp"
+                    android:text="@string/overlay_titulo_estafa"
+                    android:textSize="30sp" />
+
+                <LinearLayout
+                    android:id="@+id/overlayListaPasos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="34dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnEntendido"
+            style="@style/Widget.Pausa.Boton.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_entendido" />
+    </LinearLayout>
 </FrameLayout>

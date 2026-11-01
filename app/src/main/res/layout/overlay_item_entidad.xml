@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta de una entidad oficial en el pop-up (Figma "Pop-up: verificar"). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_pausa_tarjeta"
+    android:orientation="vertical"
+    android:paddingHorizontal="22dp"
+    android:paddingTop="24dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:id="@+id/itemEntidadNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/pausa_texto"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="Línea de emergencias" />
+
+    <TextView
+        android:id="@+id/itemEntidadTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/pausa_primario_oscuro"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        tools:text="123" />
+
+    <TextView
+        android:id="@+id/itemEntidadFuente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:lineSpacingExtra="4sp"
+        android:textColor="@color/pausa_texto_secundario"
+        android:textSize="13sp"
+        tools:text="Fuente: https://www.policia.gov.co/" />
+</LinearLayout>

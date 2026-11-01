@@ -95,26 +95,38 @@
     <string name="fecha_hoy">Hoy, %1$s</string>
     <string name="fecha_ayer">Ayer, %1$s</string>
 
-    <!-- Pop-up (textos provisionales; los definitivos vienen de assets/content) -->
-    <string name="overlay_titulo">Antes de mover dinero</string>
-    <string name="overlay_mensaje">Acabas de colgar con un número que no está en tus contactos. Responde 3 preguntas.</string>
-    <string name="overlay_verificar">Verificar ahora</string>
-    <string name="overlay_estafa">Es una estafa</string>
-    <string name="overlay_continuar">Continuar</string>
-    <string name="overlay_continuar_todos_modos">Continuar de todos modos</string>
-    <string name="overlay_continuar_espera">Continuar de todos modos (%1$d)</string>
-    <string name="overlay_titulo_verificar">Verifica por otro canal</string>
-    <string name="overlay_verificar_elegir">¿A qué entidad vas a llamar? Solo mostramos números tomados de su sitio oficial.</string>
-    <string name="overlay_llamar_a">Llamar a %1$s</string>
-    <string name="overlay_abrir_marcador">Abrir el marcador</string>
-    <string name="overlay_sin_marcador">No se pudo abrir el marcador. Abre tu app de teléfono y llama tú.</string>
-    <string name="overlay_titulo_estafa">Qué hacer ahora</string>
-    <string name="overlay_entendido">Entendido</string>
+    <!-- Pop-up: textos de pantalla tomados del Figma (1 nov). Los consejos y los pasos ante
+         estafa vienen de assets/content/preguntas.json (Camilo). -->
+    <!-- Aviso -->
+    <string name="overlay_marca">PAUSA</string>
+    <string name="overlay_aviso_titulo">Acabas de colgar con un número que no está en tus contactos</string>
+    <string name="overlay_mensaje">Antes de mover dinero, responde 3 preguntas.</string>
     <string name="overlay_empezar">Empezar</string>
-    <string name="overlay_volver">← Volver</string>
+    <!-- Preguntas -->
+    <string name="overlay_progreso">Pregunta %1$d de %2$d</string>
     <string name="overlay_si">Sí</string>
     <string name="overlay_no">No</string>
-    <string name="overlay_progreso">Pregunta %1$d de %2$d</string>
-    <string name="overlay_titulo_alerta">Detente un momento</string>
-    <string name="overlay_titulo_normal">Todo parece normal</string>
+    <string name="overlay_volver">← Volver</string>
+    <!-- Consejo -->
+    <string name="overlay_chip_familiar">DIJERON SER UN FAMILIAR</string>
+    <string name="overlay_chip_entidad">DIJERON SER UNA ENTIDAD</string>
+    <string name="overlay_ver_opciones">Ver opciones</string>
+    <!-- Acciones -->
+    <string name="overlay_acciones_titulo">¿Qué quieres hacer?</string>
+    <string name="overlay_acciones_subtitulo">Verificar toma menos de un minuto.</string>
+    <string name="overlay_verificar">Verificar ahora</string>
+    <string name="overlay_estafa">Es una estafa</string>
+    <string name="overlay_continuar_todos_modos">Continuar de todos modos</string>
+    <string name="overlay_continuar_espera">Continuar de todos modos (%1$d s)</string>
+    <!-- Todo normal -->
+    <string name="overlay_continuar">Continuar</string>
+    <!-- Verificar (solo si numeros_oficiales.json tiene entidades) -->
+    <string name="overlay_titulo_verificar">Llama tú al número oficial</string>
+    <string name="overlay_fuente">Fuente: %1$s</string>
+    <string name="overlay_verificar_nota">Ninguna entidad pide códigos ni transferencias por teléfono.</string>
+    <string name="overlay_llamar">Llamar</string>
+    <string name="overlay_sin_marcador">No se pudo abrir el marcador. Abre tu app de teléfono y llama tú.</string>
+    <!-- Es una estafa -->
+    <string name="overlay_titulo_estafa">No transfieras</string>
+    <string name="overlay_entendido">Entendido</string>
 </resources>

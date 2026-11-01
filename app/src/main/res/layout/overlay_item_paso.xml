@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta numerada de un paso ante estafa (Figma "Pop-up: es una estafa"). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_pausa_tarjeta"
+    android:gravity="center_vertical"
+    android:minHeight="72dp"
+    android:orientation="horizontal"
+    android:paddingVertical="14dp"
+    android:paddingStart="14dp"
+    android:paddingEnd="16dp">
+
+    <TextView
+        android:id="@+id/itemPasoNumero"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_pausa_circulo"
+        android:backgroundTint="@color/pausa_primario_suave"
+        android:gravity="center"
+        android:textColor="@color/pausa_primario_oscuro"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/itemPasoTexto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        android:textColor="@color/pausa_texto"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        tools:text="No transfieras ni compartas códigos" />
+</LinearLayout>
