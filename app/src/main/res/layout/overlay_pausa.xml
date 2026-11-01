@@ -507,4 +507,398 @@
             android:layout_marginTop="12dp"
             android:text="@string/overlay_entendido" />
     </LinearLayout>
+
+    <!-- ========== BLOQUEO EN FRÍO (Figma "Bloqueo en frío") ==========
+         Solo si el ajuste "Bloqueo con respiración" está activo: "Continuar de todos modos" lleva aquí. -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoBloqueo"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="28dp">
+
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/bg_pausa_circulo_aviso">
+
+                    <ImageView
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_pausa_telefono_colgado" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_panico_chip"
+                    android:gravity="center"
+                    android:letterSpacing="0.06"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/bloqueo_chip"
+                    android:textColor="@color/pausa_alerta"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/bloqueo_titulo"
+                    android:textSize="26sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/bloqueo_texto" />
+
+                <LinearLayout
+                    style="@style/PausaTarjeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingVertical="24dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/bloqueo_tiempo_restante"
+                        android:textColor="@color/pausa_texto_secundario"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/overlayBloqueoTiempo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textColor="@color/pausa_popup_principal"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        tools:text="04:52" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnRespirar"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            tools:text="Respirar 60 segundos" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnBloqueoVerificar"
+            style="@style/Widget.Pausa.Boton.Popup.Secundario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/bloqueo_verificar_ahora" />
+    </LinearLayout>
+
+    <!-- ========== RESPIRACIÓN GUIADA (Figma "Respiración guiada") ==========
+         INHALA 4 s, SOSTÉN 4 s, EXHALA 6 s; el círculo crece al inhalar y se encoge al exhalar. -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoRespiracion"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="20dp">
+
+                <TextView
+                    style="@style/TextoPausa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.08"
+                    android:text="@string/respiracion_marca"
+                    android:textColor="@color/pausa_texto_tenue"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="260dp"
+                    android:layout_marginTop="12dp">
+
+                    <FrameLayout
+                        android:id="@+id/overlayCirculoRespiracion"
+                        android:layout_width="240dp"
+                        android:layout_height="240dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/bg_pausa_circulo_aviso">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/overlayFaseNombre"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:letterSpacing="0.08"
+                                android:textColor="@color/pausa_popup_suave"
+                                android:textSize="13sp"
+                                tools:text="INHALA" />
+
+                            <TextView
+                                android:id="@+id/overlayFaseSegundos"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/pausa_sobre_primario"
+                                android:textSize="40sp"
+                                android:textStyle="bold"
+                                tools:text="4s" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/respiracion_segundos"
+                                android:textColor="@color/pausa_popup_suave"
+                                android:textSize="12sp" />
+                        </LinearLayout>
+                    </FrameLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/overlayFasePastilla"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/bg_pausa_chip"
+                    android:gravity="center"
+                    android:minWidth="140dp"
+                    android:paddingHorizontal="24dp"
+                    android:textColor="@color/pausa_popup_oscuro"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    tools:text="INHALA" />
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="@string/respiracion_titulo"
+                    android:textSize="24sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/respiracion_instruccion"
+                    android:textSize="14sp" />
+
+                <!-- 5 puntos de progreso, los crea OverlayController. -->
+                <LinearLayout
+                    android:id="@+id/overlayPuntosRespiracion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:orientation="horizontal" />
+
+                <ProgressBar
+                    android:id="@+id/overlayBarraRespiracion"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="6dp"
+                    android:layout_marginHorizontal="8dp"
+                    android:layout_marginTop="14dp"
+                    android:importantForAccessibility="no"
+                    android:max="100"
+                    android:progressDrawable="@drawable/bg_pausa_progreso" />
+
+                <TextView
+                    android:id="@+id/overlayRespiracionRestantes"
+                    style="@style/TextoPausa.Progreso"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    tools:text="45 s restantes" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnSeguir"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            tools:text="Seguir (45 s)" />
+    </LinearLayout>
+
+    <!-- ========== VERIFICAR PARA DESBLOQUEAR (Figma "Verificar para desbloquear") ==========
+         "Desbloquear app" se habilita al completar la respiración o al llegar a 0 la cuenta del bloqueo. -->
+    <LinearLayout
+        android:id="@+id/overlayGrupoDesbloqueo"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="28dp">
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/desbloqueo_titulo"
+                    android:textSize="26sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/desbloqueo_subtitulo"
+                    android:textSize="14sp" />
+
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_pausa_circulo_aviso">
+
+                    <ImageView
+                        android:layout_width="56dp"
+                        android:layout_height="56dp"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:src="@drawable/ic_pausa_check" />
+                </FrameLayout>
+
+                <LinearLayout
+                    style="@style/PausaTarjeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/desbloqueo_respiracion"
+                            android:textColor="@color/pausa_texto"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/overlayEstadoRespiracion"
+                            style="@style/PausaEtiqueta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="4dp"
+                        android:background="@color/pausa_borde" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:minHeight="48dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/desbloqueo_llamar"
+                            android:textColor="@color/pausa_texto"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            style="@style/PausaEtiqueta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:backgroundTint="@color/pausa_aviso_fondo"
+                            android:text="@string/desbloqueo_pendiente"
+                            android:textColor="@color/pausa_aviso"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/desbloqueo_nota"
+                    android:textColor="@color/pausa_texto_tenue"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnDesbloqueoLlamar"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/desbloqueo_llamar" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnDesbloquear"
+            style="@style/Widget.Pausa.Boton.Popup.Neutro"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/desbloqueo_desbloquear" />
+    </LinearLayout>
 </FrameLayout>

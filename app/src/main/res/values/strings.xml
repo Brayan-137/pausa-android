@@ -193,4 +193,32 @@
     <string name="overlay_ya_transferi">Ya transferí o di datos</string>
     <string name="etiqueta_panico">Pánico</string>
     <string name="evento_panico">Usaste el botón de pánico.</string>
+
+    <!-- Bloqueo en frío con respiración (dentro del pop-up) -->
+    <string name="bloqueo_chip">RIESGO ALTO</string>
+    <string name="bloqueo_titulo">Detectamos señales de estafa</string>
+    <string name="bloqueo_texto">Tu app bancaria queda tapada unos minutos. Respira y verifica antes de seguir.</string>
+    <string name="bloqueo_tiempo_restante">Tiempo restante</string>
+    <string name="bloqueo_respirar">Respirar %1$d segundos</string>
+    <string name="bloqueo_verificar_ahora">Verificar ahora</string>
+    <string name="respiracion_marca">RESPIRACIÓN GUIADA</string>
+    <string name="respiracion_inhala">INHALA</string>
+    <string name="respiracion_sostiene">SOSTÉN</string>
+    <string name="respiracion_exhala">EXHALA</string>
+    <string name="respiracion_segundos_fase">%1$ds</string>
+    <string name="respiracion_segundos">segundos</string>
+    <string name="respiracion_titulo">Respira profundo y calma tu mente</string>
+    <string name="respiracion_instruccion">Sigue el círculo: inhala 4 s, sostén 4 s, exhala 6 s.</string>
+    <string name="respiracion_restantes">%1$d s restantes</string>
+    <string name="respiracion_seguir_espera">Seguir (%1$d s)</string>
+    <string name="respiracion_seguir">Seguir</string>
+    <string name="desbloqueo_titulo">Ya casi puedes seguir</string>
+    <string name="desbloqueo_subtitulo">Antes de desbloquear, intenta verificar por un canal propio.</string>
+    <string name="desbloqueo_respiracion">Respiración completa</string>
+    <string name="desbloqueo_llamar">Llamar al número oficial</string>
+    <string name="desbloqueo_listo">Listo</string>
+    <string name="desbloqueo_pendiente">Pendiente</string>
+    <string name="desbloqueo_nota">Verificar solo toma un minuto y puede salvarte de una estafa.</string>
+    <string name="desbloqueo_desbloquear">Desbloquear app</string>
+    <string name="desbloqueo_desbloquear_espera">Desbloquear app (%1$s)</string>
 </resources>
