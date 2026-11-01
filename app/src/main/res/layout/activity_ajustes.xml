@@ -117,5 +117,17 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/demo_simular_llamada" />
         </LinearLayout>
+
+        <!-- Como el "Número de compilación" de Android: 7 toques activan o desactivan el modo demo. -->
+        <TextView
+            android:id="@+id/ajustesVersion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center"
+            android:minHeight="48dp"
+            android:textColor="@color/pausa_texto_tenue"
+            android:textSize="13sp" />
     </LinearLayout>
 </ScrollView>

@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import co.edu.unisabana.pausa.BuildConfig
 import co.edu.unisabana.pausa.R
 import co.edu.unisabana.pausa.databinding.ActivityAjustesBinding
 import co.edu.unisabana.pausa.databinding.ItemAppBinding
@@ -26,8 +27,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Configuración: apps sensibles, minutos de la ventana y modo demo oculto (se activa tocando el
- * título 5 veces). Todo se guarda de inmediato en [SettingsRepository]. Responsable: Julian.
+ * Configuración: apps sensibles, minutos de la ventana y modo demo oculto (se activa o desactiva
+ * tocando 7 veces la versión, al final de la pantalla, como el "Número de compilación" de
+ * Android). Todo se guarda de inmediato en [SettingsRepository]. Responsable: Julian.
  */
 class AjustesActivity : AppCompatActivity() {
 
@@ -45,7 +47,8 @@ class AjustesActivity : AppCompatActivity() {
 
     private var minutos = SettingsRepository.MINUTOS_POR_DEFECTO
     private var modoDemo = false
-    private var toquesTitulo = 0
+    private var toquesVersion = 0
+    private var avisoToques: Toast? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +60,8 @@ class AjustesActivity : AppCompatActivity() {
             verTodas = !verTodas
             pintarApps()
         }
-        binding.ajustesTitulo.setOnClickListener { contarToqueTitulo() }
+        binding.ajustesVersion.text = getString(R.string.ajustes_version, BuildConfig.VERSION_NAME)
+        binding.ajustesVersion.setOnClickListener { contarToqueVersion() }
         binding.btnProbarPopup.setOnClickListener { probarPopup() }
         binding.btnSimularLlamada.setOnClickListener { simularLlamada() }
 
@@ -127,19 +131,28 @@ class AjustesActivity : AppCompatActivity() {
         }
     }
 
-    private fun contarToqueTitulo() {
-        toquesTitulo++
-        if (toquesTitulo < TOQUES_MODO_DEMO) return
-        toquesTitulo = 0
+    private fun contarToqueVersion() {
+        toquesVersion++
+        val faltan = TOQUES_MODO_DEMO - toquesVersion
+        if (faltan > 0) {
+            // Igual que Android: avisa solo en los últimos toques.
+            if (faltan <= TOQUES_AVISO) {
+                avisar(resources.getQuantityString(R.plurals.demo_faltan_toques, faltan, faltan))
+            }
+            return
+        }
+        toquesVersion = 0
         modoDemo = !modoDemo
         pintarDemo()
         val activo = modoDemo
         lifecycleScope.launch { ajustes.guardarModoDemo(activo) }
-        Toast.makeText(
-            this,
-            if (activo) R.string.demo_activado else R.string.demo_desactivado,
-            Toast.LENGTH_SHORT
-        ).show()
+        avisar(getString(if (activo) R.string.demo_activado else R.string.demo_desactivado))
+    }
+
+    /** Reemplaza el aviso anterior para que los toques seguidos no apilen mensajes. */
+    private fun avisar(texto: String) {
+        avisoToques?.cancel()
+        avisoToques = Toast.makeText(this, texto, Toast.LENGTH_SHORT).also { it.show() }
     }
 
     private fun pintarDemo() {
@@ -186,6 +199,7 @@ class AjustesActivity : AppCompatActivity() {
 
     private companion object {
         val OPCIONES_MINUTOS = listOf(5, 10, 15, 25)
-        const val TOQUES_MODO_DEMO = 5
+        const val TOQUES_MODO_DEMO = 7
+        const val TOQUES_AVISO = 3
     }
 }

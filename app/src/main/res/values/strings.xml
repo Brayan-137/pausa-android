@@ -67,6 +67,12 @@
     <string name="ajustes_ventana_texto">Tras colgar, Pausa vigila durante este tiempo.</string>
     <string name="demo_titulo">Modo demo</string>
     <string name="demo_activado">Modo demo activado</string>
+    <string name="ajustes_version">Versión %1$s</string>
+    <plurals name="demo_faltan_toques">
+        <item quantity="one">Estás a %1$d toque de cambiar el modo demo</item>
+        <item quantity="many">Estás a %1$d toques de cambiar el modo demo</item>
+        <item quantity="other">Estás a %1$d toques de cambiar el modo demo</item>
+    </plurals>
     <string name="demo_desactivado">Modo demo desactivado</string>
     <string name="demo_probar_popup">Probar pop-up</string>
     <string name="demo_simular_llamada">Simular llamada terminada</string>
