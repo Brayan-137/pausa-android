@@ -13,15 +13,14 @@
     ]
   },
   "consejos": {
-    "todo_normal": "Todo parece normal. Puedes continuar.",
-    "familiar": "Cuelga y llámale tú al número que tienes guardado. Si es una emergencia real, te lo confirmará.",
-    "entidad": "Llama tú al número oficial. Ninguna entidad pide códigos ni transferencias por teléfono.",
+    "todo_normal": "Todo parece normal. Puedes continuar con lo que ibas a hacer.",
+    "familiar": "Cuelga y llámale tú al número que tienes guardado. Los estafadores usan el miedo y la urgencia para que no verifiques.",
+    "entidad": "Cuelga y llama tú al número oficial de la entidad. Ninguna entidad pide códigos ni transferencias por teléfono.",
     "general": "Antes de mover dinero, verifica por otro canal. Los estafadores usan la prisa para que no lo hagas."
   },
   "pasos_estafa": [
     "No transfieras ni compartas códigos.",
-    "Cuelga y bloquea el número.",
-    "Si ya diste datos o dinero, llama a la línea oficial de tu banco.",
-    "Denuncia el intento ante las autoridades."
+    "Bloquea el número que te llamó.",
+    "Reporta la llamada a tu banco."
   ]
 }
