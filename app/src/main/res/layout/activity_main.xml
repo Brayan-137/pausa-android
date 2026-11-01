@@ -136,6 +136,16 @@
         android:text="@string/inicio_ver_historial" />
 
     <Button
+        android:id="@+id/btnNumerosOficiales"
+        style="@style/PausaBotonSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/inicio_numeros_oficiales" />
+
+    <Button
         android:id="@+id/btnConfiguracion"
         style="@style/PausaBotonSecundario"
         android:layout_width="match_parent"

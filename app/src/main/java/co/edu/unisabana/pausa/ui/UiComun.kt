@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.ColorStateList
+import android.net.Uri
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -44,4 +45,22 @@ fun Activity.abrirAjustes(intent: Intent) {
 fun TextView.pintarEtiqueta(@ColorRes fondo: Int, @ColorRes texto: Int) {
     backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, fondo))
     setTextColor(ContextCompat.getColor(context, texto))
+}
+
+/** Abre el marcador con el número escrito; la persona pulsa llamar. */
+fun Activity.abrirMarcador(telefono: String) {
+    try {
+        startActivity(Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", telefono, null)))
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(this, R.string.overlay_sin_marcador, Toast.LENGTH_LONG).show()
+    }
+}
+
+/** Abre una página en el navegador. */
+fun Activity.abrirPaginaWeb(url: String) {
+    try {
+        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+    } catch (e: ActivityNotFoundException) {
+        Toast.makeText(this, R.string.overlay_sin_navegador, Toast.LENGTH_LONG).show()
+    }
 }

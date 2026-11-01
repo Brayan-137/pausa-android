@@ -53,6 +53,7 @@
     <string name="inicio_continuo">Continuaste de todos modos.</string>
     <string name="inicio_normal">Todo parecía normal.</string>
     <string name="inicio_ver_historial">Ver historial</string>
+    <string name="inicio_numeros_oficiales">Números oficiales</string>
     <string name="inicio_configuracion">Configuración</string>
 
     <!-- Configuración -->
@@ -137,4 +138,11 @@
     <!-- Es una estafa -->
     <string name="overlay_titulo_estafa">No transfieras</string>
     <string name="overlay_entendido">Entendido</string>
+
+    <!-- Números oficiales -->
+    <string name="numeros_titulo">Números oficiales</string>
+    <string name="numeros_texto">Llama tú a estos números. Ninguna entidad pide códigos ni transferencias por teléfono.</string>
+    <string name="numeros_vacio">Todavía no hay números oficiales cargados.</string>
+    <string name="numeros_llamar">Llamar</string>
+    <string name="numeros_abrir_pagina">Abrir página oficial</string>
 </resources>

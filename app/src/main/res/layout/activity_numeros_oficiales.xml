@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/numerosRaiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pausa_fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            style="@style/PausaTituloPantalla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/numeros_titulo" />
+
+        <TextView
+            style="@style/PausaSubtitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/numeros_texto" />
+
+        <!-- Las tarjetas las crea NumerosOficialesActivity (item_entidad.xml). -->
+        <LinearLayout
+            android:id="@+id/listaEntidades"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="vertical" />
+
+        <TextView
+            android:id="@+id/textoSinNumeros"
+            style="@style/PausaTarjetaTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/numeros_vacio"
+            android:visibility="gone" />
+    </LinearLayout>
+</ScrollView>

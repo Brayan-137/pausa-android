@@ -18,6 +18,7 @@ import co.edu.unisabana.pausa.settings.SettingsRepository
 import co.edu.unisabana.pausa.ui.ajustes.AjustesActivity
 import co.edu.unisabana.pausa.ui.historial.HistorialActivity
 import co.edu.unisabana.pausa.ui.historial.formatoFecha
+import co.edu.unisabana.pausa.ui.numeros.NumerosOficialesActivity
 import co.edu.unisabana.pausa.ui.onboarding.OnboardingActivity
 import co.edu.unisabana.pausa.util.Permisos
 import kotlinx.coroutines.flow.first
@@ -41,6 +42,9 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnHistorial.setOnClickListener {
             startActivity(Intent(this, HistorialActivity::class.java))
+        }
+        binding.btnNumerosOficiales.setOnClickListener {
+            startActivity(Intent(this, NumerosOficialesActivity::class.java))
         }
         binding.btnConfiguracion.setOnClickListener {
             startActivity(Intent(this, AjustesActivity::class.java))
