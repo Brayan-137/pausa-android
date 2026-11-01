@@ -51,7 +51,7 @@
                     android:layout_marginTop="20dp"
                     android:letterSpacing="0.08"
                     android:text="@string/overlay_marca"
-                    android:textColor="@color/pausa_primario_oscuro"
+                    android:textColor="@color/pausa_popup_oscuro"
                     android:textSize="12sp"
                     android:textStyle="bold" />
 
@@ -76,7 +76,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnEmpezar"
-            style="@style/Widget.Pausa.Boton.Primario"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="16dp"
@@ -147,14 +147,14 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnOpcionA"
-            style="@style/Widget.Pausa.Boton.Primario"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             tools:text="Sí" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnOpcionB"
-            style="@style/Widget.Pausa.Boton.Secundario"
+            style="@style/Widget.Pausa.Boton.Popup.Secundario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="22dp"
@@ -189,7 +189,7 @@
                     android:gravity="center"
                     android:letterSpacing="0.06"
                     android:paddingHorizontal="20dp"
-                    android:textColor="@color/pausa_primario_oscuro"
+                    android:textColor="@color/pausa_popup_oscuro"
                     android:textSize="11sp"
                     android:textStyle="bold"
                     tools:text="@string/overlay_chip_familiar" />
@@ -199,7 +199,7 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="20dp"
                     android:background="@drawable/bg_pausa_circulo"
-                    android:backgroundTint="@color/pausa_circulo_consejo">
+                    android:backgroundTint="@color/pausa_popup_circulo_anillo">
 
                     <ImageView
                         android:layout_width="44dp"
@@ -207,7 +207,7 @@
                         android:layout_gravity="center"
                         android:importantForAccessibility="no"
                         android:src="@drawable/ic_pausa_telefono"
-                        android:tint="@color/pausa_primario_oscuro" />
+                        android:tint="@color/pausa_popup_oscuro" />
                 </FrameLayout>
 
                 <TextView
@@ -238,7 +238,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnVerOpciones"
-            style="@style/Widget.Pausa.Boton.Primario"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="16dp"
@@ -283,7 +283,7 @@
                     android:layout_height="200dp"
                     android:layout_marginTop="26dp"
                     android:background="@drawable/bg_pausa_circulo"
-                    android:backgroundTint="@color/pausa_circulo_acciones">
+                    android:backgroundTint="@color/pausa_popup_circulo_exterior">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -291,7 +291,7 @@
                         android:layout_gravity="center"
                         android:importantForAccessibility="no"
                         android:text="\?"
-                        android:textColor="@color/pausa_interrogacion"
+                        android:textColor="@color/pausa_popup_principal"
                         android:textSize="80sp"
                         android:textStyle="bold" />
                 </FrameLayout>
@@ -300,7 +300,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnVerificar"
-            style="@style/Widget.Pausa.Boton.Primario"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="16dp"
@@ -317,7 +317,7 @@
         <!-- Se habilita tras 10 s (cuenta regresiva en el texto del botón). -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnContinuar"
-            style="@style/Widget.Pausa.Boton.Neutro"
+            style="@style/Widget.Pausa.Boton.Popup.Neutro"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="22dp"
@@ -378,7 +378,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnContinuarNormal"
-            style="@style/Widget.Pausa.Boton.Primario"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="16dp"
@@ -459,7 +459,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:background="@drawable/bg_pausa_circulo"
-                    android:backgroundTint="@color/pausa_primario_suave">
+                    android:backgroundTint="@color/pausa_popup_suave">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -492,7 +492,7 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnEntendido"
-            style="@style/Widget.Pausa.Boton.Primario"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
             android:layout_marginTop="16dp"

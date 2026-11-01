@@ -37,4 +37,12 @@
     <color name="pausa_alerta_fondo">#FFF0F0</color>           <!-- botón "Es una estafa" -->
     <color name="pausa_borde_neutro">#B9D6FB</color>           <!-- botón "Continuar de todos modos" -->
     <color name="pausa_exito_brillante">#34C759</color>        <!-- todo normal: círculo del check -->
+
+    <!-- Naranja de alerta: solo el pop-up y las pantallas de pánico y bloqueo (decisión del 1 nov) -->
+    <color name="pausa_popup_principal">#C2410C</color>        <!-- botones, barra y círculo central -->
+    <color name="pausa_popup_oscuro">#9A3412</color>           <!-- iconos y etiquetas sobre fondo claro -->
+    <color name="pausa_popup_claro">#FB923C</color>
+    <color name="pausa_popup_suave">#FFEDD5</color>            <!-- fondos de icono y etiquetas -->
+    <color name="pausa_popup_circulo_exterior">#FFF4EC</color>
+    <color name="pausa_popup_circulo_anillo">#FED7AA</color>
 </resources>
