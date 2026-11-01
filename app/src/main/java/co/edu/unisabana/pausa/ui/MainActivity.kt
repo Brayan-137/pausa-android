@@ -20,6 +20,7 @@ import co.edu.unisabana.pausa.ui.historial.HistorialActivity
 import co.edu.unisabana.pausa.ui.historial.formatoFecha
 import co.edu.unisabana.pausa.ui.numeros.NumerosOficialesActivity
 import co.edu.unisabana.pausa.ui.onboarding.OnboardingActivity
+import co.edu.unisabana.pausa.ui.panico.PanicoActivity
 import co.edu.unisabana.pausa.util.Permisos
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -40,6 +41,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         respetarBarrasDelSistema(binding.root)
 
+        binding.btnPanico.setOnClickListener {
+            startActivity(PanicoActivity.intent(this, irALaGuia = false))
+        }
         binding.btnHistorial.setOnClickListener {
             startActivity(Intent(this, HistorialActivity::class.java))
         }
@@ -131,6 +135,7 @@ class MainActivity : AppCompatActivity() {
             when {
                 evento.decision == Decision.VERIFICAR.name -> R.string.inicio_verifico
                 evento.decision == Decision.ESTAFA.name -> R.string.inicio_estafa
+                evento.decision == Decision.PANICO.name -> R.string.inicio_panico_evento
                 evento.tuvoAlerta() -> R.string.inicio_continuo
                 else -> R.string.inicio_normal
             }

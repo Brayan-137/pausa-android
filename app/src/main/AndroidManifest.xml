@@ -64,6 +64,10 @@
             android:name=".ui.numeros.NumerosOficialesActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.panico.PanicoActivity"
+            android:exported="false" />
+
         <service
             android:name=".service.GuardService"
             android:exported="false"

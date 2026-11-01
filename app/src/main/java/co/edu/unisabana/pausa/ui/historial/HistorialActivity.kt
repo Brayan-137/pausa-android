@@ -106,6 +106,11 @@ class HistorialActivity : AppCompatActivity() {
                 fila.eventoEtiqueta.setText(R.string.etiqueta_estafa)
                 fila.eventoEtiqueta.pintarEtiqueta(R.color.pausa_aviso_fondo, R.color.pausa_aviso)
             }
+            Decision.PANICO.name -> {
+                fila.eventoDecision.setText(R.string.evento_panico)
+                fila.eventoEtiqueta.setText(R.string.etiqueta_panico)
+                fila.eventoEtiqueta.pintarEtiqueta(R.color.pausa_alerta_fondo, R.color.pausa_alerta)
+            }
             else -> {
                 fila.eventoDecision.setText(
                     if (evento.tuvoAlerta()) R.string.evento_continuo else R.string.evento_normal

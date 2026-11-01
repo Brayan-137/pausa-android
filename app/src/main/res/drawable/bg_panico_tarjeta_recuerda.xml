@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta "Recuerda" de la guía. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="rectangle">
+    <solid android:color="@color/pausa_popup_circulo_exterior" />
+    <corners android:radius="12dp" />
+</shape>

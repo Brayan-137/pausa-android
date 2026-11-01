@@ -490,12 +490,21 @@
             </LinearLayout>
         </ScrollView>
 
+        <!-- Abre PanicoActivity directo en la guía; la decisión del pop-up sigue siendo ESTAFA. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/overlayBtnPanico"
+            style="@style/Widget.Pausa.Boton.Alerta"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/overlay_ya_transferi" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/overlayBtnEntendido"
             style="@style/Widget.Pausa.Boton.Popup.Primario"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="12dp"
             android:text="@string/overlay_entendido" />
     </LinearLayout>
 </FrameLayout>

@@ -52,6 +52,8 @@
     <string name="inicio_estafa">Marcaste la llamada como estafa.</string>
     <string name="inicio_continuo">Continuaste de todos modos.</string>
     <string name="inicio_normal">Todo parecía normal.</string>
+    <string name="inicio_panico">¿Te están estafando?</string>
+    <string name="inicio_panico_evento">Usaste el botón de pánico.</string>
     <string name="inicio_ver_historial">Ver historial</string>
     <string name="inicio_numeros_oficiales">Números oficiales</string>
     <string name="inicio_configuracion">Configuración</string>
@@ -154,4 +156,41 @@
     <string name="numeros_vacio">Todavía no hay números oficiales cargados.</string>
     <string name="numeros_llamar">Llamar</string>
     <string name="numeros_abrir_pagina">Abrir página oficial</string>
+
+    <!-- Botón de pánico -->
+    <string name="panico_chip">POSIBLE ESTAFA EN CURSO</string>
+    <string name="panico_pregunta_titulo">¿Ya transferiste o diste datos?</string>
+    <string name="panico_pregunta_texto">Actúa ya: cada minuto cuenta y te guiamos paso a paso.</string>
+    <string name="panico_tiempo_titulo">Tiempo es clave</string>
+    <string name="panico_tiempo_texto">Cuanto antes actúes, más posibilidades de recuperar tu dinero.</string>
+    <string name="panico_si">Sí, ya transferí o di datos</string>
+    <string name="panico_todavia_no">Todavía no</string>
+    <string name="panico_entendido">Entendido</string>
+    <string name="panico_guia_titulo">Haz esto ahora</string>
+    <string name="panico_guia_subtitulo">Un paso a la vez. Tú puedes.</string>
+    <string name="panico_paso1_titulo">Llama a la línea oficial de tu banco</string>
+    <string name="panico_paso1_texto">Verifica directamente con tu banco.</string>
+    <string name="panico_paso2_titulo">Cambia tus claves y bloquea tus tarjetas</string>
+    <string name="panico_paso2_texto">Accesos comprometidos primero.</string>
+    <string name="panico_paso3_titulo">Guarda pruebas: número, hora y capturas</string>
+    <string name="panico_paso3_texto">Conversaciones, datos e imágenes del fraude.</string>
+    <string name="panico_paso4_titulo">Denuncia ante las autoridades</string>
+    <string name="panico_paso4_texto">Repórtalo a tu entidad y a la policía.</string>
+    <string name="panico_llamar">Llamar</string>
+    <string name="panico_minuto">Cada minuto cuenta — actúa ahora.</string>
+    <string name="panico_recuerda_titulo">Recuerda</string>
+    <string name="panico_recuerda_texto">Actuar con calma y rapidez marca la diferencia.</string>
+    <string name="panico_avisar">Avisar a mi contacto de confianza</string>
+    <string name="panico_sms_chip">AVISO POR SMS</string>
+    <string name="panico_sms_titulo">Avisa a tu contacto de confianza</string>
+    <string name="panico_sms_subtitulo">Este es el mensaje que enviaremos:</string>
+    <string name="panico_sms_caja">Mensaje de texto (SMS)</string>
+    <string name="panico_sms_nota">Se abre tu app de mensajes con el texto listo. Tú lo envías con un toque.</string>
+    <string name="panico_abrir_mensajes">Abrir mensajes</string>
+    <string name="panico_elegir_contacto">Elegir contacto</string>
+    <string name="panico_editar_mensaje">Editar mensaje</string>
+    <string name="panico_sin_mensajes">No se pudo abrir la app de mensajes. Escríbele o llámale tú.</string>
+    <string name="overlay_ya_transferi">Ya transferí o di datos</string>
+    <string name="etiqueta_panico">Pánico</string>
+    <string name="evento_panico">Usaste el botón de pánico.</string>
 </resources>

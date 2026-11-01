@@ -26,6 +26,7 @@ import co.edu.unisabana.pausa.databinding.OverlayItemEntidadBinding
 import co.edu.unisabana.pausa.databinding.OverlayItemPasoBinding
 import co.edu.unisabana.pausa.databinding.OverlayPausaBinding
 import co.edu.unisabana.pausa.overlay.FlujoPreguntas.Paso
+import co.edu.unisabana.pausa.ui.panico.PanicoActivity
 
 /**
  * Muestra y oculta el pop-up encima de cualquier app.
@@ -42,7 +43,8 @@ import co.edu.unisabana.pausa.overlay.FlujoPreguntas.Paso
  *  - Verificar ahora: abre el marcador (ACTION_DIAL, la persona pulsa llamar) y devuelve VERIFICAR.
  *    Si dijeron ser una entidad y numeros_oficiales.json tiene entidades, primero elige a cuál;
  *    cada tarjeta trae "Llamar" y "Abrir página oficial" (ACTION_VIEW), ambos devuelven VERIFICAR.
- *  - Es una estafa: devuelve ESTAFA al tocarlo y muestra los pasos_estafa; "Entendido" cierra.
+ *  - Es una estafa: devuelve ESTAFA al tocarlo y muestra los pasos_estafa; "Entendido" cierra y
+ *    "Ya transferí o di datos" abre PanicoActivity en la guía.
  *  - Continuar de todos modos: se habilita a los [SEGUNDOS_ESPERA] s y devuelve CONTINUAR.
  * [onDecision] se llama a lo sumo una vez por pop-up.
  *
@@ -182,6 +184,16 @@ object OverlayController {
         binding.overlayBtnEstafa.setOnClickListener {
             decidir(Decision.ESTAFA)
             dibujarEstafa(binding, contenido)
+        }
+        // Se lanza ANTES de ocultar el pop-up (igual que el marcador). La decisión ya fue ESTAFA;
+        // el evento PANICO lo registra PanicoActivity.
+        binding.overlayBtnPanico.setOnClickListener {
+            try {
+                app.startActivity(PanicoActivity.intent(app, irALaGuia = true))
+                ocultar(app)
+            } catch (e: Exception) {
+                Log.e(TAG, "No se pudo abrir el botón de pánico", e)
+            }
         }
         // La decisión ESTAFA ya se avisó al tocar "Es una estafa"; aquí solo se cierra.
         binding.overlayBtnEntendido.setOnClickListener { ocultar(app) }

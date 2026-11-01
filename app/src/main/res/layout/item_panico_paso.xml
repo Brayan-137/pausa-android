@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Un paso de "Haz esto ahora". "Llamar" solo se ve en el paso 1. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="top"
+    android:orientation="horizontal"
+    android:paddingVertical="12dp">
+
+    <TextView
+        android:id="@+id/pasoNumero"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@drawable/bg_pausa_circulo"
+        android:gravity="center"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        tools:text="1" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/pasoTitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/pausa_texto"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="Llama a la línea oficial de tu banco" />
+
+        <TextView
+            android:id="@+id/pasoTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:textColor="@color/pausa_texto_secundario"
+            android:textSize="14sp"
+            tools:text="Verifica directamente con tu banco." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/pasoBtnLlamar"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="24dp"
+            android:text="@string/panico_llamar"
+            android:visibility="gone" />
+    </LinearLayout>
+</LinearLayout>

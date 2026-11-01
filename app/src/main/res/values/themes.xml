@@ -71,6 +71,11 @@
         <item name="strokeColor">@color/pausa_popup_circulo_anillo</item>
     </style>
 
+    <!-- Rojo lleno: botón principal del pánico. -->
+    <style name="Widget.Pausa.Boton.Panico" parent="Widget.Pausa.Boton.Primario">
+        <item name="backgroundTint">@color/pausa_alerta</item>
+    </style>
+
     <!-- Rojo suave: "Es una estafa". -->
     <style name="Widget.Pausa.Boton.Alerta" parent="Widget.Pausa.Boton.Secundario">
         <item name="backgroundTint">@color/pausa_alerta_fondo</item>
