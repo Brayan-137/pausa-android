@@ -68,6 +68,15 @@
     <string name="ajustes_ventana_texto">Tras colgar, Pausa vigila durante este tiempo.</string>
     <string name="demo_titulo">Modo demo</string>
     <string name="demo_activado">Modo demo activado</string>
+    <string name="ajustes_contacto">Contacto de confianza</string>
+    <string name="ajustes_contacto_texto">Si te estafan, Pausa te ayuda a avisarle por SMS.</string>
+    <string name="ajustes_contacto_sin_elegir">Sin elegir</string>
+    <string name="ajustes_contacto_elegir">Elegir</string>
+    <string name="ajustes_contacto_cambiar">Cambiar</string>
+    <string name="ajustes_bloqueo">Bloqueo con respiración</string>
+    <string name="ajustes_bloqueo_texto">Si continúas tras una llamada sospechosa, tu app bancaria queda tapada unos minutos mientras respiras y verificas.</string>
+    <string name="ajustes_novedades">Ver novedades</string>
+    <string name="contacto_sin_selector">Este celular no tiene selector de contactos.</string>
     <string name="ajustes_version">Versión %1$s</string>
     <plurals name="demo_faltan_toques">
         <item quantity="one">Estás a %1$d toque de cambiar el modo demo</item>
