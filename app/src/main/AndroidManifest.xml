@@ -21,6 +21,9 @@
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
+    <!-- Bienvenida: pedir que Android no cierre el servicio para ahorrar batería (Julian) -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
     <!-- Para listar las apps instaladas en la configuración de apps sensibles (Julian) -->
     <queries>
         <intent>
@@ -44,6 +47,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.onboarding.OnboardingActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.ajustes.AjustesActivity"
+            android:exported="false" />
+
+        <activity
+            android:name=".ui.historial.HistorialActivity"
+            android:exported="false" />
 
         <service
             android:name=".service.GuardService"

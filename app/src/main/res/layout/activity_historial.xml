@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/historialRaiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pausa_fondo">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            style="@style/PausaTituloPantalla"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/historial_titulo" />
+
+        <!-- Métricas para la demo y la prueba con usuarios (no están en el Figma). -->
+        <LinearLayout
+            android:id="@+id/tarjetaMetricas"
+            style="@style/PausaTarjeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <include
+                    android:id="@+id/metricaTotal"
+                    layout="@layout/item_metrica"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/metricaVerifico"
+                    layout="@layout/item_metrica"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/metricaEstafa"
+                    layout="@layout/item_metrica"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <include
+                    android:id="@+id/metricaContinuo"
+                    layout="@layout/item_metrica"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textoSeDetuvieron"
+                style="@style/PausaTarjetaTexto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center" />
+        </LinearLayout>
+
+        <!-- Solo aparece si hay eventos de demo. -->
+        <com.google.android.material.materialswitch.MaterialSwitch
+            android:id="@+id/interruptorDemo"
+            style="@style/PausaInterruptor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:text="@string/historial_incluir_demo"
+            android:textColor="@color/pausa_texto"
+            android:textSize="16sp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textoVacio"
+            style="@style/PausaSubtitulo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="@string/historial_vacio"
+            android:visibility="gone" />
+
+        <!-- Las tarjetas las crea HistorialActivity; son pocos eventos. -->
+        <LinearLayout
+            android:id="@+id/listaEventos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
+        <TextView
+            style="@style/PausaTarjetaTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/historial_privacidad" />
+    </LinearLayout>
+</ScrollView>

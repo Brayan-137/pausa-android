@@ -14,6 +14,9 @@ interface EventoPausaDao {
     @Query("SELECT * FROM eventos ORDER BY fecha DESC")
     fun observarTodos(): Flow<List<EventoPausa>>
 
+    @Query("SELECT * FROM eventos ORDER BY fecha DESC LIMIT 1")
+    fun observarUltimo(): Flow<EventoPausa?>
+
     @Query("SELECT * FROM eventos WHERE esDemo = 0 ORDER BY fecha DESC")
     fun observarReales(): Flow<List<EventoPausa>>
 }

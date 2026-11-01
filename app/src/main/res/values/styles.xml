@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Estilos de las pantallas de la app (Figma de Camilo). El pop-up tiene los suyos en su layout. -->
+<resources>
+    <style name="PausaTituloPantalla">
+        <item name="android:textColor">@color/pausa_texto</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="PausaSubtitulo">
+        <item name="android:textColor">@color/pausa_texto_secundario</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="PausaSeccion">
+        <item name="android:textColor">@color/pausa_texto</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PausaTarjeta">
+        <item name="android:background">@drawable/bg_tarjeta</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="PausaTarjetaTitulo">
+        <item name="android:textColor">@color/pausa_texto</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PausaTarjetaTexto">
+        <item name="android:textColor">@color/pausa_texto_secundario</item>
+        <item name="android:textSize">15sp</item>
+    </style>
+
+    <style name="PausaEtiqueta">
+        <item name="android:background">@drawable/bg_pastilla</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="PausaBoton" parent="Widget.Material3.Button">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="PausaBotonSecundario" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">12dp</item>
+        <item name="strokeColor">@color/pausa_primario</item>
+        <item name="android:textColor">@color/pausa_primario</item>
+        <item name="android:minHeight">56dp</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+
+    <style name="PausaInterruptor" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="trackTint">@color/pausa_interruptor_pista</item>
+        <item name="thumbTint">@color/pausa_superficie</item>
+        <item name="trackDecorationTint">@android:color/transparent</item>
+    </style>
+</resources>

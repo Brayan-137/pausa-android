@@ -1,73 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Pantalla TEMPORAL de desarrollo. Julian la reemplaza por la bienvenida (ui/onboarding). -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- Inicio. Queda invisible hasta saber si la persona ya pasó por la bienvenida. -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/inicioRaiz"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/pausa_fondo"
+    android:orientation="vertical"
+    android:visibility="invisible">
 
-    <LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="24dp"
+            android:paddingTop="24dp"
+            android:paddingEnd="24dp">
+
+            <TextView
+                style="@style/PausaTituloPantalla"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/inicio_titulo" />
+
+            <LinearLayout
+                style="@style/PausaTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textoEstado"
+                        style="@style/PausaSeccion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/textoEstadoDetalle"
+                        style="@style/PausaTarjetaTexto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+
+                <com.google.android.material.materialswitch.MaterialSwitch
+                    android:id="@+id/interruptorProteccion"
+                    style="@style/PausaInterruptor"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:contentDescription="@string/inicio_activa" />
+            </LinearLayout>
+
+            <!-- Faltan permisos, indispensables o recomendados. Se toca para ir a activarlos. -->
+            <LinearLayout
+                android:id="@+id/tarjetaPermisos"
+                style="@style/PausaTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/tarjetaPermisosTitulo"
+                    style="@style/PausaTarjetaTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/tarjetaPermisosTexto"
+                    style="@style/PausaTarjetaTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/PausaTarjeta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/PausaTarjetaTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/inicio_ultima_alerta" />
+
+                <TextView
+                    android:id="@+id/textoUltimaFecha"
+                    style="@style/PausaTarjetaTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/textoUltimaDecision"
+                    style="@style/PausaTarjetaTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="@string/inicio_sin_alertas"
+                    android:textColor="@color/pausa_texto" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnHistorial"
+        style="@style/PausaBoton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="24dp">
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/inicio_ver_historial" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/main_titulo"
-            android:textSize="22sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/main_estado_permisos"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/textEstado"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btnPermisos"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/main_pedir_permisos" />
-
-        <Button
-            android:id="@+id/btnOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_permiso_overlay" />
-
-        <Button
-            android:id="@+id/btnUso"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_permiso_uso" />
-
-        <Button
-            android:id="@+id/btnIniciar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/main_iniciar_servicio" />
-
-        <Button
-            android:id="@+id/btnProbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_probar_popup" />
-
-        <Button
-            android:id="@+id/btnSimular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/main_simular_llamada" />
-    </LinearLayout>
-</ScrollView>
+    <Button
+        android:id="@+id/btnConfiguracion"
+        style="@style/PausaBotonSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/inicio_configuracion" />
+</LinearLayout>

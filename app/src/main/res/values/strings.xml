@@ -8,17 +8,92 @@
     <string name="servicio_titulo">Pausa está activa</string>
     <string name="servicio_texto">Te avisaremos si abres una app sensible después de una llamada desconocida</string>
 
-    <!-- Pantalla principal temporal (Julian la reemplaza con la bienvenida) -->
-    <string name="main_titulo">Pausa · versión de desarrollo</string>
-    <string name="main_estado_permisos">Estado de permisos</string>
-    <string name="main_pedir_permisos">Pedir permisos de llamadas y contactos</string>
-    <string name="main_permiso_overlay">Permitir mostrar sobre otras apps</string>
-    <string name="main_permiso_uso">Permitir acceso a uso</string>
-    <string name="main_iniciar_servicio">Iniciar protección</string>
-    <string name="main_probar_popup">Probar pop-up (modo demo)</string>
-    <string name="main_simular_llamada">Simular llamada terminada (abre la ventana de riesgo)</string>
-    <string name="permiso_ok">✅</string>
-    <string name="permiso_falta">❌</string>
+    <string name="ajustes_no_disponibles">Este celular no tiene esa pantalla. Búscala en Ajustes > Apps > Pausa.</string>
+
+    <!-- Bienvenida -->
+    <string name="bienvenida_titulo">Pausa te detiene antes de transferir</string>
+    <string name="bienvenida_texto">Después de una llamada sospechosa, te ayudamos a verificar antes de mover dinero.</string>
+    <string name="bienvenida_privacidad_titulo">Todo queda en tu celular</string>
+    <string name="bienvenida_privacidad_texto">Ningún dato sale de él.</string>
+    <string name="continuar">Continuar</string>
+
+    <!-- Permisos -->
+    <string name="permisos_titulo">Activa 5 permisos</string>
+    <string name="permisos_subtitulo">Pausa los necesita para avisarte a tiempo.</string>
+    <string name="permiso_telefono_titulo">Teléfono y contactos</string>
+    <string name="permiso_telefono_texto">Detecta llamadas de desconocidos</string>
+    <string name="permiso_uso_titulo">Acceso a uso</string>
+    <string name="permiso_uso_texto">Sabe qué app abres</string>
+    <string name="permiso_encima_titulo">Mostrar sobre otras apps</string>
+    <string name="permiso_encima_texto">Muestra el aviso encima del banco</string>
+    <string name="permiso_notificaciones_titulo">Notificaciones</string>
+    <string name="permiso_notificaciones_texto">Aviso fijo de que Pausa está activa</string>
+    <string name="permiso_bateria_titulo">Batería sin restricciones</string>
+    <string name="permiso_bateria_texto">Evita que el celular cierre Pausa</string>
+    <string name="permisos_contador">%1$d de %2$d permisos activos</string>
+    <string name="permisos_faltan_indispensables">Activa al menos los tres primeros para continuar.</string>
+    <string name="restringida_titulo">¿Android no te deja activarlo?</string>
+    <string name="restringida_pasos">1. Toca el botón de abajo.\n2. Toca el menú ⋮ arriba a la derecha.\n3. Toca \"Permitir configuración restringida\".\n4. Vuelve aquí y actívalo otra vez.</string>
+    <string name="restringida_boton">Abrir información de la app</string>
+
+    <!-- Inicio -->
+    <string name="inicio_titulo">Inicio</string>
+    <string name="inicio_activa">Pausa está activa</string>
+    <string name="inicio_activa_texto">Vigilando llamadas de números desconocidos.</string>
+    <string name="inicio_apagada">Pausa está apagada</string>
+    <string name="inicio_apagada_texto">No te avisará después de una llamada sospechosa.</string>
+    <string name="inicio_faltan_permisos">Faltan permisos</string>
+    <string name="inicio_faltan_permisos_texto">Toca aquí para activarlos. Sin ellos, Pausa no puede avisarte.</string>
+    <string name="inicio_recomendados">Mejora tu protección</string>
+    <string name="inicio_recomendados_texto">Toca aquí para permitir notificaciones y batería sin restricciones.</string>
+    <string name="inicio_ultima_alerta">Última alerta</string>
+    <string name="inicio_sin_alertas">Todavía no hay alertas.</string>
+    <string name="inicio_verifico">Elegiste verificar por otro canal.</string>
+    <string name="inicio_estafa">Marcaste la llamada como estafa.</string>
+    <string name="inicio_continuo">Continuaste de todos modos.</string>
+    <string name="inicio_normal">Todo parecía normal.</string>
+    <string name="inicio_ver_historial">Ver historial</string>
+    <string name="inicio_configuracion">Configuración</string>
+
+    <!-- Configuración -->
+    <string name="ajustes_titulo">Configuración</string>
+    <string name="ajustes_apps">Apps sensibles</string>
+    <string name="ajustes_apps_texto">Pausa aparece cuando abres una de estas apps después de una llamada desconocida.</string>
+    <string name="ajustes_sin_apps">No encontramos bancos ni billeteras conocidos en este celular. Toca \"Ver todas las apps\" y marca los tuyos.</string>
+    <string name="ajustes_ver_todas">Ver todas las apps</string>
+    <string name="ajustes_ver_menos">Ver menos apps</string>
+    <string name="ajustes_ventana">Ventana tras la llamada</string>
+    <string name="ajustes_ventana_opcion">%1$d min</string>
+    <string name="ajustes_ventana_texto">Tras colgar, Pausa vigila durante este tiempo.</string>
+    <string name="demo_titulo">Modo demo</string>
+    <string name="demo_activado">Modo demo activado</string>
+    <string name="demo_desactivado">Modo demo desactivado</string>
+    <string name="demo_probar_popup">Probar pop-up</string>
+    <string name="demo_simular_llamada">Simular llamada terminada</string>
+    <string name="demo_simulada">Listo: abre una app sensible y debe salir el pop-up.</string>
+    <string name="demo_faltan_permisos">Primero activa los permisos desde Inicio.</string>
+
+    <!-- Historial -->
+    <string name="historial_titulo">Historial</string>
+    <string name="historial_vacio">Todavía no hay eventos. Aquí verás lo que decidas cada vez que aparezca Pausa.</string>
+    <string name="historial_privacidad">Todo se guarda solo en este celular.</string>
+    <string name="historial_incluir_demo">Incluir pruebas de demo</string>
+    <string name="metrica_total">Pop-ups</string>
+    <string name="metrica_verifico">Verificó</string>
+    <string name="metrica_estafa">Estafa</string>
+    <string name="metrica_continuo">Continuó</string>
+    <string name="metrica_se_detuvieron">Con alguna alerta: %1$d. Se detuvieron: %2$d (%3$d %%).</string>
+    <string name="evento_verifico">Eligió verificar por otro canal</string>
+    <string name="evento_estafa">Marcó la llamada como estafa</string>
+    <string name="evento_continuo">Continuó de todos modos</string>
+    <string name="evento_normal">Todo parecía normal</string>
+    <string name="evento_en_app">En %1$s</string>
+    <string name="etiqueta_verificado">Verificado</string>
+    <string name="etiqueta_estafa">Estafa</string>
+    <string name="etiqueta_continuo">Continuó</string>
+    <string name="etiqueta_demo">Demo</string>
+    <string name="fecha_hoy">Hoy, %1$s</string>
+    <string name="fecha_ayer">Ayer, %1$s</string>
 
     <!-- Pop-up (textos provisionales; los definitivos vienen de assets/content) -->
     <string name="overlay_titulo">Antes de mover dinero</string>

@@ -94,12 +94,13 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
    - Si Android Studio dice que la versión del plugin de Android no es compatible, acepta el asistente de actualización y **avisa en el grupo** antes de subir el cambio.
 3. En el celular: activar **Opciones de desarrollador** (tocar 7 veces "Número de compilación") y **Depuración por USB**.
 4. Conectar el celular y pulsar **Run ▶**.
-5. En la app de desarrollo, conceder los permisos con los botones:
-   - Llamadas, contactos y notificaciones (diálogo normal).
-   - **Mostrar sobre otras apps** y **Acceso a uso** (te llevan a Ajustes).
-   - Si Android no te deja activarlos (pasa en Android 15 con APK instalados desde un archivo): **Ajustes → Apps → Pausa → menú ⋮ → Permitir configuración restringida**, y vuelve a intentarlo.
-6. Pulsa **Probar pop-up (modo demo)**: debe aparecer la tarjeta "Antes de mover dinero". **Cerrar** la quita.
-7. Pulsa **Iniciar protección**: debe aparecer la notificación fija "Pausa está activa".
+5. Sigue la bienvenida y activa los 5 permisos tocando cada fila:
+   - Teléfono y contactos, y Notificaciones (diálogo normal).
+   - **Acceso a uso** y **Mostrar sobre otras apps** (te llevan a Ajustes).
+   - **Batería sin restricciones** (diálogo normal).
+   - Si Android no te deja activarlos (pasa en Android 15 con APK instalados desde un archivo), al volver la app te guía: **Información de la app → menú ⋮ → Permitir configuración restringida**.
+6. Al llegar a **Inicio** debe aparecer la notificación fija "Pausa está activa".
+7. Entra a **Configuración** y toca el título 5 veces para activar el **modo demo**. **Probar pop-up** debe mostrar "Antes de mover dinero", y al terminar el evento debe quedar en **Historial** con la etiqueta Demo.
 
 Si los pasos 6 y 7 funcionan, tu entorno está listo.
 
@@ -125,11 +126,11 @@ app/src/main/
 │   ├── content/                   Lector de los JSON ................................. Brayan
 │   ├── settings/                  Ajustes con DataStore .............................. Julian
 │   ├── log/                       Registro de eventos con Room ....................... Julian
-│   ├── ui/                        MainActivity (temporal), onboarding, ajustes,
-│   │                              historial .......................................... Julian
+│   ├── ui/                        MainActivity (Inicio), onboarding (bienvenida y
+│   │                              permisos), ajustes, historial ...................... Julian
 │   └── util/Permisos.kt           Consulta de permisos e intents a Ajustes
 └── res/layout/
-    ├── activity_main.xml          Pantalla temporal de desarrollo
+    ├── activity_*.xml, item_*.xml Pantallas de la app ................................ Julian
     └── overlay_pausa.xml          Vista base del pop-up .............................. Brayan
 ```
 
@@ -268,7 +269,7 @@ Repórtalos como **Issue** en GitHub con la plantilla "Error" e indica la severi
 | Problema | Solución |
 | --- | --- |
 | Gradle Sync falla al descargar | Revisa la conexión y vuelve a intentar con **File → Sync Project with Gradle Files**. Si sigue, envía el error al grupo. |
-| El pop-up no aparece | Revisa que "Mostrar sobre otras apps" esté activo (la pantalla de desarrollo lo indica). |
+| El pop-up no aparece | Revisa que "Mostrar sobre otras apps" esté activo (Inicio avisa si falta un permiso). |
 | No me deja activar "Acceso a uso" | Es la restricción de Android 15: ver sección 10. |
 | La app se cierra al iniciar la protección | Copia el error de **Logcat** (filtra por `pausa`) y abre un Issue bloqueante. |
 | El celular no aparece en Android Studio | Revisa la depuración USB, acepta el aviso de "Permitir depuración" en el celular y prueba otro cable. |

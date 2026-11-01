@@ -8,6 +8,7 @@
     <color name="pausa_primario_claro">#6FB2FF</color>     <!-- interruptor activo -->
     <color name="pausa_primario_suave">#E4EFFF</color>     <!-- fondos de icono y etiquetas -->
     <color name="pausa_sobre_primario">#FFFFFF</color>     <!-- texto sobre el primario -->
+    <color name="pausa_logo_barras">#FFC83D</color>        <!-- barras del logo en la bienvenida -->
 
     <!-- Fondos y bordes -->
     <color name="pausa_fondo">#F6F9FF</color>              <!-- fondo de pantalla -->

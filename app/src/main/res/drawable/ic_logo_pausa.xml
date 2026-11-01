@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo de la bienvenida (Figma): círculos concéntricos azules con las barras de pausa. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="140dp"
+    android:height="140dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <path
+        android:fillColor="@color/pausa_primario_suave"
+        android:pathData="M0,60a60,60 0 1,0 120,0a60,60 0 1,0 -120,0z" />
+    <path
+        android:fillAlpha="0.4"
+        android:fillColor="@color/pausa_primario_claro"
+        android:pathData="M12,60a48,48 0 1,0 96,0a48,48 0 1,0 -96,0z" />
+    <path
+        android:fillColor="@color/pausa_primario"
+        android:pathData="M24,60a36,36 0 1,0 72,0a36,36 0 1,0 -72,0z" />
+    <path
+        android:fillColor="@color/pausa_logo_barras"
+        android:pathData="M47,44h9v32h-9zM64,44h9v32h-9z" />
+</vector>

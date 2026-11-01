@@ -11,5 +11,10 @@
         <item name="colorOnSurfaceVariant">@color/pausa_texto_secundario</item>
         <item name="colorOutline">@color/pausa_borde</item>
         <item name="colorError">@color/pausa_alerta</item>
+        <!-- La app siempre usa fondo claro, también con el celular en modo oscuro. -->
+        <item name="android:statusBarColor">@color/pausa_fondo</item>
+        <item name="android:navigationBarColor">@color/pausa_fondo</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
     </style>
 </resources>
