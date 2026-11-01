@@ -221,4 +221,15 @@
     <string name="desbloqueo_nota">Verificar solo toma un minuto y puede salvarte de una estafa.</string>
     <string name="desbloqueo_desbloquear">Desbloquear app</string>
     <string name="desbloqueo_desbloquear_espera">Desbloquear app (%1$s)</string>
+
+    <!-- Novedades -->
+    <string name="novedades_saltar">Saltar</string>
+    <string name="novedades_siguiente">Siguiente</string>
+    <string name="novedades_empezar">Empezar</string>
+    <string name="novedades_1_titulo">Pausa te cuida después de una llamada</string>
+    <string name="novedades_1_texto">Si cuelgas con un número que no está en tus contactos y abres tu banco, Pausa te hace 3 preguntas antes de mover dinero.</string>
+    <string name="novedades_2_titulo">Bloqueo con respiración (opcional)</string>
+    <string name="novedades_2_texto">Tapa tu app bancaria unos minutos para que respires y verifiques. Actívalo en Configuración.</string>
+    <string name="novedades_3_titulo">Botón de pánico y contacto de confianza</string>
+    <string name="novedades_3_texto">Si ya transferiste o diste datos, te guía paso a paso y avisa a tu contacto por SMS. Elige tu contacto en Configuración.</string>
 </resources>

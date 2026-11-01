@@ -1,5 +1,6 @@
 package co.edu.unisabana.pausa.ui.ajustes
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import co.edu.unisabana.pausa.overlay.Trigger
 import co.edu.unisabana.pausa.service.GuardService
 import co.edu.unisabana.pausa.settings.SettingsRepository
 import co.edu.unisabana.pausa.ui.contacto.SelectorContacto
+import co.edu.unisabana.pausa.ui.novedades.NovedadesActivity
 import co.edu.unisabana.pausa.ui.pintarEtiqueta
 import co.edu.unisabana.pausa.ui.respetarBarrasDelSistema
 import co.edu.unisabana.pausa.util.Permisos
@@ -75,6 +77,9 @@ class AjustesActivity : AppCompatActivity() {
         binding.btnProbarPopup.setOnClickListener { probarPopup() }
         binding.btnSimularLlamada.setOnClickListener { simularLlamada() }
         binding.btnElegirContacto.setOnClickListener { selectorContacto.abrir() }
+        binding.btnVerNovedades.setOnClickListener {
+            startActivity(Intent(this, NovedadesActivity::class.java))
+        }
 
         lifecycleScope.launch {
             seleccionadas = ajustes.appsSensibles.first()

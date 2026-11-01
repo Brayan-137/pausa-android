@@ -18,6 +18,7 @@ import co.edu.unisabana.pausa.settings.SettingsRepository
 import co.edu.unisabana.pausa.ui.ajustes.AjustesActivity
 import co.edu.unisabana.pausa.ui.historial.HistorialActivity
 import co.edu.unisabana.pausa.ui.historial.formatoFecha
+import co.edu.unisabana.pausa.ui.novedades.NovedadesActivity
 import co.edu.unisabana.pausa.ui.numeros.NumerosOficialesActivity
 import co.edu.unisabana.pausa.ui.onboarding.OnboardingActivity
 import co.edu.unisabana.pausa.ui.panico.PanicoActivity
@@ -68,6 +69,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private suspend fun refrescar() {
+        // Orden en la primera instalación: Novedades -> Bienvenida/permisos -> Inicio. Al cerrar las
+        // novedades (guardan novedadesVistas) Inicio vuelve a onResume y sigue con la bienvenida.
+        if (!ajustes.novedadesVistas.first()) {
+            startActivity(Intent(this, NovedadesActivity::class.java))
+            return
+        }
         if (!ajustes.bienvenidaCompleta.first()) {
             startActivity(Intent(this, OnboardingActivity::class.java))
             finish()

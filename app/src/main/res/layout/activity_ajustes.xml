@@ -162,6 +162,14 @@
                 android:contentDescription="@string/ajustes_bloqueo" />
         </LinearLayout>
 
+        <Button
+            android:id="@+id/btnVerNovedades"
+            style="@style/PausaBotonSecundario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/ajustes_novedades" />
+
         <!-- MODO DEMO: oculto hasta tocar 7 toques en la versión, al final. -->
         <LinearLayout
             android:id="@+id/grupoDemo"
