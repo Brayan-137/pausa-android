@@ -387,8 +387,8 @@
 
     <!-- ========== VERIFICAR (Figma "Pop-up: verificar") ==========
          Solo si numeros_oficiales.json tiene entidades con teléfono y fuente; si no, "Verificar
-         ahora" abre el marcador directamente. Una tarjeta por entidad (overlay_item_entidad.xml);
-         con varias, la persona toca la que quiere y luego "Llamar". -->
+         ahora" abre el marcador directamente. Una tarjeta por entidad (overlay_item_entidad.xml)
+         con sus dos botones: "Llamar" y "Abrir página oficial". -->
     <LinearLayout
         android:id="@+id/overlayGrupoVerificar"
         style="@style/GrupoPausa"
@@ -435,14 +435,6 @@
                     android:text="@string/overlay_verificar_nota" />
             </LinearLayout>
         </ScrollView>
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/overlayBtnLlamar"
-            style="@style/Widget.Pausa.Boton.Primario"
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/overlay_llamar" />
     </LinearLayout>
 
     <!-- ========== ES UNA ESTAFA (Figma "Pop-up: es una estafa") ==========

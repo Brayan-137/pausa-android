@@ -131,6 +131,8 @@
     <string name="overlay_fuente">Fuente: %1$s</string>
     <string name="overlay_verificar_nota">Ninguna entidad pide códigos ni transferencias por teléfono.</string>
     <string name="overlay_llamar">Llamar</string>
+    <string name="overlay_abrir_pagina">Abrir página oficial</string>
+    <string name="overlay_sin_navegador">No se pudo abrir la página. Búscala tú en tu navegador.</string>
     <string name="overlay_sin_marcador">No se pudo abrir el marcador. Abre tu app de teléfono y llama tú.</string>
     <!-- Es una estafa -->
     <string name="overlay_titulo_estafa">No transfieras</string>

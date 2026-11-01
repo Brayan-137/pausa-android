@@ -40,7 +40,8 @@ import co.edu.unisabana.pausa.overlay.FlujoPreguntas.Paso
  *
  * Botones de acciones:
  *  - Verificar ahora: abre el marcador (ACTION_DIAL, la persona pulsa llamar) y devuelve VERIFICAR.
- *    Si dijeron ser una entidad y numeros_oficiales.json tiene entidades, primero elige a cuál.
+ *    Si dijeron ser una entidad y numeros_oficiales.json tiene entidades, primero elige a cuál;
+ *    cada tarjeta trae "Llamar" y "Abrir página oficial" (ACTION_VIEW), ambos devuelven VERIFICAR.
  *  - Es una estafa: devuelve ESTAFA al tocarlo y muestra los pasos_estafa; "Entendido" cierra.
  *  - Continuar de todos modos: se habilita a los [SEGUNDOS_ESPERA] s y devuelve CONTINUAR.
  * [onDecision] se llama a lo sumo una vez por pop-up.
@@ -146,6 +147,18 @@ object OverlayController {
             if (abrirMarcador(telefono)) terminar(Decision.VERIFICAR)
         }
 
+        /** Abre la página oficial de la entidad en el navegador; mismo orden que el marcador. */
+        fun verificarEnPagina(url: String) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            try {
+                app.startActivity(intent)
+                terminar(Decision.VERIFICAR)
+            } catch (e: Exception) {
+                Log.e(TAG, "No se pudo abrir la página oficial", e)
+                Toast.makeText(app, R.string.overlay_sin_navegador, Toast.LENGTH_LONG).show()
+            }
+        }
+
         binding.overlayBtnEmpezar.setOnClickListener { dibujar(binding, flujo, contenido) }
         binding.overlayBtnVolver.setOnClickListener {
             flujo.volver()
@@ -161,7 +174,7 @@ object OverlayController {
                 // que la persona elija el número que ella ya tiene guardado.
                 verificarCon(null)
             } else {
-                dibujarEntidades(binding, entidades) { telefono -> verificarCon(telefono) }
+                dibujarEntidades(binding, entidades, ::verificarCon, ::verificarEnPagina)
             }
         }
         binding.overlayBtnVolverResultado.setOnClickListener { mostrarAcciones(binding) }
@@ -322,14 +335,12 @@ object OverlayController {
             emptyList()
         }
 
-    /**
-     * Una tarjeta por entidad. Con una sola, "Llamar" la usa; con varias, la persona toca
-     * la tarjeta que quiere (queda con borde azul) y luego "Llamar".
-     */
+    /** Una tarjeta por entidad, cada una con "Llamar" y "Abrir página oficial". */
     private fun dibujarEntidades(
         b: OverlayPausaBinding,
         entidades: List<EntidadOficial>,
-        alElegir: (telefono: String) -> Unit
+        alLlamar: (telefono: String) -> Unit,
+        alAbrirPagina: (url: String) -> Unit
     ) {
         val ctx = b.root.context
         val inflador = LayoutInflater.from(ctx)
@@ -338,36 +349,17 @@ object OverlayController {
         mostrarGrupo(b, b.overlayGrupoVerificar)
         b.overlayListaEntidades.removeAllViews()
 
-        var elegida = entidades.first()
-        val tarjetas = entidades.map { entidad ->
+        entidades.forEachIndexed { i, entidad ->
             val item = OverlayItemEntidadBinding.inflate(inflador, b.overlayListaEntidades, false)
             item.itemEntidadNombre.text = entidad.nombre
             item.itemEntidadTelefono.text = entidad.telefono
             item.itemEntidadFuente.text = ctx.getString(R.string.overlay_fuente, entidad.fuente)
-            item.root to entidad
-        }
-
-        fun marcarElegida() {
-            if (tarjetas.size < 2) return
-            tarjetas.forEach { (vista, entidad) ->
-                vista.setBackgroundResource(
-                    if (entidad == elegida) R.drawable.bg_pausa_tarjeta_elegida else R.drawable.bg_pausa_tarjeta
-                )
-            }
-        }
-
-        tarjetas.forEachIndexed { i, (vista, entidad) ->
-            if (tarjetas.size > 1) {
-                vista.isClickable = true
-                vista.setOnClickListener { elegida = entidad; marcarElegida() }
-            }
-            val medidas = vista.layoutParams as LinearLayout.LayoutParams
+            item.itemEntidadBtnLlamar.setOnClickListener { alLlamar(entidad.telefono) }
+            item.itemEntidadBtnPagina.setOnClickListener { alAbrirPagina(entidad.fuente) }
+            val medidas = item.root.layoutParams as LinearLayout.LayoutParams
             if (i > 0) medidas.topMargin = margen
-            b.overlayListaEntidades.addView(vista, medidas)
+            b.overlayListaEntidades.addView(item.root, medidas)
         }
-        marcarElegida()
-
-        b.overlayBtnLlamar.setOnClickListener { alElegir(elegida.telefono) }
     }
 
     /** Pantalla "No transfieras": una tarjeta numerada por cada paso de pasos_estafa. */
