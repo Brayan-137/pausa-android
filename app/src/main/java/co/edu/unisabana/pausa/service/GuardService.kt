@@ -19,6 +19,7 @@ import co.edu.unisabana.pausa.detection.VentanaDeRiesgo
 import co.edu.unisabana.pausa.overlay.OverlayController
 import co.edu.unisabana.pausa.overlay.ResultadoPausa
 import co.edu.unisabana.pausa.overlay.Trigger
+import co.edu.unisabana.pausa.settings.SettingsRepository
 import co.edu.unisabana.pausa.log.EventoPausa
 import co.edu.unisabana.pausa.log.PausaDatabase
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +35,10 @@ class GuardService : LifecycleService() {
 
     private var detectoresIniciados = false
     private var popUpMostrado = false
+
+    private val ajustes by lazy { SettingsRepository(applicationContext) }
+    @Volatile private var appsSensibles: Set<String> = SettingsRepository.APPS_POR_DEFECTO
+    @Volatile private var minutosVentana: Int = SettingsRepository.MINUTOS_POR_DEFECTO
 
     private val revisarVentana = object : Runnable {
         override fun run() {
@@ -84,7 +89,7 @@ class GuardService : LifecycleService() {
             if (
                 VentanaDeRiesgo.estaAbierta() &&
                 !popUpMostrado &&
-                esAppSensibleTemporal(paquete)
+                esAppSensible(paquete)
             ) {
                 mostrarAdvertencia(paquete)
             }
@@ -95,6 +100,9 @@ class GuardService : LifecycleService() {
         }
 
         callMonitor.iniciar()
+
+        lifecycleScope.launch { ajustes.appsSensibles.collect { appsSensibles = it } }
+        lifecycleScope.launch { ajustes.minutosVentana.collect { minutosVentana = it } }
         detectoresIniciados = true
     }
 
@@ -118,7 +126,7 @@ class GuardService : LifecycleService() {
 
                 VentanaDeRiesgo.abrir(
                     numero = numero,
-                    minutos = MINUTOS_VENTANA,
+                    minutos = minutosVentana,
                     esDemo = false
                 )
 
@@ -127,11 +135,8 @@ class GuardService : LifecycleService() {
         }, 1_500L)
     }
 
-    private fun esAppSensibleTemporal(paquete: String): Boolean {
-        // SOLO PARA PRUEBAS.
-        // Añade aquí el identificador real de una app instalada.
-        // Reemplazar por la configuración oficial acordada con Julian.
-        return paquete in APPS_SENSIBLES_TEMPORALES
+    private fun esAppSensible(paquete: String): Boolean {
+        return paquete in appsSensibles
     }
 
     private fun iniciarVigilancia() {
@@ -223,14 +228,8 @@ class GuardService : LifecycleService() {
 
     companion object {
         private const val ID_NOTIFICACION = 1001
-        private const val MINUTOS_VENTANA = 15
         private const val MAX_REINTENTOS_REGISTRO = 3
         private const val MINUTOS_VENTANA_DEMO = 15
-
-        // Temporal: completar únicamente con paquetes verificados.
-        private val APPS_SENSIBLES_TEMPORALES = setOf<String>(
-            "com.nequi.MobileApp"
-        )
 
         const val ACCION_SIMULAR_LLAMADA =
             "co.edu.unisabana.pausa.SIMULAR_LLAMADA"
