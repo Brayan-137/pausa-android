@@ -13,7 +13,7 @@ android {
         minSdk = 31          // Android 12+. Decisión en README > Decisiones
         targetSdk = 35
         versionCode = 1
-        versionName = "0.1"
+        versionName = "0.9"
     }
 
     buildTypes {
