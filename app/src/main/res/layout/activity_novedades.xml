@@ -55,7 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
-                tools:text="Pausa te cuida después de una llamada" />
+                tools:text="Pilas! te cuida después de una llamada" />
 
             <TextView
                 android:id="@+id/novedadesTexto"

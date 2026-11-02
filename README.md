@@ -1,4 +1,4 @@
-# Pausa — MVP del hackathon antiphishing
+# Pilas! — MVP del hackathon antiphishing
 
 > **Este README reemplaza la reunión de kickoff.** Léelo completo (unos 15 minutos) antes de escribir código. Si no estás de acuerdo con algo de la sección [Decisiones](#4-decisiones-tomadas), dilo en el grupo **antes del domingo 25 de octubre a las 12:00 m.** Pasada esa hora, las damos por aceptadas.
 
@@ -6,19 +6,19 @@
 
 ## 1. Qué vamos a construir
 
-**Pausa** es una app Android que, justo después de una llamada de un número desconocido, aparece encima de la app bancaria que la persona abre, le hace 3 preguntas y la lleva a verificar antes de mover dinero.
+**Pilas!** es una app Android que, justo después de una llamada de un número desconocido, aparece encima de la app bancaria que la persona abre, le hace 3 preguntas y la lleva a verificar antes de mover dinero.
 
 | | |
 | --- | --- |
 | **Problema** | Después de una llamada de suplantación ("tu hijo tuvo un accidente", "habla el banco"), la persona abre el banco y transfiere bajo presión antes de verificar. Con Bre-B el dinero sale en segundos. |
 | **Usuario** | Población general en Colombia con Android. Usuario extremo: adultos mayores. |
 | **Idea clave** *(hipótesis)* | En el pánico nadie recuerda verificar, pero todos tienen que abrir el banco para pagar: es el único paso que el estafador no puede saltarse. |
-| **Propuesta de valor** | Justo cuando vas a mover dinero después de una llamada sospechosa, Pausa te detiene, te dice qué revisar y te deja verificar con un toque. |
+| **Propuesta de valor** | Justo cuando vas a mover dinero después de una llamada sospechosa, Pilas! te detiene, te dice qué revisar y te deja verificar con un toque. |
 
 ### Cómo funciona
 
 1. Termina una llamada de un número que **no está en los contactos** → se abre una **ventana de 15 minutos**.
-2. Dentro de esa ventana, la persona abre una **app marcada como sensible** (banco, billetera) → **Pausa aparece encima**, a pantalla completa.
+2. Dentro de esa ventana, la persona abre una **app marcada como sensible** (banco, billetera) → **Pilas! aparece encima**, a pantalla completa.
 3. Tres preguntas de Sí o No:
    - ¿Te pidieron transferir, pagar o dar un código?
    - ¿Te presionaron con urgencia o miedo?
@@ -33,12 +33,12 @@
 ### Funciones agregadas el 1 de noviembre
 
 - **Pop-up en naranja de alerta:** solo el pop-up y las pantallas de pánico y bloqueo; el resto de la app sigue en azul.
-- **Botón de pánico:** en Inicio, el botón rojo **«¿Te están estafando?»** (y «Ya transferí o di datos» en el pop-up) abre una pantalla con tres pasos: «¿Ya transferiste o diste datos?» → **guía «Haz esto ahora»** (llamar a la línea oficial del banco, cambiar claves y bloquear tarjetas, guardar pruebas, denunciar) → **aviso por SMS** a tu contacto de confianza. Pausa **no envía** el SMS: abre tu app de mensajes con el texto listo (editable) y tú lo envías; no hay permiso `SEND_SMS`. «Todavía no» muestra los pasos ante estafa. Al tocar «Sí, ya transferí o di datos» queda un evento con la decisión PANICO (etiqueta «Pánico» en el historial).
+- **Botón de pánico:** en Inicio, el botón rojo **«¿Te están estafando?»** (y «Ya transferí o di datos» en el pop-up) abre una pantalla con tres pasos: «¿Ya transferiste o diste datos?» → **guía «Haz esto ahora»** (llamar a la línea oficial del banco, cambiar claves y bloquear tarjetas, guardar pruebas, denunciar) → **aviso por SMS** a tu contacto de confianza. Pilas! **no envía** el SMS: abre tu app de mensajes con el texto listo (editable) y tú lo envías; no hay permiso `SEND_SMS`. «Todavía no» muestra los pasos ante estafa. Al tocar «Sí, ya transferí o di datos» queda un evento con la decisión PANICO (etiqueta «Pánico» en el historial).
 - **Contacto de confianza:** se elige en **Configuración** (selector de contactos del sistema). Si no hay uno, el aviso por SMS pide elegirlo.
 - **Bloqueo con respiración (opcional, apagado por defecto):** en Configuración. Si está activo, «Continuar de todos modos» lleva a un bloqueo de **5 minutos** (en modo demo, **1 minuto**) → respiración guiada de **60 s** (en modo demo, **15 s**: inhala 4 s, sostén 4 s, exhala 6 s) → «Verificar para desbloquear». «Desbloquear app» se habilita al completar la respiración o al llegar a 0 el bloqueo.
 - **Números oficiales en Inicio:** botón que lista las entidades de `numeros_oficiales.json` con **Llamar** y **Abrir página oficial**.
 - **Novedades al instalar:** tres pantallas (con «Saltar») antes de la bienvenida. Orden en la primera instalación: Novedades → Bienvenida/permisos → Inicio. Se pueden volver a ver en Configuración > «Ver novedades».
-- **Tras reiniciar el celular, abre Pausa una vez para reactivar la protección.**
+- **Tras reiniciar el celular, abre Pilas! una vez para reactivar la protección.**
 
 ### Alcance
 
@@ -85,13 +85,13 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
 | **Sin servicio de accesibilidad** | Es la puerta que más usa el malware; un jurado de ciberseguridad lo vería mal. Usamos UsageStats. |
 | **Ventana de 15 minutos** después de la llamada | Configurable en la app. |
 | **Modo demo y video de respaldo obligatorios** | No sabemos cómo será la demo; no podemos depender de una llamada real. |
+| **Nombre definitivo: Pilas!** (1 nov) | El código conserva el paquete `co.edu.unisabana.pausa`. |
 
 ### Pendiente de confirmar
 
 - [x] **Fecha de la presentación:** 6 de noviembre (confirmada). El plan congela el código el 3.
 - [ ] **Celular de la demo:** marca y versión de Android (cada uno reporta el suyo hoy).
 - [ ] **Apps sensibles por defecto** (Julian) y **entidades de la lista de números oficiales** (Camilo): los bancos y billeteras que más usan ustedes y sus familias.
-- [ ] **Nombre definitivo:** "Pausa" es provisional.
 
 ---
 
@@ -109,7 +109,7 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
    - **Acceso a uso** y **Mostrar sobre otras apps** (te llevan a Ajustes).
    - **Batería sin restricciones** (diálogo normal).
    - Si Android no te deja activarlos (pasa en Android 15 con APK instalados desde un archivo), al volver la app te guía: **Información de la app → menú ⋮ → Permitir configuración restringida**.
-6. Al llegar a **Inicio** debe aparecer la notificación fija "Pausa está activa".
+6. Al llegar a **Inicio** debe aparecer la notificación fija "Pilas! está activa".
 7. Entra a **Configuración** y toca 7 veces «Versión X», al final de la pantalla, para activar el **modo demo**. **Probar pop-up** debe mostrar "Antes de mover dinero", y al terminar el evento debe quedar en **Historial** con la etiqueta Demo.
 
 Si los pasos 6 y 7 funcionan, tu entorno está listo.
@@ -277,7 +277,7 @@ Repórtalos como **Issue** en GitHub con la plantilla "Error" e indica la severi
 
 **Android 15:** si la app se instala desde un APK (no desde Play Store), "Mostrar sobre otras apps" y "Acceso a uso" quedan bloqueados hasta que el usuario entra a *Información de la app → menú ⋮ → Permitir configuración restringida*. La bienvenida debe guiar este paso ([fuente](https://androidauthority.com/android-15-restricted-settings-sideloading-3481098)).
 
-**Fabricantes (Xiaomi, Samsung, Huawei…):** algunos cierran servicios en segundo plano. Hay que pedir al usuario que quite la optimización de batería para Pausa y probarlo en varias marcas (Juan David, 29 oct).
+**Fabricantes (Xiaomi, Samsung, Huawei…):** algunos cierran servicios en segundo plano. Hay que pedir al usuario que quite la optimización de batería para Pilas! y probarlo en varias marcas (Juan David, 29 oct).
 
 ---
 
@@ -286,7 +286,7 @@ Repórtalos como **Issue** en GitHub con la plantilla "Error" e indica la severi
 | Problema | Solución |
 | --- | --- |
 | Gradle Sync falla al descargar | Revisa la conexión y vuelve a intentar con **File → Sync Project with Gradle Files**. Si sigue, envía el error al grupo. |
-| Tras reiniciar el celular Pausa no avisa | Abre Pausa una vez para reactivar la protección. |
+| Tras reiniciar el celular Pilas! no avisa | Abre Pilas! una vez para reactivar la protección. |
 | El pop-up no aparece | Revisa que "Mostrar sobre otras apps" esté activo (Inicio avisa si falta un permiso). |
 | No me deja activar "Acceso a uso" | Es la restricción de Android 15: ver sección 10. |
 | La app se cierra al iniciar la protección | Copia el error de **Logcat** (filtra por `pausa`) y abre un Issue bloqueante. |

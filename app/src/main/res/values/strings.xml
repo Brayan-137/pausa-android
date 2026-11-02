@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Pausa</string>
+    <string name="app_name">Pilas!</string>
 
     <!-- Servicio -->
     <string name="canal_servicio_nombre">Protección activa</string>
-    <string name="canal_servicio_descripcion">Notificación fija mientras Pausa vigila las llamadas</string>
-    <string name="servicio_titulo">Pausa está activa</string>
+    <string name="canal_servicio_descripcion">Notificación fija mientras Pilas vigila las llamadas</string>
+    <string name="servicio_titulo">Pilas está activa</string>
     <string name="servicio_texto">Te avisaremos si abres una app sensible después de una llamada desconocida</string>
 
-    <string name="ajustes_no_disponibles">Este celular no tiene esa pantalla. Búscala en Ajustes > Apps > Pausa.</string>
+    <string name="ajustes_no_disponibles">Este celular no tiene esa pantalla. Búscala en Ajustes > Apps > Pilas.</string>
 
     <!-- Bienvenida -->
-    <string name="bienvenida_titulo">Pausa te detiene antes de transferir</string>
+    <string name="bienvenida_titulo">Pilas! te detiene antes de transferir</string>
     <string name="bienvenida_texto">Después de una llamada sospechosa, te ayudamos a verificar antes de mover dinero.</string>
     <string name="bienvenida_privacidad_titulo">Todo queda en tu celular</string>
     <string name="bienvenida_privacidad_texto">Ningún dato sale de él.</string>
@@ -19,7 +19,7 @@
 
     <!-- Permisos -->
     <string name="permisos_titulo">Activa 5 permisos</string>
-    <string name="permisos_subtitulo">Pausa los necesita para avisarte a tiempo.</string>
+    <string name="permisos_subtitulo">Pilas los necesita para avisarte a tiempo.</string>
     <string name="permiso_telefono_titulo">Teléfono y contactos</string>
     <string name="permiso_telefono_texto">Detecta llamadas de desconocidos</string>
     <string name="permiso_uso_titulo">Acceso a uso</string>
@@ -27,9 +27,9 @@
     <string name="permiso_encima_titulo">Mostrar sobre otras apps</string>
     <string name="permiso_encima_texto">Muestra el aviso encima del banco</string>
     <string name="permiso_notificaciones_titulo">Notificaciones</string>
-    <string name="permiso_notificaciones_texto">Aviso fijo de que Pausa está activa</string>
+    <string name="permiso_notificaciones_texto">Aviso fijo de que Pilas está activa</string>
     <string name="permiso_bateria_titulo">Batería sin restricciones</string>
-    <string name="permiso_bateria_texto">Evita que el celular cierre Pausa</string>
+    <string name="permiso_bateria_texto">Evita que el celular cierre Pilas</string>
     <string name="permisos_contador">%1$d de %2$d permisos activos</string>
     <string name="permisos_faltan_indispensables">Activa al menos los tres primeros para continuar.</string>
     <string name="restringida_titulo">¿Android no te deja activarlo?</string>
@@ -38,12 +38,12 @@
 
     <!-- Inicio -->
     <string name="inicio_titulo">Inicio</string>
-    <string name="inicio_activa">Pausa está activa</string>
+    <string name="inicio_activa">Pilas está activa</string>
     <string name="inicio_activa_texto">Vigilando llamadas de números desconocidos.</string>
-    <string name="inicio_apagada">Pausa está apagada</string>
+    <string name="inicio_apagada">Pilas está apagada</string>
     <string name="inicio_apagada_texto">No te avisará después de una llamada sospechosa.</string>
     <string name="inicio_faltan_permisos">Faltan permisos</string>
-    <string name="inicio_faltan_permisos_texto">Toca aquí para activarlos. Sin ellos, Pausa no puede avisarte.</string>
+    <string name="inicio_faltan_permisos_texto">Toca aquí para activarlos. Sin ellos, Pilas no puede avisarte.</string>
     <string name="inicio_recomendados">Mejora tu protección</string>
     <string name="inicio_recomendados_texto">Toca aquí para permitir notificaciones y batería sin restricciones.</string>
     <string name="inicio_ultima_alerta">Última alerta</string>
@@ -61,17 +61,17 @@
     <!-- Configuración -->
     <string name="ajustes_titulo">Configuración</string>
     <string name="ajustes_apps">Apps sensibles</string>
-    <string name="ajustes_apps_texto">Pausa aparece cuando abres una de estas apps después de una llamada desconocida.</string>
+    <string name="ajustes_apps_texto">Pilas aparece cuando abres una de estas apps después de una llamada desconocida.</string>
     <string name="ajustes_sin_apps">No encontramos bancos ni billeteras conocidos en este celular. Toca \"Ver todas las apps\" y marca los tuyos.</string>
     <string name="ajustes_ver_todas">Ver todas las apps</string>
     <string name="ajustes_ver_menos">Ver menos apps</string>
     <string name="ajustes_ventana">Ventana tras la llamada</string>
     <string name="ajustes_ventana_opcion">%1$d min</string>
-    <string name="ajustes_ventana_texto">Tras colgar, Pausa vigila durante este tiempo.</string>
+    <string name="ajustes_ventana_texto">Tras colgar, Pilas vigila durante este tiempo.</string>
     <string name="demo_titulo">Modo demo</string>
     <string name="demo_activado">Modo demo activado</string>
     <string name="ajustes_contacto">Contacto de confianza</string>
-    <string name="ajustes_contacto_texto">Si te estafan, Pausa te ayuda a avisarle por SMS.</string>
+    <string name="ajustes_contacto_texto">Si te estafan, Pilas te ayuda a avisarle por SMS.</string>
     <string name="ajustes_contacto_sin_elegir">Sin elegir</string>
     <string name="ajustes_contacto_elegir">Elegir</string>
     <string name="ajustes_contacto_cambiar">Cambiar</string>
@@ -93,7 +93,7 @@
 
     <!-- Historial -->
     <string name="historial_titulo">Historial</string>
-    <string name="historial_vacio">Todavía no hay eventos. Aquí verás lo que decidas cada vez que aparezca Pausa.</string>
+    <string name="historial_vacio">Todavía no hay eventos. Aquí verás lo que decidas cada vez que aparezca Pilas.</string>
     <string name="historial_privacidad">Todo se guarda solo en este celular.</string>
     <string name="historial_incluir_demo">Incluir pruebas de demo</string>
     <string name="metrica_total">Pop-ups</string>
@@ -226,8 +226,8 @@
     <string name="novedades_saltar">Saltar</string>
     <string name="novedades_siguiente">Siguiente</string>
     <string name="novedades_empezar">Empezar</string>
-    <string name="novedades_1_titulo">Pausa te cuida después de una llamada</string>
-    <string name="novedades_1_texto">Si cuelgas con un número que no está en tus contactos y abres tu banco, Pausa te hace 3 preguntas antes de mover dinero.</string>
+    <string name="novedades_1_titulo">Pilas! te cuida después de una llamada</string>
+    <string name="novedades_1_texto">Si cuelgas con un número que no está en tus contactos y abres tu banco, Pilas te hace 3 preguntas antes de mover dinero.</string>
     <string name="novedades_2_titulo">Bloqueo con respiración (opcional)</string>
     <string name="novedades_2_texto">Tapa tu app bancaria unos minutos para que respires y verifiques. Actívalo en Configuración.</string>
     <string name="novedades_3_titulo">Botón de pánico y contacto de confianza</string>
