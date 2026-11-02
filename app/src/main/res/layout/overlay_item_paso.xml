@@ -17,9 +17,9 @@
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:background="@drawable/bg_pausa_circulo"
-        android:backgroundTint="@color/pausa_primario_suave"
+        android:backgroundTint="@color/pausa_popup_suave"
         android:gravity="center"
-        android:textColor="@color/pausa_primario_oscuro"
+        android:textColor="@color/pausa_popup_oscuro"
         android:textSize="15sp"
         android:textStyle="bold"
         tools:text="1" />

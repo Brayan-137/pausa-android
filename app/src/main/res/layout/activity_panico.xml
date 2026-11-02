@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Botón de pánico (Figma "Botón de pánico (pop-up)", "Pánico: guía" y "Pánico: aviso por SMS").
+     Un grupo por pantalla; PanicoActivity muestra uno a la vez, como overlay_pausa.xml.
+       pregunta -> (Sí) guía -> aviso por SMS
+       pregunta -> (Todavía no) pasos ante estafa -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/panicoRaiz"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/pausa_fondo">
+
+    <!-- ========== PREGUNTA ========== -->
+    <LinearLayout
+        android:id="@+id/panicoGrupoPregunta"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="28dp">
+
+                <FrameLayout
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="@drawable/bg_pausa_circulo_aviso">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:text="!"
+                        android:textColor="@color/pausa_sobre_primario"
+                        android:textSize="48sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_panico_chip"
+                    android:gravity="center"
+                    android:letterSpacing="0.06"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/panico_chip"
+                    android:textColor="@color/pausa_alerta"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:text="@string/panico_pregunta_titulo"
+                    android:textSize="26sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/panico_pregunta_texto" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="24dp"
+                    android:background="@drawable/bg_panico_tarjeta_tiempo"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/panico_tiempo_titulo"
+                        android:textColor="@color/pausa_aviso"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="@string/panico_tiempo_texto"
+                        android:textColor="@color/pausa_aviso"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicoBtnSi"
+            style="@style/Widget.Pausa.Boton.Panico"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/panico_si" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicoBtnTodaviaNo"
+            style="@style/Widget.Pausa.Boton.Popup.Neutro"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/panico_todavia_no" />
+    </LinearLayout>
+
+    <!-- ========== TODAVÍA NO: pasos ante estafa (los mismos que "Es una estafa" del pop-up) ========== -->
+    <LinearLayout
+        android:id="@+id/panicoGrupoPasos"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="48dp">
+
+                <FrameLayout
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:background="@drawable/bg_pausa_circulo"
+                    android:backgroundTint="@color/pausa_popup_suave">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:text="!"
+                        android:textColor="@color/pausa_alerta"
+                        android:textSize="44sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/overlay_titulo_estafa"
+                    android:textSize="30sp" />
+
+                <LinearLayout
+                    android:id="@+id/panicoListaPasos"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="28dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicoBtnEntendido"
+            style="@style/Widget.Pausa.Boton.Popup.Primario"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/panico_entendido" />
+    </LinearLayout>
+
+    <!-- ========== GUÍA ========== -->
+    <LinearLayout
+        android:id="@+id/panicoGrupoGuia"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingTop="24dp">
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/panico_guia_titulo"
+                    android:textSize="26sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/panico_guia_subtitulo"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    style="@style/PausaTarjeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <!-- Los 4 pasos los crea PanicoActivity (item_panico_paso.xml). -->
+                    <LinearLayout
+                        android:id="@+id/panicoListaGuia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:gravity="center"
+                        android:text="@string/panico_minuto"
+                        android:textColor="@color/pausa_texto_secundario"
+                        android:textSize="12sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/bg_panico_tarjeta_recuerda"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/panico_recuerda_titulo"
+                            android:textColor="@color/pausa_popup_oscuro"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="@string/panico_recuerda_texto"
+                            android:textColor="@color/pausa_texto_secundario"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicoBtnAvisar"
+            style="@style/Widget.Pausa.Boton.Panico"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/panico_avisar" />
+    </LinearLayout>
+
+    <!-- ========== AVISO POR SMS ========== -->
+    <LinearLayout
+        android:id="@+id/panicoGrupoSms"
+        style="@style/GrupoPausa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ScrollView style="@style/ContenidoPausa">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingHorizontal="8dp"
+                android:paddingTop="20dp">
+
+                <FrameLayout
+                    android:layout_width="160dp"
+                    android:layout_height="160dp"
+                    android:background="@drawable/bg_pausa_circulo_aviso"
+                    android:scaleX="0.8"
+                    android:scaleY="0.8">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:importantForAccessibility="no"
+                        android:text="SMS"
+                        android:textColor="@color/pausa_sobre_primario"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_panico_chip"
+                    android:gravity="center"
+                    android:letterSpacing="0.06"
+                    android:paddingHorizontal="20dp"
+                    android:text="@string/panico_sms_chip"
+                    android:textColor="@color/pausa_alerta"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/TextoPausa.Titulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/panico_sms_titulo"
+                    android:textSize="24sp" />
+
+                <TextView
+                    style="@style/TextoPausa.Cuerpo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/panico_sms_subtitulo"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    style="@style/PausaTarjeta"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/panico_sms_caja"
+                        android:textColor="@color/pausa_popup_oscuro"
+                        android:textSize="13sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/panicoTextoSms"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@null"
+                        android:gravity="top|start"
+                        android:importantForAutofill="no"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:minHeight="96dp"
+                        android:textColor="@color/pausa_texto"
+                        android:textSize="15sp"
+                        tools:text="Hola Ana. Creo que me están estafando." />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/panico_sms_nota"
+                        android:textColor="@color/pausa_texto_tenue"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicoBtnAbrirMensajes"
+            style="@style/Widget.Pausa.Boton.Panico"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/panico_abrir_mensajes" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/panicoBtnEditar"
+            style="@style/Widget.Pausa.Boton.Popup.Neutro"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/panico_editar_mensaje" />
+    </LinearLayout>
+</FrameLayout>

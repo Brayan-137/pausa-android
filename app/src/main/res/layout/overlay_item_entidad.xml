@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:textColor="@color/pausa_primario_oscuro"
+        android:textColor="@color/pausa_popup_oscuro"
         android:textSize="28sp"
         android:textStyle="bold"
         tools:text="123" />
@@ -38,4 +38,20 @@
         android:textColor="@color/pausa_texto_secundario"
         android:textSize="13sp"
         tools:text="Fuente: https://www.policia.gov.co/" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/itemEntidadBtnLlamar"
+        style="@style/Widget.Pausa.Boton.Popup.Primario"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/overlay_llamar" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/itemEntidadBtnPagina"
+        style="@style/Widget.Pausa.Boton.Popup.Secundario"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/overlay_abrir_pagina" />
 </LinearLayout>

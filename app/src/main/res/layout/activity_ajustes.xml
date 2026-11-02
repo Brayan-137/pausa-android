@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <!-- Tocarlo 5 veces activa o desactiva el modo demo. -->
+        
         <TextView
             android:id="@+id/ajustesTitulo"
             style="@style/PausaTituloPantalla"
@@ -86,7 +86,91 @@
             android:layout_marginTop="12dp"
             android:text="@string/ajustes_ventana_texto" />
 
-        <!-- MODO DEMO: oculto hasta tocar el título 5 veces. -->
+        <TextView
+            style="@style/PausaSeccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/ajustes_contacto" />
+
+        <TextView
+            style="@style/PausaTarjetaTexto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/ajustes_contacto_texto" />
+
+        <LinearLayout
+            style="@style/PausaTarjeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textoContacto"
+                style="@style/PausaTarjetaTitulo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnElegirContacto"
+                style="@style/Widget.Material3.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="@string/ajustes_contacto_elegir"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/PausaTarjeta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    style="@style/PausaTarjetaTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/ajustes_bloqueo" />
+
+                <TextView
+                    style="@style/PausaTarjetaTexto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="@string/ajustes_bloqueo_texto" />
+            </LinearLayout>
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/interruptorBloqueo"
+                style="@style/PausaInterruptor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:contentDescription="@string/ajustes_bloqueo" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnVerNovedades"
+            style="@style/PausaBotonSecundario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/ajustes_novedades" />
+
+        <!-- MODO DEMO: oculto hasta tocar 7 toques en la versión, al final. -->
         <LinearLayout
             android:id="@+id/grupoDemo"
             android:layout_width="match_parent"

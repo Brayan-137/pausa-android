@@ -24,17 +24,27 @@
    - ¿Te presionaron con urgencia o miedo?
    - ¿Dijeron ser de un banco, una entidad o un familiar? → si es Sí: ¿quién? (familiar / entidad)
 4. Todo No → "Todo parece normal" y continúa.
-5. Algún Sí → consejo según el caso y tres botones:
-   - **Verificar ahora:** abre el marcador con el número del familiar o el número oficial de la entidad.
-   - **Es una estafa:** muestra qué hacer.
-   - **Continuar de todos modos:** se habilita después de 10 segundos.
+5. Algún Sí → **consejo** según el caso → **«Ver opciones»** → pantalla de acciones con tres botones:
+   - **Verificar ahora:** si dijeron ser una entidad, muestra una tarjeta por entidad oficial con dos botones: **Llamar** (abre el marcador con el número oficial) y **Abrir página oficial** (abre la fuente en el navegador). Si dijeron ser un familiar, abre el marcador vacío para que llames al número que ya tienes guardado. Ambos cuentan como VERIFICAR.
+   - **Es una estafa:** muestra qué hacer (tres pasos) y el botón **Ya transferí o di datos**, que abre el botón de pánico directo en la guía.
+   - **Continuar de todos modos:** se habilita después de 10 segundos. Con el **bloqueo con respiración** activo (ver abajo) no cierra el pop-up.
 6. Cada evento queda registrado en el celular para mostrar métricas en la demo.
+
+### Funciones agregadas el 1 de noviembre
+
+- **Pop-up en naranja de alerta:** solo el pop-up y las pantallas de pánico y bloqueo; el resto de la app sigue en azul.
+- **Botón de pánico:** en Inicio, el botón rojo **«¿Te están estafando?»** (y «Ya transferí o di datos» en el pop-up) abre una pantalla con tres pasos: «¿Ya transferiste o diste datos?» → **guía «Haz esto ahora»** (llamar a la línea oficial del banco, cambiar claves y bloquear tarjetas, guardar pruebas, denunciar) → **aviso por SMS** a tu contacto de confianza. Pausa **no envía** el SMS: abre tu app de mensajes con el texto listo (editable) y tú lo envías; no hay permiso `SEND_SMS`. «Todavía no» muestra los pasos ante estafa. Al tocar «Sí, ya transferí o di datos» queda un evento con la decisión PANICO (etiqueta «Pánico» en el historial).
+- **Contacto de confianza:** se elige en **Configuración** (selector de contactos del sistema). Si no hay uno, el aviso por SMS pide elegirlo.
+- **Bloqueo con respiración (opcional, apagado por defecto):** en Configuración. Si está activo, «Continuar de todos modos» lleva a un bloqueo de **5 minutos** (en modo demo, **1 minuto**) → respiración guiada de **60 s** (en modo demo, **15 s**: inhala 4 s, sostén 4 s, exhala 6 s) → «Verificar para desbloquear». «Desbloquear app» se habilita al completar la respiración o al llegar a 0 el bloqueo.
+- **Números oficiales en Inicio:** botón que lista las entidades de `numeros_oficiales.json` con **Llamar** y **Abrir página oficial**.
+- **Novedades al instalar:** tres pantallas (con «Saltar») antes de la bienvenida. Orden en la primera instalación: Novedades → Bienvenida/permisos → Inicio. Se pueden volver a ver en Configuración > «Ver novedades».
+- **Tras reiniciar el celular, abre Pausa una vez para reactivar la protección.**
 
 ### Alcance
 
-**Dentro del MVP:** detección de llamada y número desconocido · detección de app sensible · pop-up con preguntas, consejo y botones · lista curada de números oficiales · bienvenida que guía los permisos · configuración (apps sensibles, ventana, modo demo) · registro e historial · prueba con 3 a 5 usuarios.
+**Dentro del MVP:** detección de llamada y número desconocido · detección de app sensible · pop-up con preguntas, consejo y botones · lista curada de números oficiales (también en Inicio) · bienvenida que guía los permisos · configuración (apps sensibles, ventana, contacto de confianza, bloqueo con respiración, modo demo) · registro e historial · **botón de pánico** y **bloqueo en frío** con respiración (decisión del 1 nov) · novedades al instalar · prueba con 3 a 5 usuarios.
 
-**Fuera del MVP** (Camilo los muestra como hoja de ruta en Figma): simulacros, bloqueo en frío, botón de pánico, análisis del contenido de la llamada, iPhone, integración con bancos, servidor propio, Play Store.
+**Fuera del MVP** (Camilo los muestra como hoja de ruta en Figma): simulacros, análisis del contenido de la llamada, iPhone, integración con bancos, servidor propio, Play Store.
 
 Ningún dato sale del celular: no hay servidor. Es un punto a favor frente a la Ley 1581 y lo vamos a defender en la presentación.
 
@@ -100,7 +110,7 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
    - **Batería sin restricciones** (diálogo normal).
    - Si Android no te deja activarlos (pasa en Android 15 con APK instalados desde un archivo), al volver la app te guía: **Información de la app → menú ⋮ → Permitir configuración restringida**.
 6. Al llegar a **Inicio** debe aparecer la notificación fija "Pausa está activa".
-7. Entra a **Configuración** y toca el título 5 veces para activar el **modo demo**. **Probar pop-up** debe mostrar "Antes de mover dinero", y al terminar el evento debe quedar en **Historial** con la etiqueta Demo.
+7. Entra a **Configuración** y toca 7 veces «Versión X», al final de la pantalla, para activar el **modo demo**. **Probar pop-up** debe mostrar "Antes de mover dinero", y al terminar el evento debe quedar en **Historial** con la etiqueta Demo.
 
 Si los pasos 6 y 7 funcionan, tu entorno está listo.
 
@@ -128,6 +138,10 @@ app/src/main/
 │   ├── log/                       Registro de eventos con Room ....................... Julian
 │   ├── ui/                        MainActivity (Inicio), onboarding (bienvenida y
 │   │                              permisos), ajustes, historial ...................... Julian
+│   │   ├── panico/                Botón de pánico: guía y aviso por SMS ............... Brayan
+│   │   ├── numeros/               Números oficiales en la app ........................ Brayan
+│   │   ├── novedades/             Novedades al instalar .............................. Brayan
+│   │   └── contacto/              Selector del contacto de confianza ................. Brayan
 │   └── util/Permisos.kt           Consulta de permisos e intents a Ajustes
 └── res/layout/
     ├── activity_*.xml, item_*.xml Pantallas de la app ................................ Julian
@@ -177,7 +191,10 @@ data class Trigger(
     val isDemo: Boolean = false
 )
 
-enum class Decision { VERIFICAR, ESTAFA, CONTINUAR }
+enum class Decision {
+    VERIFICAR, ESTAFA, CONTINUAR,
+    PANICO   // 1 nov: lo registra PanicoActivity, no el pop-up
+}
 
 // Lo que devuelve el pop-up (28 oct: se agregaron las respuestas para el registro)
 data class ResultadoPausa(
@@ -269,6 +286,7 @@ Repórtalos como **Issue** en GitHub con la plantilla "Error" e indica la severi
 | Problema | Solución |
 | --- | --- |
 | Gradle Sync falla al descargar | Revisa la conexión y vuelve a intentar con **File → Sync Project with Gradle Files**. Si sigue, envía el error al grupo. |
+| Tras reiniciar el celular Pausa no avisa | Abre Pausa una vez para reactivar la protección. |
 | El pop-up no aparece | Revisa que "Mostrar sobre otras apps" esté activo (Inicio avisa si falta un permiso). |
 | No me deja activar "Acceso a uso" | Es la restricción de Android 15: ver sección 10. |
 | La app se cierra al iniciar la protección | Copia el error de **Logcat** (filtra por `pausa`) y abre un Issue bloqueante. |

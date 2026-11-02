@@ -52,7 +52,10 @@
     <string name="inicio_estafa">Marcaste la llamada como estafa.</string>
     <string name="inicio_continuo">Continuaste de todos modos.</string>
     <string name="inicio_normal">Todo parecía normal.</string>
+    <string name="inicio_panico">¿Te están estafando?</string>
+    <string name="inicio_panico_evento">Usaste el botón de pánico.</string>
     <string name="inicio_ver_historial">Ver historial</string>
+    <string name="inicio_numeros_oficiales">Números oficiales</string>
     <string name="inicio_configuracion">Configuración</string>
 
     <!-- Configuración -->
@@ -67,6 +70,15 @@
     <string name="ajustes_ventana_texto">Tras colgar, Pausa vigila durante este tiempo.</string>
     <string name="demo_titulo">Modo demo</string>
     <string name="demo_activado">Modo demo activado</string>
+    <string name="ajustes_contacto">Contacto de confianza</string>
+    <string name="ajustes_contacto_texto">Si te estafan, Pausa te ayuda a avisarle por SMS.</string>
+    <string name="ajustes_contacto_sin_elegir">Sin elegir</string>
+    <string name="ajustes_contacto_elegir">Elegir</string>
+    <string name="ajustes_contacto_cambiar">Cambiar</string>
+    <string name="ajustes_bloqueo">Bloqueo con respiración</string>
+    <string name="ajustes_bloqueo_texto">Si continúas tras una llamada sospechosa, tu app bancaria queda tapada unos minutos mientras respiras y verificas.</string>
+    <string name="ajustes_novedades">Ver novedades</string>
+    <string name="contacto_sin_selector">Este celular no tiene selector de contactos.</string>
     <string name="ajustes_version">Versión %1$s</string>
     <plurals name="demo_faltan_toques">
         <item quantity="one">Estás a %1$d toque de cambiar el modo demo</item>
@@ -131,8 +143,93 @@
     <string name="overlay_fuente">Fuente: %1$s</string>
     <string name="overlay_verificar_nota">Ninguna entidad pide códigos ni transferencias por teléfono.</string>
     <string name="overlay_llamar">Llamar</string>
+    <string name="overlay_abrir_pagina">Abrir página oficial</string>
+    <string name="overlay_sin_navegador">No se pudo abrir la página. Búscala tú en tu navegador.</string>
     <string name="overlay_sin_marcador">No se pudo abrir el marcador. Abre tu app de teléfono y llama tú.</string>
     <!-- Es una estafa -->
     <string name="overlay_titulo_estafa">No transfieras</string>
     <string name="overlay_entendido">Entendido</string>
+
+    <!-- Números oficiales -->
+    <string name="numeros_titulo">Números oficiales</string>
+    <string name="numeros_texto">Llama tú a estos números. Ninguna entidad pide códigos ni transferencias por teléfono.</string>
+    <string name="numeros_vacio">Todavía no hay números oficiales cargados.</string>
+    <string name="numeros_llamar">Llamar</string>
+    <string name="numeros_abrir_pagina">Abrir página oficial</string>
+
+    <!-- Botón de pánico -->
+    <string name="panico_chip">POSIBLE ESTAFA EN CURSO</string>
+    <string name="panico_pregunta_titulo">¿Ya transferiste o diste datos?</string>
+    <string name="panico_pregunta_texto">Actúa ya: cada minuto cuenta y te guiamos paso a paso.</string>
+    <string name="panico_tiempo_titulo">Tiempo es clave</string>
+    <string name="panico_tiempo_texto">Cuanto antes actúes, más posibilidades de recuperar tu dinero.</string>
+    <string name="panico_si">Sí, ya transferí o di datos</string>
+    <string name="panico_todavia_no">Todavía no</string>
+    <string name="panico_entendido">Entendido</string>
+    <string name="panico_guia_titulo">Haz esto ahora</string>
+    <string name="panico_guia_subtitulo">Un paso a la vez. Tú puedes.</string>
+    <string name="panico_paso1_titulo">Llama a la línea oficial de tu banco</string>
+    <string name="panico_paso1_texto">Verifica directamente con tu banco.</string>
+    <string name="panico_paso2_titulo">Cambia tus claves y bloquea tus tarjetas</string>
+    <string name="panico_paso2_texto">Accesos comprometidos primero.</string>
+    <string name="panico_paso3_titulo">Guarda pruebas: número, hora y capturas</string>
+    <string name="panico_paso3_texto">Conversaciones, datos e imágenes del fraude.</string>
+    <string name="panico_paso4_titulo">Denuncia ante las autoridades</string>
+    <string name="panico_paso4_texto">Repórtalo a tu entidad y a la policía.</string>
+    <string name="panico_llamar">Llamar</string>
+    <string name="panico_minuto">Cada minuto cuenta — actúa ahora.</string>
+    <string name="panico_recuerda_titulo">Recuerda</string>
+    <string name="panico_recuerda_texto">Actuar con calma y rapidez marca la diferencia.</string>
+    <string name="panico_avisar">Avisar a mi contacto de confianza</string>
+    <string name="panico_sms_chip">AVISO POR SMS</string>
+    <string name="panico_sms_titulo">Avisa a tu contacto de confianza</string>
+    <string name="panico_sms_subtitulo">Este es el mensaje que enviaremos:</string>
+    <string name="panico_sms_caja">Mensaje de texto (SMS)</string>
+    <string name="panico_sms_nota">Se abre tu app de mensajes con el texto listo. Tú lo envías con un toque.</string>
+    <string name="panico_abrir_mensajes">Abrir mensajes</string>
+    <string name="panico_elegir_contacto">Elegir contacto</string>
+    <string name="panico_editar_mensaje">Editar mensaje</string>
+    <string name="panico_sin_mensajes">No se pudo abrir la app de mensajes. Escríbele o llámale tú.</string>
+    <string name="overlay_ya_transferi">Ya transferí o di datos</string>
+    <string name="etiqueta_panico">Pánico</string>
+    <string name="evento_panico">Usaste el botón de pánico.</string>
+
+    <!-- Bloqueo en frío con respiración (dentro del pop-up) -->
+    <string name="bloqueo_chip">RIESGO ALTO</string>
+    <string name="bloqueo_titulo">Detectamos señales de estafa</string>
+    <string name="bloqueo_texto">Tu app bancaria queda tapada unos minutos. Respira y verifica antes de seguir.</string>
+    <string name="bloqueo_tiempo_restante">Tiempo restante</string>
+    <string name="bloqueo_respirar">Respirar %1$d segundos</string>
+    <string name="bloqueo_verificar_ahora">Verificar ahora</string>
+    <string name="respiracion_marca">RESPIRACIÓN GUIADA</string>
+    <string name="respiracion_inhala">INHALA</string>
+    <string name="respiracion_sostiene">SOSTÉN</string>
+    <string name="respiracion_exhala">EXHALA</string>
+    <string name="respiracion_segundos_fase">%1$ds</string>
+    <string name="respiracion_segundos">segundos</string>
+    <string name="respiracion_titulo">Respira profundo y calma tu mente</string>
+    <string name="respiracion_instruccion">Sigue el círculo: inhala 4 s, sostén 4 s, exhala 6 s.</string>
+    <string name="respiracion_restantes">%1$d s restantes</string>
+    <string name="respiracion_seguir_espera">Seguir (%1$d s)</string>
+    <string name="respiracion_seguir">Seguir</string>
+    <string name="desbloqueo_titulo">Ya casi puedes seguir</string>
+    <string name="desbloqueo_subtitulo">Antes de desbloquear, intenta verificar por un canal propio.</string>
+    <string name="desbloqueo_respiracion">Respiración completa</string>
+    <string name="desbloqueo_llamar">Llamar al número oficial</string>
+    <string name="desbloqueo_listo">Listo</string>
+    <string name="desbloqueo_pendiente">Pendiente</string>
+    <string name="desbloqueo_nota">Verificar solo toma un minuto y puede salvarte de una estafa.</string>
+    <string name="desbloqueo_desbloquear">Desbloquear app</string>
+    <string name="desbloqueo_desbloquear_espera">Desbloquear app (%1$s)</string>
+
+    <!-- Novedades -->
+    <string name="novedades_saltar">Saltar</string>
+    <string name="novedades_siguiente">Siguiente</string>
+    <string name="novedades_empezar">Empezar</string>
+    <string name="novedades_1_titulo">Pausa te cuida después de una llamada</string>
+    <string name="novedades_1_texto">Si cuelgas con un número que no está en tus contactos y abres tu banco, Pausa te hace 3 preguntas antes de mover dinero.</string>
+    <string name="novedades_2_titulo">Bloqueo con respiración (opcional)</string>
+    <string name="novedades_2_texto">Tapa tu app bancaria unos minutos para que respires y verifiques. Actívalo en Configuración.</string>
+    <string name="novedades_3_titulo">Botón de pánico y contacto de confianza</string>
+    <string name="novedades_3_texto">Si ya transferiste o diste datos, te guía paso a paso y avisa a tu contacto por SMS. Elige tu contacto en Configuración.</string>
 </resources>

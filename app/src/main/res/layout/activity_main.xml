@@ -125,15 +125,36 @@
         </LinearLayout>
     </ScrollView>
 
+    <!-- Entrada destacada al botón de pánico. -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnPanico"
+        style="@style/Widget.Pausa.Boton.Panico"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/inicio_panico" />
+
     <Button
         android:id="@+id/btnHistorial"
         style="@style/PausaBoton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="24dp"
         android:text="@string/inicio_ver_historial" />
+
+    <Button
+        android:id="@+id/btnNumerosOficiales"
+        style="@style/PausaBotonSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:text="@string/inicio_numeros_oficiales" />
 
     <Button
         android:id="@+id/btnConfiguracion"

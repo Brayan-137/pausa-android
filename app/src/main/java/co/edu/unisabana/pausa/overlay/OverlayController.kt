@@ -14,9 +14,11 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.view.animation.LinearInterpolator
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import co.edu.unisabana.pausa.R
@@ -25,7 +27,13 @@ import co.edu.unisabana.pausa.content.EntidadOficial
 import co.edu.unisabana.pausa.databinding.OverlayItemEntidadBinding
 import co.edu.unisabana.pausa.databinding.OverlayItemPasoBinding
 import co.edu.unisabana.pausa.databinding.OverlayPausaBinding
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withTimeoutOrNull
 import co.edu.unisabana.pausa.overlay.FlujoPreguntas.Paso
+import co.edu.unisabana.pausa.settings.SettingsRepository
+import co.edu.unisabana.pausa.ui.pintarEtiqueta
+import co.edu.unisabana.pausa.ui.panico.PanicoActivity
 
 /**
  * Muestra y oculta el pop-up encima de cualquier app.
@@ -40,9 +48,14 @@ import co.edu.unisabana.pausa.overlay.FlujoPreguntas.Paso
  *
  * Botones de acciones:
  *  - Verificar ahora: abre el marcador (ACTION_DIAL, la persona pulsa llamar) y devuelve VERIFICAR.
- *    Si dijeron ser una entidad y numeros_oficiales.json tiene entidades, primero elige a cuál.
- *  - Es una estafa: devuelve ESTAFA al tocarlo y muestra los pasos_estafa; "Entendido" cierra.
- *  - Continuar de todos modos: se habilita a los [SEGUNDOS_ESPERA] s y devuelve CONTINUAR.
+ *    Si dijeron ser una entidad y numeros_oficiales.json tiene entidades, primero elige a cuál;
+ *    cada tarjeta trae "Llamar" y "Abrir página oficial" (ACTION_VIEW), ambos devuelven VERIFICAR.
+ *  - Es una estafa: devuelve ESTAFA al tocarlo y muestra los pasos_estafa; "Entendido" cierra y
+ *    "Ya transferí o di datos" abre PanicoActivity en la guía.
+ *  - Continuar de todos modos: se habilita a los [SEGUNDOS_ESPERA] s y devuelve CONTINUAR. Si el
+ *    ajuste "Bloqueo con respiración" está activo, no cierra: lleva a bloqueo (5 min; 1 min en demo)
+ *    -> respiración guiada (60 s; 15 s en demo) -> verificar para desbloquear, y solo "Desbloquear
+ *    app" devuelve CONTINUAR.
  * [onDecision] se llama a lo sumo una vez por pop-up.
  *
  * Se puede llamar desde cualquier hilo: el controlador pasa al hilo principal.
@@ -53,6 +66,15 @@ object OverlayController {
 
     /** Segundos que la persona espera antes de poder tocar "Continuar de todos modos". */
     private const val SEGUNDOS_ESPERA = 10
+
+    // Bloqueo con respiración: el modo demo (Trigger.isDemo) acorta los tiempos.
+    private const val SEGUNDOS_BLOQUEO = 5 * 60
+    private const val SEGUNDOS_BLOQUEO_DEMO = 60
+    private const val SEGUNDOS_RESPIRACION = 60
+    private const val SEGUNDOS_RESPIRACION_DEMO = 15
+    private const val PUNTOS_RESPIRACION = 5
+    private const val ESCALA_MIN = 0.7f
+    private const val ESCALA_MAX = 1f
     private val principal = Handler(Looper.getMainLooper())
 
     @Volatile
@@ -61,6 +83,10 @@ object OverlayController {
     // Cuenta regresiva del botón "Continuar de todos modos". Solo se toca desde el hilo principal.
     private var cuentaRegresiva: CountDownTimer? = null
     private var cuentaTerminada = false
+
+    // Bloqueo con respiración: cuenta del bloqueo y de la respiración guiada. Hilo principal.
+    private var cuentaBloqueo: CountDownTimer? = null
+    private var cuentaRespiracion: CountDownTimer? = null
 
     val estaVisible: Boolean
         get() = overlayView != null
@@ -104,6 +130,16 @@ object OverlayController {
         cuentaTerminada = false
         var decidido = false
 
+        // Bloqueo con respiración (tarea 6). Se lee con tope de 500 ms para no frenar el pop-up.
+        val bloqueoActivo = runBlocking {
+            withTimeoutOrNull(500) { SettingsRepository(app).bloqueoRespiracion.first() }
+        } ?: false
+        val segundosBloqueo = if (trigger.isDemo) SEGUNDOS_BLOQUEO_DEMO else SEGUNDOS_BLOQUEO
+        val segundosRespiracion = if (trigger.isDemo) SEGUNDOS_RESPIRACION_DEMO else SEGUNDOS_RESPIRACION
+        var enBloqueo = false
+        var respiracionCompleta = false
+        var bloqueoTerminado = false
+
         /** Avisa la decisión (con las respuestas) una sola vez, sin cerrar el pop-up. */
         fun decidir(decision: Decision) {
             if (decidido) return
@@ -146,6 +182,118 @@ object OverlayController {
             if (abrirMarcador(telefono)) terminar(Decision.VERIFICAR)
         }
 
+        /** Abre la página oficial de la entidad en el navegador; mismo orden que el marcador. */
+        fun verificarEnPagina(url: String) {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            try {
+                app.startActivity(intent)
+                terminar(Decision.VERIFICAR)
+            } catch (e: Exception) {
+                Log.e(TAG, "No se pudo abrir la página oficial", e)
+                Toast.makeText(app, R.string.overlay_sin_navegador, Toast.LENGTH_LONG).show()
+            }
+        }
+
+        /** "Desbloquear app" se habilita al completar la respiración o al llegar a 0 el bloqueo. */
+        fun pintarDesbloqueo(tiempoBloqueo: String? = null) {
+            val listo = respiracionCompleta
+            binding.overlayEstadoRespiracion.setText(
+                if (listo) R.string.desbloqueo_listo else R.string.desbloqueo_pendiente
+            )
+            if (listo) {
+                binding.overlayEstadoRespiracion.pintarEtiqueta(R.color.pausa_exito_fondo, R.color.pausa_exito)
+            } else {
+                binding.overlayEstadoRespiracion.pintarEtiqueta(R.color.pausa_aviso_fondo, R.color.pausa_aviso)
+            }
+            val puede = respiracionCompleta || bloqueoTerminado
+            binding.overlayBtnDesbloquear.isEnabled = puede
+            binding.overlayBtnDesbloquear.text = if (puede || tiempoBloqueo == null) {
+                app.getString(R.string.desbloqueo_desbloquear)
+            } else {
+                app.getString(R.string.desbloqueo_desbloquear_espera, tiempoBloqueo)
+            }
+        }
+
+        fun iniciarBloqueo() {
+            enBloqueo = true
+            cancelarCuentaRegresiva()
+            mostrarGrupo(binding, binding.overlayGrupoBloqueo)
+            binding.overlayBtnRespirar.text = app.getString(R.string.bloqueo_respirar, segundosRespiracion)
+            binding.overlayBloqueoTiempo.text = formatoMinutos(segundosBloqueo)
+            cuentaBloqueo?.cancel()
+            cuentaBloqueo = object : CountDownTimer(segundosBloqueo * 1_000L, 1_000L) {
+                override fun onTick(msRestantes: Long) {
+                    val texto = formatoMinutos(((msRestantes + 999) / 1_000).toInt())
+                    binding.overlayBloqueoTiempo.text = texto
+                    pintarDesbloqueo(texto)
+                }
+
+                override fun onFinish() {
+                    cuentaBloqueo = null
+                    bloqueoTerminado = true
+                    binding.overlayBloqueoTiempo.text = formatoMinutos(0)
+                    pintarDesbloqueo()
+                }
+            }.start()
+        }
+
+        fun mostrarDesbloqueo() {
+            mostrarGrupo(binding, binding.overlayGrupoDesbloqueo)
+            pintarDesbloqueo(binding.overlayBloqueoTiempo.text.toString())
+        }
+
+        fun iniciarRespiracion() {
+            mostrarGrupo(binding, binding.overlayGrupoRespiracion)
+            if (respiracionCompleta || cuentaRespiracion != null) return
+
+            val circulo = binding.overlayCirculoRespiracion
+            circulo.scaleX = ESCALA_MIN
+            circulo.scaleY = ESCALA_MIN
+            binding.overlayBtnSeguir.isEnabled = false
+            val ctx = binding.root.context
+            val puntos = binding.overlayPuntosRespiracion
+            if (puntos.childCount == 0) crearPuntos(puntos)
+
+            cuentaRespiracion = object : CountDownTimer(segundosRespiracion * 1_000L, 1_000L) {
+                override fun onTick(msRestantes: Long) {
+                    val restantes = ((msRestantes + 999) / 1_000).toInt()
+                    val transcurrido = segundosRespiracion - restantes
+                    val fase = FaseRespiracion.en(transcurrido)
+                    val nombre = ctx.getString(
+                        when (fase.tipo) {
+                            FaseRespiracion.Tipo.INHALA -> R.string.respiracion_inhala
+                            FaseRespiracion.Tipo.SOSTEN -> R.string.respiracion_sostiene
+                            FaseRespiracion.Tipo.EXHALA -> R.string.respiracion_exhala
+                        }
+                    )
+                    binding.overlayFaseNombre.text = nombre
+                    binding.overlayFasePastilla.text = nombre
+                    binding.overlayFaseSegundos.text = ctx.getString(R.string.respiracion_segundos_fase, fase.restantes)
+                    binding.overlayRespiracionRestantes.text = ctx.getString(R.string.respiracion_restantes, restantes)
+                    binding.overlayBarraRespiracion.progress = transcurrido * 100 / segundosRespiracion
+                    binding.overlayBtnSeguir.text = ctx.getString(R.string.respiracion_seguir_espera, restantes)
+                    pintarPuntos(puntos, transcurrido, segundosRespiracion)
+                    if (fase.segundoEnFase == 0) animarCirculo(circulo, fase)
+                }
+
+                override fun onFinish() {
+                    cuentaRespiracion = null
+                    respiracionCompleta = true
+                    binding.overlayRespiracionRestantes.text = ctx.getString(R.string.respiracion_restantes, 0)
+                    binding.overlayBarraRespiracion.progress = 100
+                    pintarPuntos(puntos, segundosRespiracion, segundosRespiracion)
+                    binding.overlayBtnSeguir.setText(R.string.respiracion_seguir)
+                    binding.overlayBtnSeguir.isEnabled = true
+                }
+            }.start()
+        }
+
+        binding.overlayBtnRespirar.setOnClickListener { iniciarRespiracion() }
+        binding.overlayBtnBloqueoVerificar.setOnClickListener { binding.overlayBtnVerificar.performClick() }
+        binding.overlayBtnSeguir.setOnClickListener { mostrarDesbloqueo() }
+        binding.overlayBtnDesbloqueoLlamar.setOnClickListener { binding.overlayBtnVerificar.performClick() }
+        binding.overlayBtnDesbloquear.setOnClickListener { terminar(Decision.CONTINUAR) }
+
         binding.overlayBtnEmpezar.setOnClickListener { dibujar(binding, flujo, contenido) }
         binding.overlayBtnVolver.setOnClickListener {
             flujo.volver()
@@ -161,19 +309,37 @@ object OverlayController {
                 // que la persona elija el número que ella ya tiene guardado.
                 verificarCon(null)
             } else {
-                dibujarEntidades(binding, entidades) { telefono -> verificarCon(telefono) }
+                dibujarEntidades(binding, entidades, ::verificarCon, ::verificarEnPagina)
             }
         }
-        binding.overlayBtnVolverResultado.setOnClickListener { mostrarAcciones(binding) }
+        binding.overlayBtnVolverResultado.setOnClickListener {
+            when {
+                !enBloqueo -> mostrarAcciones(binding)
+                respiracionCompleta || bloqueoTerminado -> mostrarDesbloqueo()
+                else -> mostrarGrupo(binding, binding.overlayGrupoBloqueo)
+            }
+        }
 
         binding.overlayBtnEstafa.setOnClickListener {
             decidir(Decision.ESTAFA)
             dibujarEstafa(binding, contenido)
         }
+        // Se lanza ANTES de ocultar el pop-up (igual que el marcador). La decisión ya fue ESTAFA;
+        // el evento PANICO lo registra PanicoActivity.
+        binding.overlayBtnPanico.setOnClickListener {
+            try {
+                app.startActivity(PanicoActivity.intent(app, irALaGuia = true))
+                ocultar(app)
+            } catch (e: Exception) {
+                Log.e(TAG, "No se pudo abrir el botón de pánico", e)
+            }
+        }
         // La decisión ESTAFA ya se avisó al tocar "Es una estafa"; aquí solo se cierra.
         binding.overlayBtnEntendido.setOnClickListener { ocultar(app) }
 
-        binding.overlayBtnContinuar.setOnClickListener { terminar(Decision.CONTINUAR) }
+        binding.overlayBtnContinuar.setOnClickListener {
+            if (bloqueoActivo) iniciarBloqueo() else terminar(Decision.CONTINUAR)
+        }
         binding.overlayBtnContinuarNormal.setOnClickListener { terminar(Decision.CONTINUAR) }
         // El botón atrás NO cierra el pop-up: la persona debe decidir.
         binding.root.setOnKeyListener { _, keyCode, _ -> keyCode == KeyEvent.KEYCODE_BACK }
@@ -216,6 +382,7 @@ object OverlayController {
 
     private fun ocultar(app: Context) {
         cancelarCuentaRegresiva()
+        cancelarBloqueo()
         val vista = overlayView ?: return
         overlayView = null
         try {
@@ -230,7 +397,8 @@ object OverlayController {
         listOf(
             b.overlayGrupoIntro, b.overlayGrupoPregunta, b.overlayGrupoConsejo,
             b.overlayGrupoResultado, b.overlayGrupoNormal, b.overlayGrupoVerificar,
-            b.overlayGrupoEstafa
+            b.overlayGrupoEstafa, b.overlayGrupoBloqueo, b.overlayGrupoRespiracion,
+            b.overlayGrupoDesbloqueo
         ).forEach { it.visibility = if (it === grupo) View.VISIBLE else View.GONE }
     }
 
@@ -322,14 +490,12 @@ object OverlayController {
             emptyList()
         }
 
-    /**
-     * Una tarjeta por entidad. Con una sola, "Llamar" la usa; con varias, la persona toca
-     * la tarjeta que quiere (queda con borde azul) y luego "Llamar".
-     */
+    /** Una tarjeta por entidad, cada una con "Llamar" y "Abrir página oficial". */
     private fun dibujarEntidades(
         b: OverlayPausaBinding,
         entidades: List<EntidadOficial>,
-        alElegir: (telefono: String) -> Unit
+        alLlamar: (telefono: String) -> Unit,
+        alAbrirPagina: (url: String) -> Unit
     ) {
         val ctx = b.root.context
         val inflador = LayoutInflater.from(ctx)
@@ -338,36 +504,17 @@ object OverlayController {
         mostrarGrupo(b, b.overlayGrupoVerificar)
         b.overlayListaEntidades.removeAllViews()
 
-        var elegida = entidades.first()
-        val tarjetas = entidades.map { entidad ->
+        entidades.forEachIndexed { i, entidad ->
             val item = OverlayItemEntidadBinding.inflate(inflador, b.overlayListaEntidades, false)
             item.itemEntidadNombre.text = entidad.nombre
             item.itemEntidadTelefono.text = entidad.telefono
             item.itemEntidadFuente.text = ctx.getString(R.string.overlay_fuente, entidad.fuente)
-            item.root to entidad
-        }
-
-        fun marcarElegida() {
-            if (tarjetas.size < 2) return
-            tarjetas.forEach { (vista, entidad) ->
-                vista.setBackgroundResource(
-                    if (entidad == elegida) R.drawable.bg_pausa_tarjeta_elegida else R.drawable.bg_pausa_tarjeta
-                )
-            }
-        }
-
-        tarjetas.forEachIndexed { i, (vista, entidad) ->
-            if (tarjetas.size > 1) {
-                vista.isClickable = true
-                vista.setOnClickListener { elegida = entidad; marcarElegida() }
-            }
-            val medidas = vista.layoutParams as LinearLayout.LayoutParams
+            item.itemEntidadBtnLlamar.setOnClickListener { alLlamar(entidad.telefono) }
+            item.itemEntidadBtnPagina.setOnClickListener { alAbrirPagina(entidad.fuente) }
+            val medidas = item.root.layoutParams as LinearLayout.LayoutParams
             if (i > 0) medidas.topMargin = margen
-            b.overlayListaEntidades.addView(vista, medidas)
+            b.overlayListaEntidades.addView(item.root, medidas)
         }
-        marcarElegida()
-
-        b.overlayBtnLlamar.setOnClickListener { alElegir(elegida.telefono) }
     }
 
     /** Pantalla "No transfieras": una tarjeta numerada por cada paso de pasos_estafa. */
@@ -427,6 +574,56 @@ object OverlayController {
             }
         }.start()
     }
+
+    /** Cancela las cuentas del bloqueo y de la respiración y detiene la animación del círculo. */
+    private fun cancelarBloqueo() {
+        cuentaBloqueo?.cancel()
+        cuentaBloqueo = null
+        cuentaRespiracion?.cancel()
+        cuentaRespiracion = null
+        overlayView?.findViewById<View>(R.id.overlayCirculoRespiracion)?.animate()?.cancel()
+    }
+
+    /** Crece al inhalar, se mantiene al sostener y se encoge al exhalar. */
+    private fun animarCirculo(circulo: View, fase: FaseRespiracion) {
+        val escala = when (fase.tipo) {
+            FaseRespiracion.Tipo.INHALA -> ESCALA_MAX
+            FaseRespiracion.Tipo.SOSTEN -> return
+            FaseRespiracion.Tipo.EXHALA -> ESCALA_MIN
+        }
+        circulo.animate().cancel()
+        circulo.animate()
+            .scaleX(escala).scaleY(escala)
+            .setDuration(fase.duracion * 1_000L)
+            .setInterpolator(LinearInterpolator())
+            .start()
+    }
+
+    private fun crearPuntos(contenedor: LinearLayout) {
+        val ctx = contenedor.context
+        val densidad = ctx.resources.displayMetrics.density
+        val lado = (10 * densidad).toInt()
+        val margen = (5 * densidad).toInt()
+        repeat(PUNTOS_RESPIRACION) {
+            val punto = View(ctx).apply { setBackgroundResource(R.drawable.bg_pausa_circulo) }
+            contenedor.addView(punto, LinearLayout.LayoutParams(lado, lado).apply {
+                setMargins(margen, 0, margen, 0)
+            })
+        }
+    }
+
+    /** El punto activo avanza con el tiempo; los anteriores quedan llenos. */
+    private fun pintarPuntos(contenedor: LinearLayout, transcurrido: Int, total: Int) {
+        val ctx = contenedor.context
+        val activo = (transcurrido * PUNTOS_RESPIRACION / total).coerceAtMost(PUNTOS_RESPIRACION - 1)
+        for (i in 0 until contenedor.childCount) {
+            val color = if (i <= activo) R.color.pausa_popup_principal else R.color.pausa_popup_circulo_anillo
+            contenedor.getChildAt(i).backgroundTintList = ContextCompat.getColorStateList(ctx, color)
+        }
+    }
+
+    private fun formatoMinutos(segundos: Int): String =
+        "%02d:%02d".format(segundos / 60, segundos % 60)
 
     private fun cancelarCuentaRegresiva() {
         cuentaRegresiva?.cancel()

@@ -1,5 +1,6 @@
 package co.edu.unisabana.pausa.ui.ajustes
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,8 @@ import co.edu.unisabana.pausa.overlay.OverlayController
 import co.edu.unisabana.pausa.overlay.Trigger
 import co.edu.unisabana.pausa.service.GuardService
 import co.edu.unisabana.pausa.settings.SettingsRepository
+import co.edu.unisabana.pausa.ui.contacto.SelectorContacto
+import co.edu.unisabana.pausa.ui.novedades.NovedadesActivity
 import co.edu.unisabana.pausa.ui.pintarEtiqueta
 import co.edu.unisabana.pausa.ui.respetarBarrasDelSistema
 import co.edu.unisabana.pausa.util.Permisos
@@ -27,7 +30,8 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
- * Configuración: apps sensibles, minutos de la ventana y modo demo oculto (se activa o desactiva
+ * Configuración: apps sensibles, minutos de la ventana, contacto de confianza, bloqueo con
+ * respiración y modo demo oculto (se activa o desactiva
  * tocando 7 veces la versión, al final de la pantalla, como el "Número de compilación" de
  * Android). Todo se guarda de inmediato en [SettingsRepository]. Responsable: Julian.
  */
@@ -50,6 +54,14 @@ class AjustesActivity : AppCompatActivity() {
     private var toquesVersion = 0
     private var avisoToques: Toast? = null
 
+    // Se crea aquí (antes de STARTED) porque registerForActivityResult lo exige.
+    private val selectorContacto = SelectorContacto(this) { contacto ->
+        lifecycleScope.launch {
+            ajustes.guardarContacto(contacto.nombre, contacto.telefono)
+            pintarContacto(contacto.nombre)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAjustesBinding.inflate(layoutInflater)
@@ -64,6 +76,10 @@ class AjustesActivity : AppCompatActivity() {
         binding.ajustesVersion.setOnClickListener { contarToqueVersion() }
         binding.btnProbarPopup.setOnClickListener { probarPopup() }
         binding.btnSimularLlamada.setOnClickListener { simularLlamada() }
+        binding.btnElegirContacto.setOnClickListener { selectorContacto.abrir() }
+        binding.btnVerNovedades.setOnClickListener {
+            startActivity(Intent(this, NovedadesActivity::class.java))
+        }
 
         lifecycleScope.launch {
             seleccionadas = ajustes.appsSensibles.first()
@@ -72,6 +88,8 @@ class AjustesActivity : AppCompatActivity() {
             modoDemo = ajustes.modoDemo.first()
             pintarVentana()
             pintarDemo()
+            pintarContacto(ajustes.contactoNombre.first())
+            pintarBloqueo(ajustes.bloqueoRespiracion.first())
 
             instaladas = withContext(Dispatchers.Default) { appsInstaladas(applicationContext) }
             pintarApps()
@@ -153,6 +171,23 @@ class AjustesActivity : AppCompatActivity() {
     private fun avisar(texto: String) {
         avisoToques?.cancel()
         avisoToques = Toast.makeText(this, texto, Toast.LENGTH_SHORT).also { it.show() }
+    }
+
+    private fun pintarContacto(nombre: String?) {
+        binding.textoContacto.text = nombre?.takeIf { it.isNotBlank() }
+            ?: getString(R.string.ajustes_contacto_sin_elegir)
+        binding.btnElegirContacto.setText(
+            if (nombre.isNullOrBlank()) R.string.ajustes_contacto_elegir else R.string.ajustes_contacto_cambiar
+        )
+    }
+
+    private fun pintarBloqueo(activo: Boolean) {
+        // Sin quitar el listener, pintar el valor guardado se tomaría como un toque de la persona.
+        binding.interruptorBloqueo.setOnCheckedChangeListener(null)
+        binding.interruptorBloqueo.isChecked = activo
+        binding.interruptorBloqueo.setOnCheckedChangeListener { _, encendido ->
+            lifecycleScope.launch { ajustes.guardarBloqueoRespiracion(encendido) }
+        }
     }
 
     private fun pintarDemo() {

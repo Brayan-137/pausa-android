@@ -57,6 +57,25 @@
         <item name="android:textColor">@color/pausa_primario</item>
     </style>
 
+    <!-- Variantes naranja de alerta, solo para el pop-up (el resto de la app sigue en azul). -->
+    <style name="Widget.Pausa.Boton.Popup.Primario" parent="Widget.Pausa.Boton.Primario">
+        <item name="backgroundTint">@color/pausa_popup_principal</item>
+    </style>
+
+    <style name="Widget.Pausa.Boton.Popup.Secundario" parent="Widget.Pausa.Boton.Secundario">
+        <item name="strokeColor">@color/pausa_popup_principal</item>
+        <item name="android:textColor">@color/pausa_popup_principal</item>
+    </style>
+
+    <style name="Widget.Pausa.Boton.Popup.Neutro" parent="Widget.Pausa.Boton.Neutro">
+        <item name="strokeColor">@color/pausa_popup_circulo_anillo</item>
+    </style>
+
+    <!-- Rojo lleno: botón principal del pánico. -->
+    <style name="Widget.Pausa.Boton.Panico" parent="Widget.Pausa.Boton.Primario">
+        <item name="backgroundTint">@color/pausa_alerta</item>
+    </style>
+
     <!-- Rojo suave: "Es una estafa". -->
     <style name="Widget.Pausa.Boton.Alerta" parent="Widget.Pausa.Boton.Secundario">
         <item name="backgroundTint">@color/pausa_alerta_fondo</item>

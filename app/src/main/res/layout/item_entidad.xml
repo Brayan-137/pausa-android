@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Tarjeta de una entidad oficial en Números oficiales (misma información que el pop-up). -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/PausaTarjeta"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="12dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/entidadNombre"
+        style="@style/PausaTarjetaTitulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:text="Línea de emergencias" />
+
+    <TextView
+        android:id="@+id/entidadTelefono"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/pausa_primario_oscuro"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        tools:text="123" />
+
+    <TextView
+        android:id="@+id/entidadFuente"
+        style="@style/PausaTarjetaTexto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textSize="13sp"
+        tools:text="Fuente: https://www.policia.gov.co/" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/entidadBtnLlamar"
+        style="@style/PausaBoton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/numeros_llamar" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/entidadBtnPagina"
+        style="@style/PausaBotonSecundario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="@string/numeros_abrir_pagina" />
+</LinearLayout>

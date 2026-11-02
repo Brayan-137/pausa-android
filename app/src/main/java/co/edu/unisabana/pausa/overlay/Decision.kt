@@ -10,7 +10,9 @@ enum class Decision {
     /** Tocó "Es una estafa". */
     ESTAFA,
     /** Tocó "Continuar de todos modos" (o respondió No a todo). */
-    CONTINUAR
+    CONTINUAR,
+    /** Tocó "Sí, ya transferí o di datos" en el botón de pánico. Lo registra PanicoActivity, no el pop-up. */
+    PANICO
 }
 
 /**
