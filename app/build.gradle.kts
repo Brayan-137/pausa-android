@@ -12,8 +12,8 @@ android {
         applicationId = "co.edu.unisabana.pausa"
         minSdk = 31          // Android 12+. Decisión en README > Decisiones
         targetSdk = 35
-        versionCode = 1
-        versionName = "0.9"
+        versionCode = 2
+        versionName = "1.0"
     }
 
     buildTypes {
