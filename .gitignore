@@ -19,6 +19,7 @@ keystore.properties
 # APK y bundles generados (se comparten por el grupo, no por Git)
 *.apk
 *.aab
+/app/release/
 
 # Sistema operativo
 .DS_Store
