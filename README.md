@@ -86,6 +86,7 @@ Los roles se pueden cambiar si alguien domina mejor otra parte: díganlo en el g
 | **Ventana de 15 minutos** después de la llamada | Configurable en la app. |
 | **Modo demo y video de respaldo obligatorios** | No sabemos cómo será la demo; no podemos depender de una llamada real. |
 | **Nombre definitivo: Pilas!** (1 nov) | El código conserva el paquete `co.edu.unisabana.pausa`. |
+| **Código congelado en la v1.0** (3 nov) | Los resultados de la prueba con usuarios y las mejoras que salgan de ella van al informe y a la hoja de ruta, no a la app. |
 
 ### Pendiente de confirmar
 
