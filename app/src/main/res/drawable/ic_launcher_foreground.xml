@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Primer plano del ícono adaptable: el logo de la bienvenida (Figma) escalado al 65 %
+     para que quede dentro de la zona segura de 66 dp. El círculo exterior lo pone el fondo. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillAlpha="0.4"
+        android:fillColor="@color/pausa_primario_claro"
+        android:pathData="M22.8,54a31.2,31.2 0 1,0 62.4,0a31.2,31.2 0 1,0 -62.4,0z" />
+    <path
+        android:fillColor="@color/pausa_primario"
+        android:pathData="M30.6,54a23.4,23.4 0 1,0 46.8,0a23.4,23.4 0 1,0 -46.8,0z" />
+    <path
+        android:fillColor="@color/pausa_logo_barras"
+        android:pathData="M45.55,43.6h5.85v20.8h-5.85zM56.6,43.6h5.85v20.8h-5.85z" />
+</vector>
